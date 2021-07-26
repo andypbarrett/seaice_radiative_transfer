@@ -1158,8 +1158,7 @@ c
       data amo   /  48.0000   /
 c
 c-----------------------------------------------------------------------
-	open(unit=5,file='C:\Bonnie\Models\1D_dE_CCSM\ccsm3_sir_de_input.dat',
-     $	status='old')
+      open(unit=5,file='ccsm3_sir_de_input.dat',status='old')
 c     
 c     begin read of data:
 c     
