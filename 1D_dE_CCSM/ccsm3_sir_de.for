@@ -484,7 +484,7 @@ c
 c
 c-----------------------------------------------------------------------
 c
-	open(unit=6, file='ccsm3_sir_de_output.dat',status='unknown')
+      open(unit=6, file='ccsm3_sir_de_output.dat',status='unknown')
       write(6,3333)
  3333 format(' .... Begin CCSM3 Sea Ice Radiation',
      $       ' with Delta Eddington ....')
