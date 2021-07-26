@@ -1,0 +1,55 @@
+CCSM3_SIR_DE (CCSM3 Sea Ice Radiation Delta Eddington), 
+the stand-alone 1D radiation model as described in:
+!
+! Briegleb, B. P., and B. Light (2007): A Delta-Eddington Multiple
+!    Scattering Parameterization for Solar Radiation in the Sea Ice
+!    Component of the Community Climate System Model, NCAR Technical
+!    Note  NCAR/TN-472+STR  To be published in: February 2007
+!
+
+Files in this directory:
+
+       File                           Description
+ 
+   ccsm3_sir_de.for              Source code, Fortran 77
+   run_ccsm3_sir_de.csh          Run script
+   ccsm3_sir_de_input.dat        Input ascii (text) file
+   ccsm3_sir_de_output.dat       Output ascii (text) file 
+   ccsm3_sir_de_output.test      Output ascii (text) test file 
+
+The basic radiation code is described in comments at the top
+of the source file:
+
+   ccsm3_sir_de.for   
+
+To compile and run source with specified input file, simply type:
+                                  
+   run_ccsm3_sir_de.csh
+
+which assumes that the Portland Group f77 compiler is available. This
+file may need to be changed for another f77 compiler.
+
+The input is assumed to be:
+
+   ccsm3_sir_de_input.dat
+
+and the output: 
+
+   ccsm3_sir_de_output.dat
+
+This file is identical to:
+
+   ccsm3_sir_de_output.test
+
+But once the first run has been done, the ccsm3_sir_de_output.dat 
+file will be overwritten. Compare this new file with the test file; 
+they should give the same results to 5 digits; otherwise, there is 
+some issue with the setup.
+
+If they agree, then modifications to the input file can be made.
+See the notes in ccsm3_sir_de_input.dat .
+
+
+23 January 2007
+Bruce P. Briegleb
+
