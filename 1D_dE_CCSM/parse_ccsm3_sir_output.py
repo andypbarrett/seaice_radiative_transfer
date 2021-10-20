@@ -8,15 +8,16 @@ def parse_single_assignment(line):
 
 
 def parse_table(lines, header=True):
-    """Parses a table into a pandas dataframe"""
+    """Parses a table into a list of lists
+
+    Each list contains a row of the table
+    """
     if header:
         these_lines = lines[1:]
     else:
         these_lines = lines
-        
-    for line in these_lines:
-        print(line.strip())
-    return
+    data = [line.split() for line in these_lines]
+    return data
 
     
 class DeltaEdOutput():
@@ -47,7 +48,9 @@ class DeltaEdOutput():
         print(f'Day of Year: {self.day_of_year}')
         print(f'Latitude: {self.latitude}')
         print(f'Surface Pressure: {self.surface_pressure}')
-
+        print('')
+        print(self.atmosphere_profile)
+        
 
 def main(filename):
 
