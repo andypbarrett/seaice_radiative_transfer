@@ -5,17 +5,17 @@
 # compile, double precision:
 #
 
-pgf77 -r8 ccsm3_sir_de.for
+gfortran -r8 -fcray-pointer ccsm3_sir_de.for
 
 #
 # run 
 #
 
-a.out < ccsm3_sir_de_input.dat > ccsm3_sir_de_output.dat
+#a.out < ccsm3_sir_de_input.dat > ccsm3_sir_de_output.dat
 
 #
 # remove executible
 #
 
-rm a.out
+#rm a.out
 
