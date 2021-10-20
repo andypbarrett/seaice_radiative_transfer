@@ -9,7 +9,7 @@ def parse_single_assignment(line):
 
 def parse_dble_assignment(line):
     """Parses a line of form x = y0 y1"""
-    pass
+    return [float(v.strip()) for v in line.split('=')[-1].split()]
 
 
 def parse_table(lines, header=True):
@@ -35,8 +35,23 @@ def parse_atmospheric_profiles(lines):
     return df
 
 
+def parse_spectral_albedos(lines):
+    """Parses direct and diffuse spectral albedos"""
+    spectral_albedos = []
+    for line in lines:
+        spectral_albedos.append(parse_dble_assignment(line))
+    df = pd.DataFrame(spectral_albedos, index=[1, 2, 3], columns=['Direct', 'Diffuse'])
+    df.index.name = 'Interval'
+    return df
+
+
 class DeltaEdOutput():
-    """Class to hold output from Delta Eddington Model"""
+    """Class to hold output from Delta Eddington Model
+
+    
+    Spectral albedo intervals are (I think) 0.2-0.7, 0.7-1.19, and
+    1.19-5.0 micro-meters
+    """
 
     def __init__(self, output_file):
 
@@ -61,6 +76,11 @@ class DeltaEdOutput():
 
         # Results
         self.cosine_solar_zenith_angle = parse_single_assignment(lines[40])
+        self.spectral_albedos = parse_spectral_albedos(lines[41:44])
+        self.albedo_visible_direct = parse_single_assignment(lines[45])
+        self.albedo_visible_diffuse = parse_single_assignment(lines[46])
+        self.albedo_nir_direct = parse_single_assignment(lines[47])
+        self.albedo_nir_diffuse = parse_single_assignment(lines[48])
         
         
     def print_inputs(self):
@@ -77,11 +97,22 @@ class DeltaEdOutput():
         print(self.atmosphere_profile)
         
 
+    def print_results(self):
+        print(f'Cosine Solar Zenith Angle: {self.cosine_solar_zenith_angle}')
+        print(f'Albedo visible direct: {self.albedo_visible_direct}')
+        print(f'Albedo visible diffuse: {self.albedo_visible_diffuse}')
+        print(f'Albedo near-infrared direct: {self.albedo_nir_direct}')
+        print(f'Albedo near-infrared diffuse: {self.albedo_nir_diffuse}')
+        print('')
+        print('Spectral Albedo for intervals')
+        print(self.spectral_albedos)
+
+        
 def main(filename):
 
     results = DeltaEdOutput(filename)
 
-    results.print_inputs()
+    results.print_results()
     
     
 if __name__ == '__main__':
