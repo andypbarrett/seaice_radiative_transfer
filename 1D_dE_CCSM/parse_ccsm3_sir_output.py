@@ -7,6 +7,11 @@ def parse_single_assignment(line):
     return float(line.split('=')[1].strip())
 
 
+def parse_dble_assignment(line):
+    """Parses a line of form x = y0 y1"""
+    pass
+
+
 def parse_table(lines, header=True):
     """Parses a table into a list of lists
 
@@ -20,6 +25,16 @@ def parse_table(lines, header=True):
     return data
 
     
+def parse_atmospheric_profiles(lines):
+    """Parses atmospheric profile input to pandas DataFrame"""
+    data = parse_table(lines, header=True)
+    df = pd.DataFrame(data)
+    df.columns = ['level',  'pressure(mb)',  'temperature(k)',
+                  'h2ommr(g/g)', 'o3mmr(g/g)', 'cld_cover',  'cld_lwp(g/m2)']
+    df.set_index('level', inplace=True)
+    return df
+
+
 class DeltaEdOutput():
     """Class to hold output from Delta Eddington Model"""
 
@@ -28,6 +43,7 @@ class DeltaEdOutput():
         with open(filename, 'r') as f:
             lines = f.readlines()
 
+        # Input parameters
         self.day_of_year = parse_single_assignment(lines[5])
         self.latitude = parse_single_assignment(lines[6])
         self.surface_pressure = parse_single_assignment(lines[26])
@@ -41,14 +57,23 @@ class DeltaEdOutput():
         self.pond_tuning_parameter = parse_single_assignment(lines[34])
         self.sea_ice_thickness = parse_single_assignment(lines[35])
         self.sea_ice_tuning_parameter = parse_single_assignment(lines[36])
-        self.atmosphere_profile = parse_table(lines[7:25])
+        self.atmosphere_profile = parse_atmospheric_profiles(lines[7:25])
 
-
+        # Results
+        self.cosine_solar_zenith_angle = parse_single_assignment(lines[40])
+        
+        
     def print_inputs(self):
         print(f'Day of Year: {self.day_of_year}')
         print(f'Latitude: {self.latitude}')
-        print(f'Surface Pressure: {self.surface_pressure}')
+        print(f'Snow depth (m): {self.snow_depth}')
+        print(f'Snow density (kg/m3): {self.snow_density}')
+        print(f'Pond depth (m): {self.pond_depth}')
+        print(f'Pond tuning parameter: {self.pond_tuning_parameter}')
+        print(f'Sea ice thickness (m): {self.sea_ice_thickness}')
+        print(f'Sea ice tuning parameter: {self.sea_ice_tuning_parameter}')
         print('')
+        print('Atmospheric Profile')
         print(self.atmosphere_profile)
         
 
