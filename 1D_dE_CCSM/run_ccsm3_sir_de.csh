@@ -5,7 +5,7 @@
 # compile, double precision:
 #
 
-gfortran -r8 -fcray-pointer ccsm3_sir_de.for
+gfortran -freal-4-real-8 -fcray-pointer ccsm3_sir_de.for
 
 #
 # run 
