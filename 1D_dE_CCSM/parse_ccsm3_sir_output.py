@@ -2,9 +2,12 @@
 import pandas as pd
 
 
-def parse_single_assignment(line):
+def parse_single_assignment(line, with_units=False):
     """Parses a line of form x = y, and returns y"""
-    return float(line.split('=')[1].strip())
+    result = line.split('=')[1].strip()
+    if with_units:
+        result = result.split()[0]
+    return float(result)
 
 
 def parse_dble_assignment(line):
@@ -110,6 +113,10 @@ class DeltaEdOutput():
         self.normalized_flux_table = flux_table
         self.extinction_coeficients = extinction_coefs
         
+        # Atmosphere/Surface Radiation
+        self.earth_sun_distance_factor = parse_single_assignment(lines[81])
+        self.local_solar_time = parse_single_assignment(lines[85])
+        self.solar_toa_insolation = parse_single_assignment(lines[86], with_units=True)
         
     def print_inputs(self):
         print(f'Day of Year: {self.day_of_year}')
@@ -138,6 +145,10 @@ class DeltaEdOutput():
         print('Normalized Fluxes')
         print(self.normalized_flux_table)
         print(self.extinction_coeficients)
+        print('Atmosphere/Surface Radiation')
+        print(self.earth_sun_distance_factor)
+        print(self.local_solar_time)
+        print(self.solar_toa_insolation)
         
         
 def main(filename):
