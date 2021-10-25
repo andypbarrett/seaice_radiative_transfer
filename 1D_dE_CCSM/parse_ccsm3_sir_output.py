@@ -45,6 +45,31 @@ def parse_spectral_albedos(lines):
     return df
 
 
+def parse_normalized_fluxes(lines):
+    """Parses the normalized radiative flux table
+    lines[0:16] contain visible fluxes and extinction_coef
+    lines[17:] contain near-infrared
+    """
+    vs_lines = lines[:16]
+    header = vs_lines[0].split()
+    flux = parse_table(vs_lines[1::2], header=False)
+    extinction_coef = [parse_single_assignment(line) for line in vs_lines[2::2]]
+    df_flux = pd.DataFrame(flux, columns=header)
+    df_flux.set_index('level', inplace=True)
+    df_extinction = pd.DataFrame(extinction_coef, columns=['Extinction_coef'])
+    df_extinction.index = df_extinction.index + 0.5
+    df_extinction.index.name = 'level'
+
+    ni_lines = lines[16:]
+    header = ni_lines[0].split()
+    flux = parse_table(ni_lines[1:], header=False)
+    df_tmp = pd.DataFrame(flux, columns=header)
+    df_tmp.set_index('level', inplace=True)
+
+    df_flux = df_flux.join(df_tmp)
+    return df_flux, df_extinction
+
+
 class DeltaEdOutput():
     """Class to hold output from Delta Eddington Model
 
@@ -81,6 +106,9 @@ class DeltaEdOutput():
         self.albedo_visible_diffuse = parse_single_assignment(lines[46])
         self.albedo_nir_direct = parse_single_assignment(lines[47])
         self.albedo_nir_diffuse = parse_single_assignment(lines[48])
+        flux_table, extinction_coefs = parse_normalized_fluxes(lines[51:76])
+        self.normalized_flux_table = flux_table
+        self.extinction_coeficients = extinction_coefs
         
         
     def print_inputs(self):
@@ -106,7 +134,11 @@ class DeltaEdOutput():
         print('')
         print('Spectral Albedo for intervals')
         print(self.spectral_albedos)
-
+        print('')
+        print('Normalized Fluxes')
+        print(self.normalized_flux_table)
+        print(self.extinction_coeficients)
+        
         
 def main(filename):
 
