@@ -73,6 +73,45 @@ def parse_normalized_fluxes(lines):
     return df_flux, df_extinction
 
 
+def parse_cloud_particle_table(lines):
+    """Parses table of cloud particle radii and ice fraction"""
+    header = lines[0].split()
+    data = parse_table(lines[1:], header=False)
+    df = pd.DataFrame(data, columns=header)
+    df.set_index('level', inplace=True)
+    return df
+
+
+def parse_heating_rates(lines):
+    """Parses heating rate table"""
+    header = lines[0].split()
+    data = parse_table(lines[1:], header=False)
+    df = pd.DataFrame(data, columns=header)
+    df.set_index('level', inplace=True)
+    return df
+
+
+def parse_absorption(lines):
+    #header = lines[0].split()
+    header = ['level_type', 'level_id', 'Q_vs', 'Q_ni', 'Q_total']
+    absorption = parse_table(lines[1::2], header=False)
+    absorption[0].insert(1, None)
+    absorption[-1].insert(1, None)
+    return pd.DataFrame(absorption, columns=header)
+
+
+def parse_transmittance(lines):
+    header = ['depth', 'Tr_vs', 'Tr_ni']
+    transmittance = parse_table(lines[2::2], header=False)
+    return pd.DataFrame(transmittance, columns=header)
+
+
+def parse_transmittance_absorption(lines):
+    absorption_df = parse_absorption(lines)
+    transmittance_df = parse_transmittance(lines)
+    return absorption_df, transmittance_df
+
+
 class DeltaEdOutput():
     """Class to hold output from Delta Eddington Model
 
@@ -117,6 +156,32 @@ class DeltaEdOutput():
         self.earth_sun_distance_factor = parse_single_assignment(lines[81])
         self.local_solar_time = parse_single_assignment(lines[85])
         self.solar_toa_insolation = parse_single_assignment(lines[86], with_units=True)
+        self.solar_toa_albedo = parse_single_assignment(lines[87])
+        self.solar_toa_absorbed = parse_single_assignment(lines[88], with_units=True)
+        self.solar_absorbed_atmosphere = parse_single_assignment(lines[89], with_units=True)
+        self.solar_absorbed_surface = parse_single_assignment(lines[90], with_units=True)
+        self.solar_clear_toa_absorbed = parse_single_assignment(lines[91], with_units=True)
+        self.solar_clear_atm_absorbed = parse_single_assignment(lines[92], with_units=True)
+        self.solar_clear_srf_absorbed = parse_single_assignment(lines[93], with_units=True)
+        self.solar_cloud_forcing = parse_single_assignment(lines[94], with_units=True)
+        self.solar_clear_sky_albedo = parse_single_assignment(lines[95], with_units=True)
+        self.longwave_net_toa_up = parse_single_assignment(lines[97], with_units=True)
+        self.longwave_net_surface_up = parse_single_assignment(lines[98], with_units=True)
+        self.longwave_surface_down = parse_single_assignment(lines[99], with_units=True)
+        self.longwave_clear_outgoing = parse_single_assignment(lines[100], with_units=True)
+        self.longwave_clear_net_srf = parse_single_assignment(lines[101], with_units=True)
+        self.longwave_cloud_forcing = parse_single_assignment(lines[102], with_units=True)
+        self.net_cloud_forcing = parse_single_assignment(lines[104], with_units=True)
+
+        # Atmospheric tables
+        self.cloud_particle = parse_cloud_particle_table(lines[107:126])
+        self.heating_rates = parse_heating_rates(lines[128:147])
+        # Skipping most of absorption
+        self.broad_band_albedo = parse_single_assignment(lines[161])
+        absorption_df, transmit_df = parse_transmittance_absorption(lines[169:187])
+        self.absorption = absorption_df
+        self.transmittance = transmit_df
+        
         
     def print_inputs(self):
         print(f'Day of Year: {self.day_of_year}')
@@ -149,6 +214,15 @@ class DeltaEdOutput():
         print(self.earth_sun_distance_factor)
         print(self.local_solar_time)
         print(self.solar_toa_insolation)
+        print('')
+        print('Cloud particle radii and ice fraction')
+        print(self.cloud_particle)
+        print('')
+        print('Snow/Sea Ice Absorption')
+        print(self.absorption)
+        print('')
+        print('Snow/Sea Ice Transmittance')
+        print(self.transmittance)
         
         
 def main(filename):
