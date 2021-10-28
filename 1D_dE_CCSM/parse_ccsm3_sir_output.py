@@ -176,8 +176,26 @@ class DeltaEdOutput():
         # Atmospheric tables
         self.cloud_particle = parse_cloud_particle_table(lines[107:126])
         self.heating_rates = parse_heating_rates(lines[128:147])
-        # Skipping most of absorption
+
+        self.solar_vs_direct_surface_irrad = parse_single_assignment(lines[149], with_units=True)
+        self.solar_vs_diff_surface_irrad = parse_single_assignment(lines[150], with_units=True)
+        self.vs_fraction_of_direct_irrad = parse_single_assignment(lines[151])
+        self.vs_fraction_of_diff_irrad = parse_single_assignment(lines[152])
+        self.solar_ni_direct_surface_irrad = parse_single_assignment(lines[153], with_units=True)
+        self.solar_ni_diff_surface_irrad = parse_single_assignment(lines[154], with_units=True)
+        self.ni_fraction_of_direct_irrad = parse_single_assignment(lines[155])
+        self.ni_fraction_of_diff_irrad = parse_single_assignment(lines[156])
+        self.total_solar_surface_irrad = parse_single_assignment(lines[157], with_units=True)
+        self.vs_fraction_total_irrad = parse_single_assignment(lines[158])
+        self.ni_fraction_total_irrad = parse_single_assignment(lines[159])
+        self.solar_absorbed_at_surface = parse_single_assignment(lines[160], with_units=True) 
         self.broad_band_albedo = parse_single_assignment(lines[161])
+        self.solar_vs_absorbed_seaice = parse_single_assignment(lines[162], with_units=True)
+        self.solar_ni_absorbed_seaice = parse_single_assignment(lines[163], with_units=True)
+        self.solar_total_absorbed_surface = parse_single_assignment(lines[164], with_units=True)
+        self.frac_vs_abs_pentrt_srf = parse_single_assignment(lines[165])
+        self.frac_ni_abs_pentrt_srf = parse_single_assignment(lines[166])
+        
         absorption_df, transmit_df = parse_transmittance_absorption(lines[169:187])
         self.absorption = absorption_df
         self.transmittance = transmit_df
