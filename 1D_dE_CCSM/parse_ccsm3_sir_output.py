@@ -199,8 +199,26 @@ class DeltaEdOutput():
         absorption_df, transmit_df = parse_transmittance_absorption(lines[169:187])
         self.absorption = absorption_df
         self.transmittance = transmit_df
-        
-        
+
+        # Estimate all sky spectral albedos
+        self.estimate_all_sky_spectral_albedo()
+
+
+    def estimate_all_sky_spectral_albedo(self):
+        fraction = pd.DataFrame(
+            {
+                'Direct': [self.vs_fraction_of_direct_irrad,
+                           self.ni_fraction_of_direct_irrad,
+                           self.ni_fraction_of_direct_irrad],
+                'Diffuse': [self.vs_fraction_of_diff_irrad,
+                            self.ni_fraction_of_diff_irrad,
+                            self.ni_fraction_of_diff_irrad],
+            },
+            index=self.spectral_albedos.index
+            )
+        self.spectral_albedos['All_Sky'] = (self.spectral_albedos * fraction).sum(axis=1)
+
+
     def print_inputs(self):
         print(f'Day of Year: {self.day_of_year}')
         print(f'Latitude: {self.latitude}')
