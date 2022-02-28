@@ -36,14 +36,14 @@ def main():
                                f'{FILE_PREFIX}_fig{FIGURE}bare.dat')
     salbedo = bare.spectral_albedos
     salbedo.index = [300., 700., 1190.]
-    salbedo['Direct'].plot(color='k', drawstyle='steps-post', linewidth=2,
+    salbedo['Total'].plot(color='k', drawstyle='steps-post', linewidth=2,
                            label='bare')
 
     pond = DeltaEdOutput(OUTPUT_DIRPATH /
                          f'{FILE_PREFIX}_fig{FIGURE}pond.dat')
     salbedo = pond.spectral_albedos
     salbedo.index = [300., 700., 1200.]
-    salbedo['Direct'].plot(color='b', drawstyle='steps-post', linewidth=2,
+    salbedo['Total'].plot(color='b', drawstyle='steps-post', linewidth=2,
                            label='pond')
     
     for experiment, c, lst in zip(EXPERIMENTS, linecolor, linestyle):
@@ -54,7 +54,7 @@ def main():
         #salbedo['Direct'].plot(drawstyle='steps-post', linewidth=2,
         #                       label=experiment)
         for index, row in salbedo.iterrows():
-            ax.plot(spectral_bands[index-1], [row['Direct'], row['Direct']],
+            ax.plot(spectral_bands[index-1], [row['Total'], row['Total']],
                     color=c, linestyle=lst)
 
     ax.legend()
