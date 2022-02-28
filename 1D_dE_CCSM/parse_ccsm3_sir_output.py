@@ -201,10 +201,10 @@ class DeltaEdOutput():
         self.transmittance = transmit_df
 
         # Estimate all sky spectral albedos
-        self.estimate_all_sky_spectral_albedo()
+        self.estimate_total_spectral_albedo()
 
 
-    def estimate_all_sky_spectral_albedo(self):
+    def estimate_total_spectral_albedo(self):
         fraction = pd.DataFrame(
             {
                 'Direct': [self.vs_fraction_of_direct_irrad,
@@ -216,7 +216,7 @@ class DeltaEdOutput():
             },
             index=self.spectral_albedos.index
             )
-        self.spectral_albedos['All_Sky'] = (self.spectral_albedos * fraction).sum(axis=1)
+        self.spectral_albedos['Total'] = (self.spectral_albedos * fraction).sum(axis=1)
 
 
     def print_inputs(self):
