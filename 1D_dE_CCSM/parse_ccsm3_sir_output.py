@@ -122,7 +122,7 @@ class DeltaEdOutput():
 
     def __init__(self, output_file):
 
-        with open(filename, 'r') as f:
+        with open(output_file, 'r') as f:
             lines = f.readlines()
 
         # Input parameters
