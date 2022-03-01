@@ -25,6 +25,7 @@ EXPERIMENTS = ['bare1sd',
 linecolor = ['k', 'k', 'k', 'k', 'b', 'b']
 linestyle = ['--', '-.', '--', '-.', '--', '--']
 
+
 def plot_albedo_as_step(df, ax=None, label=None, color='k'):
     """Helper function to make nice step plot"""
     if not ax:
