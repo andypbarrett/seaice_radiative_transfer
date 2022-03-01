@@ -74,5 +74,6 @@ def main():
     fig.savefig(TEST_OUTPUT_DIRPATH / f"{FILE_PREFIX}_fig{FIGURE}.png")
     plt.show()
 
+
 if __name__ == "__main__":
     main()
