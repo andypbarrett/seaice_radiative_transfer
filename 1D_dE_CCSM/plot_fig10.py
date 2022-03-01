@@ -6,11 +6,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from parse_ccsm3_sir_output import DeltaEdOutput
-
+from filepath import TEST_OUTPUT_DIRPATH
 
 spectral_bands = [(300., 700.), (700., 1190.), (1190., 2100.)]  # Need to fix
 
-OUTPUT_DIRPATH = Path.home() / 'src' / 'seaice_radiative_transfer' / '1D_dE_CCSM' / '1D_DE_test'
 FILE_PREFIX = 'ccsm3_sir_de_output'
 FIGURE = '10'
 
@@ -55,16 +54,16 @@ def main():
     ax.tick_params(axis='both', which='major', labelsize=15, length=10)
     ax.tick_params(which='minor', length=7)
 
-    bare = DeltaEdOutput(OUTPUT_DIRPATH /
+    bare = DeltaEdOutput(TEST_OUTPUT_DIRPATH /
                          f'{FILE_PREFIX}_fig{FIGURE}bare.dat')
     plot_albedo_as_step(bare.spectral_albedos, ax=ax, color='k', label='Bare')
 
-    pond = DeltaEdOutput(OUTPUT_DIRPATH /
+    pond = DeltaEdOutput(TEST_OUTPUT_DIRPATH /
                          f'{FILE_PREFIX}_fig{FIGURE}pond.dat')
     plot_albedo_as_step(pond.spectral_albedos, ax=ax, color='b', label='Pond')
 
     for experiment, c, lst in zip(EXPERIMENTS, linecolor, linestyle):
-        output = DeltaEdOutput(OUTPUT_DIRPATH /
+        output = DeltaEdOutput(TEST_OUTPUT_DIRPATH /
                                f'{FILE_PREFIX}_fig{FIGURE}{experiment}.dat')
         salbedo = output.spectral_albedos
         for index, row in salbedo.iterrows():
@@ -72,8 +71,8 @@ def main():
                     color=c, linestyle=lst)
 
     ax.legend(fontsize=20)
+    fig.savefig(TEST_OUTPUT_DIRPATH / f"{FILE_PREFIX}_fig{FIGURE}.png")
     plt.show()
-
 
 if __name__ == "__main__":
     main()
