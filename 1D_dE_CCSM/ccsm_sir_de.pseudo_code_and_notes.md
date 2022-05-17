@@ -61,3 +61,43 @@ and writes to output file.
 14. The rest is a bunch of writing to output file - this could be
 returned as variables.
 
+--------------------------------------------------------------------------------------------
+## Surface Radiative Transfer Model Notes
+
+From Bruce Briegleb notes in ccsm3_sir_de.for
+
+```
+C Code was originally written for longitude bands of points,
+C but has only been run for a single point for each submission.
+C
+C The main driver is program crm. The calling tree to the surface
+C radiative transfer model is:
+C
+C    crm
+C      albocean
+C        simcsw
+C          simded
+C
+C subroutine albocean    
+C Sea ice/ocean shortwave radiation calculation of albedos
+C and transmission/absorption in sea ice/ocean.
+C
+C subroutine simcsw
+C Set up optical property profiles, based on snow, water and sea ice
+C IOPs from Briegleb and Light, 2007 above.
+C
+C subroutine simded
+C Delta-Eddington solution for snow/air/pond over sea ice
+C
+c To change number of snow or sea ice layers, change the line:
+c     $          ksnow   = 1, kseaice =  4, klev = ksnow + kseaice + 1,
+c
+c where ksnow = number of thermodynamic snow layers, and
+c kseaice = number of thermodynamic sea ice layers.
+```
+
+### Dependencies
+
+To run `albocean` it looks like `radinit`, `getdat`, `zenith` need to be used.
+
+
