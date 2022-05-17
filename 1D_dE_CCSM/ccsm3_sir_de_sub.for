@@ -109,7 +109,7 @@ c
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 c
-      program crm
+      subroutine crm
 c     
 c     ccm3 radiation column model
 c     Jeffrey Kiehl, Bruce Briegleb, and Charlie Zender  
@@ -164,20 +164,32 @@ c
 C
 C Radiation resolution and I/O parameters
 C
+C     $     plon,    ! number of longitudes
+C     $     plev,    ! number of vertical levels
+C     $     plat,    ! number of latitudes
+C     $     pcnst,   ! number of constituents (including water vapor)
+C     $     plevmx,  ! number of subsurface levels
+C     $     plevp,   ! plev + 1
+C     $     nxpt,    ! no.of points outside active domain for interpolant
+C     $     jintmx,  ! number of extra latitudes in polar region
+C     $     plond,   ! slt extended domain longitude
+C     $     platd,   ! slt extended domain lat.
+C     $     plevd    ! fold plev,pcnst indices into one
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
+C     $     plngbuf  ! length of absorptivity/emissivity record
       integer
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plngbuf
 C
       parameter(plon    = 1,
      $          plev    = 18,
@@ -195,16 +207,22 @@ C
 C
 C Sea Ice Resolution parameters
 C
-      integer ksnow   ! Number of snow layers in CCSM
-      integer kseaice ! Number of sea ice layers in CCSM
-      integer klev    ! Number of layers minus one (0 layer at top) for rad calculation
-      integer klevp   ! klev + 1
+C      integer ksnow   ! Number of snow layers in CCSM
+C      integer kseaice ! Number of sea ice layers in CCSM
+C      integer klev    ! Number of layers minus one (0 layer at top) for rad calculation
+C      integer klevp   ! klev + 1
+      integer ksnow
+      integer kseaice
+      integer klev
+      integer klevp
 C
       parameter( ksnow   = 1, kseaice =  4, klev = ksnow + kseaice + 1,
      $           klevp   = klev + 1)
 C
-      integer kstrt   ! ice starting index for printout
-      integer kend    ! ice ending index for printout
+C      integer kstrt   ! ice starting index for printout
+C      integer kend    ! ice ending index for printout
+      integer kstrt
+      integer kend
 C------------------------------Commons----------------------------------
 c
 c $Id: comtim.h,v 1.1.1.1 1995/02/09 23:26:44 ccm2 Exp $
@@ -219,32 +237,59 @@ C
      $              mcdate  ,mcsec   ,nndbas  ,nnsbas  ,nnbdat  ,
      $              nnbsec  ,doabsems,dosw    ,dolw
 C
-      real calday,   ! Current calendar day = julian day + fraction
-     $     dtime,    ! Time step in seconds (delta t)
-     $     twodt     ! 2 * delta t 
+C      real calday,   ! Current calendar day = julian day + fraction
+C     $     dtime,    ! Time step in seconds (delta t)
+C     $     twodt     ! 2 * delta t 
+      real calday,
+     $     dtime,
+     $     twodt
+
+C     $     nrstrt,   ! Starting time step of restart run (constant) 
+C     $     nstep,    ! Current time step
+C     $     nstepr,   ! Current time step of restart run(updated w/nstep)
+C     $     nestep,   ! Time step on which to stop run
+C     $     nelapse,  ! Requested elapsed time for model run
+C     $     nstop,    ! nestep + 1
+C     $     mdbase,   ! Base day of run
+C     $     msbase,   ! Base seconds of base day
+C     $     mdcur,    ! Current day of run
+C     $     mscur,    ! Current seconds of current day
+C     $     mbdate,   ! Base date of run (yymmdd format)
+C     $     mbsec,    ! Base seconds of base date
+C     $     mcdate,   ! Current date of run (yymmdd format)
+C     $     mcsec,    ! Current seconds of current date
+C     $     nndbas,   ! User input base day
+C     $     nnsbas,   ! User input base seconds of input base day
+C     $     nnbdat,   ! User input base date (yymmdd format)
+C     $     nnbsec    ! User input base seconds of input base date
+
       integer
-     $     nrstrt,   ! Starting time step of restart run (constant) 
-     $     nstep,    ! Current time step
-     $     nstepr,   ! Current time step of restart run(updated w/nstep)
-     $     nestep,   ! Time step on which to stop run
-     $     nelapse,  ! Requested elapsed time for model run
-     $     nstop,    ! nestep + 1
-     $     mdbase,   ! Base day of run
-     $     msbase,   ! Base seconds of base day
-     $     mdcur,    ! Current day of run
-     $     mscur,    ! Current seconds of current day
-     $     mbdate,   ! Base date of run (yymmdd format)
-     $     mbsec,    ! Base seconds of base date
-     $     mcdate,   ! Current date of run (yymmdd format)
-     $     mcsec,    ! Current seconds of current date
-     $     nndbas,   ! User input base day
-     $     nnsbas,   ! User input base seconds of input base day
-     $     nnbdat,   ! User input base date (yymmdd format)
-     $     nnbsec    ! User input base seconds of input base date
+     $     nrstrt,
+     $     nstep,
+     $     nstepr,
+     $     nestep,
+     $     nelapse,
+     $     nstop,
+     $     mdbase,
+     $     msbase,
+     $     mdcur,
+     $     mscur,
+     $     mbdate,
+     $     mbsec,
+     $     mcdate,
+     $     mcsec,
+     $     nndbas,
+     $     nnsbas,
+     $     nnbdat,
+     $     nnbsec
+
+C     $     doabsems, ! True => abs/emiss calculation this timestep
+C     $     dosw,     ! True => shortwave calculation this timestep
+C     $     dolw      ! True => longwave calculation this timestep
       logical
-     $     doabsems, ! True => abs/emiss calculation this timestep
-     $     dosw,     ! True => shortwave calculation this timestep
-     $     dolw      ! True => longwave calculation this timestep
+     $     doabsems,
+     $     dosw,
+     $     dolw
 C
 c
 c $Id: comctl.h,v 1.1.1.1 1995/02/09 23:26:41 ccm2 Exp $
@@ -257,161 +302,273 @@ C
      $              anncyc  ,nlend   ,nlres   ,nlhst   ,lbrnch  ,
      $              ldebug  ,aeres   ,ozncyc  ,sstcyc  ,dodiavg ,
      $              aeregen ,cpuchek
+
+C     $     itsst,   ! Sea surf. temp. update freq. (iters)
+C     $     nsrest,  ! Restart flag
+C     $     iradsw,  ! Iteration frequency for shortwave radiation computation
+C     $     iradlw,  ! Iteration frequency for longwave radiation computation
+C     $     iradae   ! Iteration freq. for absorptivity/emissivity comp
       integer
-     $     itsst,   ! Sea surf. temp. update freq. (iters)
-     $     nsrest,  ! Restart flag
-     $     iradsw,  ! Iteration frequency for shortwave radiation computation
-     $     iradlw,  ! Iteration frequency for longwave radiation computation
-     $     iradae   ! Iteration freq. for absorptivity/emissivity comp
-      logical
-     $     anncyc,  ! Do annual cycle (otherwise perpetual)
-     $     nlend,   ! Flag for end of run
-     $     nlres,   ! If true, continuation run
-     $     nlhst,   ! If true, regeneration run
-     $     lbrnch,  ! If true, branch run
-     $     ldebug,  ! If in debug mode, link output files to /usr/tmp
+     $     itsst,
+     $     nsrest,
+     $     iradsw,
+     $     iradlw,
+     $     iradae
+
+C     $     anncyc,  ! Do annual cycle (otherwise perpetual)
+C     $     nlend,   ! Flag for end of run
+C     $     nlres,   ! If true, continuation run
+C     $     nlhst,   ! If true, regeneration run
+C     $     lbrnch,  ! If true, branch run
+C     $     ldebug,  ! If in debug mode, link output files to /usr/tmp
 C                   !    before mswrite, and remove all but last file
-     $     aeres,   ! If true, a/e data will be stored on restart file
-     $     ozncyc,  ! If true, cycle ozone dataset
-     $     sstcyc,  ! If true, cycle sst dataset
-     $     dodiavg, ! true => diurnal averaging
-     $     aeregen, ! true => absor/emis part of regeneration data
-     $     cpuchek  ! If true, check remaining cpu time at each writeup
+C     $     aeres,   ! If true, a/e data will be stored on restart file
+C     $     ozncyc,  ! If true, cycle ozone dataset
+C     $     sstcyc,  ! If true, cycle sst dataset
+C     $     dodiavg, ! true => diurnal averaging
+C     $     aeregen, ! true => absor/emis part of regeneration data
+C     $     cpuchek  ! If true, check remaining cpu time at each writeup
+      logical
+     $     anncyc,
+     $     nlend,
+     $     nlres,
+     $     nlhst,
+     $     lbrnch,
+     $     ldebug,
+     $     aeres,
+     $     ozncyc,
+     $     sstcyc,
+     $     dodiavg,
+     $     aeregen,
+     $     cpuchek
 C
 C------------------------------Arguments--------------------------------
 c
 c     Fields specified by the user in getdat()
 c
+C     $     ioro(plond)          ! land/ocean/sea ice flag
       integer 
-     $     ioro(plond)          ! land/ocean/sea ice flag
+     $     ioro(plond)
 c
+
+C     $     clat,                ! Current latitude (radians)
+C     $     cld(plond,plevp),    ! fractional cloud cover
+C     $     clwp(plond,plev),    ! cloud liquid water path
+C     $     coslat,              ! cosine latitude
       real 
-     $     clat,                ! Current latitude (radians)
-     $     cld(plond,plevp),    ! fractional cloud cover
-     $     clwp(plond,plev),    ! cloud liquid water path
-     $     coslat,              ! cosine latitude
+     $     clat,
+     $     cld(plond,plevp),
+     $     clwp(plond,plev),
+     $     coslat,
 c
 c     NB: o3mmr and o3vmr should be dimensioned (plond,plevr) if a different 
 c     size radiation grid is used. Clashes between prgrid.h and ptrrgrid.h
 c     (they both define plngbuf) prevent us from dimensioning anything by
 c     plevr in this top level crm() routine.
 c
-     $     o3mmr(plond,plev),  ! Ozone volume mixing ratio
-     $     o3vmr(plond,plev),  ! Ozone volume mixing ratio
-     $     pilnm1(plond,plevp), ! natural log of pintm1
-     $     pintm1(plond,plevp), ! model interface pressures
-     $     pmidm1(plond,plev),  ! model level pressures
-     $     pmlnm1(plond,plev),  ! natural log of pmidm1
-     $     ps(plond),           ! surface pressure
-     $     qm1(plond,plev),     ! model level specific humidity
-     $     sndpth(plond),       ! snow physical depth 
-     $     rhos(plond),         ! snow density
-     $     rs(plond),           ! snow grain radius
-     $     R_ice(plond),        ! sea ice standard deviation tuning parameter
-     $     R_pnd(plond),        ! ponded ice standard deviation tuning parameter
-     $     tg(plond),           ! surface (skin) temperature
-     $     hpnd(plond),         ! pond depth (m)
-     $     hice(plond),         ! sea ice thickness
-     $     tm1(plond,plev),     ! model level temperatures
-     $     ts(plond)            ! surface air temperature
+C     $     o3mmr(plond,plev),  ! Ozone volume mixing ratio
+C     $     o3vmr(plond,plev),  ! Ozone volume mixing ratio
+C     $     pilnm1(plond,plevp), ! natural log of pintm1
+C     $     pintm1(plond,plevp), ! model interface pressures
+C     $     pmidm1(plond,plev),  ! model level pressures
+C     $     pmlnm1(plond,plev),  ! natural log of pmidm1
+C     $     ps(plond),           ! surface pressure
+C     $     qm1(plond,plev),     ! model level specific humidity
+C     $     sndpth(plond),       ! snow physical depth 
+C     $     rhos(plond),         ! snow density
+C     $     rs(plond),           ! snow grain radius
+C     $     R_ice(plond),        ! sea ice standard deviation tuning parameter
+C     $     R_pnd(plond),        ! ponded ice standard deviation tuning parameter
+C     $     tg(plond),           ! surface (skin) temperature
+C     $     hpnd(plond),         ! pond depth (m)
+C     $     hice(plond),         ! sea ice thickness
+C     $     tm1(plond,plev),     ! model level temperatures
+C     $     ts(plond)            ! surface air temperature
+     $     o3mmr(plond,plev),
+     $     o3vmr(plond,plev),
+     $     pilnm1(plond,plevp),
+     $     pintm1(plond,plevp),
+     $     pmidm1(plond,plev),
+     $     pmlnm1(plond,plev),
+     $     ps(plond),
+     $     qm1(plond,plev),
+     $     sndpth(plond),
+     $     rhos(plond),
+     $     rs(plond),
+     $     R_ice(plond),
+     $     R_pnd(plond),
+     $     tg(plond),
+     $     hpnd(plond),
+     $     hice(plond),
+     $     tm1(plond,plev),
+     $     ts(plond)
+
 c     
 c     Fields computed from user input
 c
+C     $     effcld(plond,plevp), ! effective cloud=cld*emis
+C     $     emis(plond,plev),    ! cloud emissivity
+C     $     fice(plond,plev),    ! fractional amount of ice
+C     $     rei(plond,plev),     ! ice particle size
+C     $     rel(plond,plev)      ! liquid effective drop size (microns)
       real 
-     $     effcld(plond,plevp), ! effective cloud=cld*emis
-     $     emis(plond,plev),    ! cloud emissivity
-     $     fice(plond,plev),    ! fractional amount of ice
-     $     rei(plond,plev),     ! ice particle size
-     $     rel(plond,plev)      ! liquid effective drop size (microns)
+     $     effcld(plond,plevp),
+     $     emis(plond,plev),
+     $     fice(plond,plev),
+     $     rei(plond,plev),
+     $     rel(plond,plev)
+
+C     $     coszrs(plond),       ! cosine solar zenith angle
+C     $     eccf,                ! earth/sun distance factor 
+C     $     loctim(plond),       ! local time of solar computation
+C     $     srfrad(plond)        ! srf radiative heat flux
       real 
-     $     coszrs(plond),       ! cosine solar zenith angle
-     $     eccf,                ! earth/sun distance factor 
-     $     loctim(plond),       ! local time of solar computation
-     $     srfrad(plond)        ! srf radiative heat flux
-c
-      real asdir(plond),        ! albedo: shortwave, direct
-     $     asdif(plond),        ! albedo: shortwave, diffuse
-     $     aldir(plond),        ! albedo: longwave, direct
-     $     aldif(plond)         ! albedo: longwave, diffuse
+     $     coszrs(plond),
+     $     eccf,
+     $     loctim(plond),
+     $     srfrad(plond)
+
+c     
+C      real asdir(plond),        ! albedo: shortwave, direct
+C     $     asdif(plond),        ! albedo: shortwave, diffuse
+C     $     aldir(plond),        ! albedo: longwave, direct
+C     $     aldif(plond)         ! albedo: longwave, diffuse
+      real asdir(plond),
+     $     asdif(plond),
+     $     aldir(plond),
+     $     aldif(plond)
 c
 C     
 C     Output longwave arguments from radctl()
 C
+C     $     flwds(plond),        ! Surface down longwave flux
+C     $     lwup(plond),         ! Surface up longwave flux from coupler
+C     $     qrl(plond,plev)      ! Longwave cooling rate
       real 
-     $     flwds(plond),        ! Surface down longwave flux
-     $     lwup(plond),         ! Surface up longwave flux from coupler
-     $     qrl(plond,plev)      ! Longwave cooling rate
+     $     flwds(plond),
+     $     lwup(plond),
+     $     qrl(plond,plev)
 C     
 C     Output shortwave arguments from radctl()
 C
+C     $     fsns(plond),         ! Surface absorbed solar flux
+C     $     qrs(plond,plev),     ! Solar heating rate
+C     $     soll(plond),         ! Downward solar rad onto surface (lw direct)
+C     $     solld(plond),        ! Downward solar rad onto surface (lw diffuse)
+C     $     sols(plond),         ! Downward solar rad onto surface (sw direct)
+C     $     solsd(plond)         ! Downward solar rad onto surface (sw diffuse)
       real 
-     $     fsns(plond),         ! Surface absorbed solar flux
-     $     qrs(plond,plev),     ! Solar heating rate
-     $     soll(plond),         ! Downward solar rad onto surface (lw direct)
-     $     solld(plond),        ! Downward solar rad onto surface (lw diffuse)
-     $     sols(plond),         ! Downward solar rad onto surface (sw direct)
-     $     solsd(plond)         ! Downward solar rad onto surface (sw diffuse)
+     $     fsns(plond),
+     $     qrs(plond,plev),
+     $     soll(plond),
+     $     solld(plond),
+     $     sols(plond),
+     $     solsd(plond)
 c
 c     Additional CRM diagnostic output from radctl()
 c
+C     $     flns(plond),         ! srf longwave cooling (up-dwn) flux
+C     $     flnsc(plond),        ! clr sky lw flx at srf (up-dwn)
+C     $     flnt(plond),         ! net outgoing lw flx at model top
+C     $     flntc(plond),        ! clr sky lw flx at model top
+C     $     fsnsc(plond),        ! clr sky surface abs solar flux
+C     $     fsnt(plond),         ! total column absorbed solar flux
+C     $     fsntc(plond),        ! clr sky total column abs solar flux
+C     $     solin(plond)         ! solar incident flux
       real 
-     $     flns(plond),         ! srf longwave cooling (up-dwn) flux
-     $     flnsc(plond),        ! clr sky lw flx at srf (up-dwn)
-     $     flnt(plond),         ! net outgoing lw flx at model top
-     $     flntc(plond),        ! clr sky lw flx at model top
-     $     fsnsc(plond),        ! clr sky surface abs solar flux
-     $     fsnt(plond),         ! total column absorbed solar flux
-     $     fsntc(plond),        ! clr sky total column abs solar flux
-     $     solin(plond)         ! solar incident flux
+     $     flns(plond),
+     $     flnsc(plond),
+     $     flnt(plond),
+     $     flntc(plond),
+     $     fsnsc(plond),
+     $     fsnt(plond),
+     $     fsntc(plond),
+     $     solin(plond)
 C
 C special for sea ice albedos:  27 October 2004
 C
+C      real fnidr(plond)         ! fraction of direct to total nir down srf flux
+C      real tclrsf(plond,plevp)  ! Product of clr-sky fractions from top
       real fnidr(plond)         ! fraction of direct to total nir down srf flux
       real tclrsf(plond,plevp)  ! Product of clr-sky fractions from top
 c
 c     Local workspace: These variables are not saved.
 c
+C     $     alb,                 ! for radiation output
+C     $     albc,                ! for radiation output
+C     $     cfl,                 ! for radiation output
+C     $     cfn,                 ! for radiation output
+C     $     clatm,               ! for radiation output
+C     $     cls,                 ! for radiation output
+C     $     clt,                 ! for radiation output
+C     $     fla,                 ! for radiation output
+C     $     fld,                 ! for radiation output
+C     $     flw,                 ! for radiation output
+C     $     frs,                 ! for radiation output
+C     $     fsnstm,              ! for radiation output
+C     $     hbuf,                ! history buffer
+C     $     pie,                 ! for radiation output
+C     $     pmb,                 ! for radiation output
+C     $     qrlday,              ! for radiation output
+C     $     qrsday,              ! for radiation output
+C     $     rlat,                ! for radiation output
+C     $     sab,                 ! for radiation output
+C     $     scf,                 ! for radiation output
+C     $     sol                  ! for radiation output
       real
-     $     alb,                 ! for radiation output
-     $     albc,                ! for radiation output
-     $     cfl,                 ! for radiation output
-     $     cfn,                 ! for radiation output
-     $     clatm,               ! for radiation output
-     $     cls,                 ! for radiation output
-     $     clt,                 ! for radiation output
-     $     fla,                 ! for radiation output
-     $     fld,                 ! for radiation output
-     $     flw,                 ! for radiation output
-     $     frs,                 ! for radiation output
-     $     fsnstm,              ! for radiation output
-     $     hbuf,                ! history buffer
-     $     pie,                 ! for radiation output
-     $     pmb,                 ! for radiation output
-     $     qrlday,              ! for radiation output
-     $     qrsday,              ! for radiation output
-     $     rlat,                ! for radiation output
-     $     sab,                 ! for radiation output
-     $     scf,                 ! for radiation output
-     $     sol                  ! for radiation output
+     $     alb,
+     $     albc,
+     $     cfl,
+     $     cfn,
+     $     clatm,
+     $     cls,
+     $     clt,
+     $     fla,
+     $     fld,
+     $     flw,
+     $     frs,
+     $     fsnstm,
+     $     hbuf,
+     $     pie,
+     $     pmb,
+     $     qrlday,
+     $     qrsday,
+     $     rlat,
+     $     sab,
+     $     scf,
+     $     sol
+
+C     $     fsds,                ! for radiation output
+C     $     vsfdir,              ! visible fraction direct
+C     $     nifdir,              ! near-ir fraction direct
+C     $     vsfrac,              ! visible fraction total srf irradiance
+C     $     albsrf               ! broadband surface albedo
       real
-     $     fsds,                ! for radiation output
-     $     vsfdir,              ! visible fraction direct
-     $     nifdir,              ! near-ir fraction direct
-     $     vsfrac,              ! visible fraction total srf irradiance
-     $     albsrf               ! broadband surface albedo
+     $     fsds,
+     $     vsfdir,
+     $     nifdir,
+     $     vsfrac,
+     $     albsrf
 c     
+C     $     i,                   ! longitude index
+C     $     k,                   ! level index
+C     $     lat                  ! latitude row index 
       integer
-     $     i,                   ! longitude index
-     $     k,                   ! level index
-     $     lat                  ! latitude row index 
+     $     i,
+     $     k,
+     $     lat
 c
 c     Fundamental constants needed by radini()
 c
+C     $     cpairx,              ! heat capacity dry air at constant prs (J/kg/K)
+C     $     epsilox,             ! ratio mean mol weight h2o to dry air
+C     $     gravx,               ! gravitational acceleration (m/s**2)
+C     $     stebolx              ! Sefan-Boltzmann constant (W/m**2/K**4)
       real 
-     $     cpairx,              ! heat capacity dry air at constant prs (J/kg/K)
-     $     epsilox,             ! ratio mean mol weight h2o to dry air
-     $     gravx,               ! gravitational acceleration (m/s**2)
-     $     stebolx              ! Sefan-Boltzmann constant (W/m**2/K**4)
+     $     cpairx,
+     $     epsilox,
+     $     gravx,
+     $     stebolx
 C-----------------------------------------------------------------------
 C Absorption data for sea ice
 C
@@ -882,7 +1039,7 @@ c
       write(6,*) ' ------------------------------ '
       write(6,*) ' .... Column Radiation Calculation Completed ....'
 c     
-      stop
+      return
       end
       subroutine getdat(
      $     clat,
