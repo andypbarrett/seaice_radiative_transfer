@@ -109,7 +109,7 @@ c
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 c
-      program crm
+      subroutine crm
 c     
 c     ccm3 radiation column model
 c     Jeffrey Kiehl, Bruce Briegleb, and Charlie Zender  
@@ -882,7 +882,7 @@ c
       write(6,*) ' ------------------------------ '
       write(6,*) ' .... Column Radiation Calculation Completed ....'
 c     
-      stop
+      return
       end
       subroutine getdat(
      $     clat,
