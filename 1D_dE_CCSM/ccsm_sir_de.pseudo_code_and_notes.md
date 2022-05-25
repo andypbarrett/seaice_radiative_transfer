@@ -101,3 +101,24 @@ c kseaice = number of thermodynamic sea ice layers.
 To run `albocean` it looks like `radinit`, `getdat`, `zenith` need to be used.
 
 
+### Common blocks in sea ice
+radflux_seaice
+      common/radflux_seaice/
+     &              hi_ssl, hs_ssl
+     &,             Fdirup_vs(plond,0:klevp),Fdirdn_vs(plond,0:klevp)
+     &,             Fdifup_vs(plond,0:klevp),Fdifdn_vs(plond,0:klevp)
+     &,             Fdirup_ni(plond,0:klevp),Fdirdn_ni(plond,0:klevp)
+     &,             Fdifup_ni(plond,0:klevp),Fdifdn_ni(plond,0:klevp)
+     &,             ksrf
+
+seaice
+      common/seaice/I_vs,I_ni,zd(0:klevp)
+     &             ,Tri_vs(0:klevp),Tri_ni(0:klevp)
+     &             ,Tro_vs,Tro_ni
+
+albocean returns:
+albs  -> asdir
+albl  -> aldir
+albsd -> asdif
+albld -> aldif
+** These are used by albland and albocean.  Results are written from within albocean
