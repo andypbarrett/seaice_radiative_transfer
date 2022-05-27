@@ -29,9 +29,9 @@ class SeaIceRT():
 
 
     def __repr__(self):
-        print(f"{self.day_of_year:7.3f} day of year ",
-              "(1=january 1; from 1 to 365) ",
-              "(140.477 > mu0 = 0.5) at 80 lat")
-        print(f"{self.latitude:5.2f}   latitude    (from +90 to -90)")
-        
-        
+        return (f"{self.day_of_year:7.3f} day of year " + \
+                "(1=january 1; from 1 to 365) " + \
+                "(140.477 > mu0 = 0.5) at 80 lat" + "\n" + \
+                f"{self.latitude:5.2f}   latitude    (from +90 to -90)" + "\n"
+                )
+   
