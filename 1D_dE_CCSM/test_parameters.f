@@ -6,10 +6,6 @@
 
       call print_parameters()
 
-      call modify()
-
-      call print_parameters()
-      
       stop
       end
       
