@@ -1,0 +1,19 @@
+# Notes for development of RT fortran code and python wrapper
+
+## TLDR
+
+To compile run `make`
+
+For quick and dirty testing use:
+```
+diff ccsm3_sir_de_output.dat original/ccsm3_sir_de_output.dat
+```
+This should return nothing if all went well.
+
+
+## TODO
+Write tests in both fortran and python - see Bonnie's email in the top
+level notes.md file
+
+Consolidate notes somewhere
+
