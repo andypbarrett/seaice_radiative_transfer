@@ -12,6 +12,13 @@ This should return nothing if all went well.
 
 
 ## TODO
+Write init.f to hold a common input block that is used in getdat.
+Initially this will set the input data but eventually it will just be
+a somewhere to set the input variables and some of the constant input
+fields.
+
+Remove read statements from getdat and replace with assignments from init
+
 Write tests in both fortran and python - see Bonnie's email in the top
 level notes.md file
 
