@@ -1,0 +1,19 @@
+#----------------------------------------------------------------------
+# Make file for testing parameter setting
+#----------------------------------------------------------------------
+
+FORTRAN = gfortran
+
+#test_parameters: test_parameters.o print_parameters.o init.o
+#	$(FORTRAN) -o test_parameters test_parameters.o print_parameters.o init.o
+libtest.so: test_parameters.o print_parameters.o init.o
+	$(FORTRAN) --shared -fPIC test_parameters.o print_parameters.o init.o
+
+test_parameters.o: test_parameters.f
+	$(FORTRAN) -c test_parameters.f
+
+init.o: init.f
+	$(FORTRAN) -c init.f
+
+print_parameters.o: print_parameters.f
+	$(FORTRAN) -c print_parameters.f
