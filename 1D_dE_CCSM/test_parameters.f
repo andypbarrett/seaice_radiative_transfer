@@ -1,4 +1,4 @@
-      program test_parameters
+      subroutine test_parameters
 
       implicit none
 
@@ -6,7 +6,7 @@
 
       call print_parameters()
 
-      stop
+      return
       end
       
       
