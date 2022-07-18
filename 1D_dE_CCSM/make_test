@@ -4,16 +4,19 @@
 
 FORTRAN = gfortran
 
-#test_parameters: test_parameters.o print_parameters.o init.o
-#	$(FORTRAN) -o test_parameters test_parameters.o print_parameters.o init.o
+#test_parameters: test_parameters.o print_parameters.o
+#	$(FORTRAN) test_parameters.o print_parameters.o -o test_parameters 
 libtest.so: test_parameters.o print_parameters.o init.o
-	$(FORTRAN) --shared -fPIC test_parameters.o print_parameters.o init.o
+	$(FORTRAN) --shared test_parameters.o print_parameters.o init.o -o libtest.so
 
 test_parameters.o: test_parameters.f
-	$(FORTRAN) -c test_parameters.f
+	$(FORTRAN) -fPIC -c test_parameters.f
 
 init.o: init.f
-	$(FORTRAN) -c init.f
+	$(FORTRAN) -fPIC -c init.f
 
 print_parameters.o: print_parameters.f
-	$(FORTRAN) -c print_parameters.f
+	$(FORTRAN) -fPIC -c print_parameters.f
+
+clean:
+	rm test_parameters.o print_parameters.o init.o
