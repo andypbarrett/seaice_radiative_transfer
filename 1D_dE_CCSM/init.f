@@ -29,7 +29,7 @@ C     hice
 C     R_ice
 C
 C----------------------------------------------------------------------
-      subroutine get_parameters()
+      subroutine init_parameters()
 
       implicit none
 

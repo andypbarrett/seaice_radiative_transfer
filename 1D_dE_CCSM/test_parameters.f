@@ -2,7 +2,7 @@
 
       implicit none
 
-      call get_parameters()
+      call init_parameters()
 
       call print_parameters()
 
