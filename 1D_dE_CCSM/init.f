@@ -109,6 +109,34 @@ C----------------------------------------------------------------------
      $     tm1(plond,plev),
      $     ts(plond)
 
+      common /used/ dayyr, rlat, lev, pmidm1, tm1, qm1, o3mmr, cld,
+     $     lwp, ps, co2mix, ts, tg, sndpth, rhos, rs, hpnd, R_pnd,
+     $     hice, R_ice
+
+C     Copy input variables to variables used in crm.  This will replace
+C     the file read in get_data
+      dayyr(1) = dayyr_in
+      rlat(1) = rlat_in
+      hice(1) = hice_in
+      hpnd(1) = hpnd_in
+      ps(1) = ps_in
+      rhos(1) = rhos_in
+      rs(1) = rs_in
+      R_ice(1) = R_ice_in
+      R_pnd(1) = R_pnd_in
+      sndpth(1) = sndpth_in
+      tg(1) = tg_in
+      ts(1) = ts_in
+
+      do 100 k=1, plev
+         cld(1,k) = cld_in(k)
+         clwp(1,k) = clwp(k)
+         o3mmr(1,k) = o3mmr_in(k)
+         pmidm1(1,k) = pmidm1_in(k)
+         qm1(1,k) = qm1_in(k)
+         tm1(1,k) = tm1_in(k)
+ 100  continue
+      
 C      data lev_in /18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0,
 C     $     9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0/
 C      data pmidm1_in(1,:) /2.0, 5.0, 15.0, 35.0, 60.0, 105.0, 160.0,
