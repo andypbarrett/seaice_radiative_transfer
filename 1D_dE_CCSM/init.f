@@ -47,8 +47,8 @@ C----------------------------------------------------------------------
      $          plond = plon + 1 + 2*nxpt)
       
       real 
-     $     dayyr_in(plond),        ! day of year
-     $     rlat_in(plond)          ! latitude input
+     $     dayyr_in,        ! day of year
+     $     rlat_in          ! latitude input
 
       real co2mix_in               ! co2 volume mixing ratio read in
 
@@ -58,28 +58,57 @@ C----------------------------------------------------------------------
      $     lev_in(plev)            ! level input
 
       real
-     $     cld_in(plond,plev),
-     $     clwp_in(plond,plev),
-     $     hice_in(plond),
-     $     hpnd_in(plond),
-     $     o3mmr_in(plond,plev),
-     $     pmidm1_in(plond,plev),
-     $     ps_in(plond),
-     $     qm1_in(plond,plev),
-     $     rhos_in(plond),
-     $     rs_in(plond),
-     $     R_ice_in(plond),
-     $     R_pnd_in(plond),
-     $     sndpth_in(plond),
-     $     tg_in(plond),
-     $     tm1_in(plond,plev),
-     $     ts_in(plond)
+     $     cld_in(plev),
+     $     clwp_in(plev),
+     $     hice_in,
+     $     hpnd_in,
+     $     o3mmr_in(plev),
+     $     pmidm1_in(plev),
+     $     ps_in,
+     $     qm1_in(plev),
+     $     rhos_in,
+     $     rs_in,
+     $     R_ice_in,
+     $     R_pnd_in,
+     $     sndpth_in,
+     $     tg_in,
+     $     tm1_in(plev),
+     $     ts_in
 
       common /input/ dayyr_in, rlat_in, lev_in, pmidm1_in, tm1_in,
      $     qm1_in, o3mmr_in, cld_in, clwp_in, ps_in, co2mix_in,
      $     ts_in, tg_in, sndpth_in, rhos_in, rs_in, hpnd_in, R_pnd_in,
      $     hice_in, R_ice_in
       
+      real 
+     $     dayyr(plond),        ! day of year
+     $     rlat(plond)          ! latitude input
+
+      real co2mix               ! co2 volume mixing ratio read in
+
+      integer
+     $     i,                   ! longitude point counter
+     $     k,                   ! Level counter
+     $     lev(plev)            ! level input
+
+      real
+     $     cld(plond,plev),
+     $     clwp(plond,plev),
+     $     hice(plond),
+     $     hpnd(plond),
+     $     o3mmr(plond,plev),
+     $     pmidm1(plond,plev),
+     $     ps(plond),
+     $     qm1(plond,plev),
+     $     rhos(plond),
+     $     rs(plond),
+     $     R_ice(plond),
+     $     R_pnd(plond),
+     $     sndpth(plond),
+     $     tg(plond),
+     $     tm1(plond,plev),
+     $     ts(plond)
+
 C      data lev_in /18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0,
 C     $     9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0/
 C      data pmidm1_in(1,:) /2.0, 5.0, 15.0, 35.0, 60.0, 105.0, 160.0,
