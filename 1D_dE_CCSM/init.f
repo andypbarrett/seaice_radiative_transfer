@@ -87,8 +87,6 @@ C----------------------------------------------------------------------
       real co2mix               ! co2 volume mixing ratio read in
 
       integer
-     $     i,                   ! longitude point counter
-     $     k,                   ! Level counter
      $     lev(plev)            ! level input
 
       real
@@ -110,7 +108,7 @@ C----------------------------------------------------------------------
      $     ts(plond)
 
       common /used/ dayyr, rlat, lev, pmidm1, tm1, qm1, o3mmr, cld,
-     $     lwp, ps, co2mix, ts, tg, sndpth, rhos, rs, hpnd, R_pnd,
+     $     clwp, ps, co2mix, ts, tg, sndpth, rhos, rs, hpnd, R_pnd,
      $     hice, R_ice
 
 C     Copy input variables to variables used in crm.  This will replace
@@ -130,7 +128,7 @@ C     the file read in get_data
 
       do 100 k=1, plev
          cld(1,k) = cld_in(k)
-         clwp(1,k) = clwp(k)
+         clwp(1,k) = clwp_in(k)
          o3mmr(1,k) = o3mmr_in(k)
          pmidm1(1,k) = pmidm1_in(k)
          qm1(1,k) = qm1_in(k)
