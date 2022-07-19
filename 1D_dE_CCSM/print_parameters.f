@@ -44,12 +44,15 @@
      $     tm1(plond,plev),
      $     ts(plond)
 
-      common /input/ dayyr, rlat, lev, pmidm1, tm1, qm1, o3mmr, cld,
+      common /used/ dayyr, rlat, lev, pmidm1, tm1, qm1, o3mmr, cld,
      $     clwp, ps, co2mix, ts, tg, sndpth, rhos, rs,
      $     hpnd, R_pnd, hice, R_ice
       
       i = 1
 
+      write(*,*) '----------------------------------------------------'
+      write(*,*) 'Inputs'
+      write(*,*) '----------------------------------------------------'
       write(*,*) ' day of year (1..365)  = ',dayyr(i)
       write(*,*) ' latitude (-90 to +90) = ',rlat(i)
       do 200 k=1,plev
@@ -80,7 +83,8 @@
  580  format('  sea ice thickness (m)          = ',f9.4)
       write(*,581)    R_ice(i)
  581  format('  sea ice tuning parameter       = ',f9.4)
-
+      write(*,*) ' '
+      
       return
       end
       
