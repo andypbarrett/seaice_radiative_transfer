@@ -27,3 +27,6 @@ C----------------------------------------------------------------------
 
       common /output/
      $     asdir, asdif, aldir, aldif
+
+      return
+      end
