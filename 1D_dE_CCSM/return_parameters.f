@@ -12,8 +12,9 @@ C----------------------------------------------------------------------
      $     plev,
      $     plevp,
      $     plond,   ! slt extended domain longitude
-     $     nxpt    ! no.of points outside active domain for interpolant
-
+     $     nxpt,    ! no.of points outside active domain for interpolant
+     $     i
+      
       parameter(plon = 1,
      $          plev = 18,
      $          nxpt = 1,
@@ -28,5 +29,12 @@ C----------------------------------------------------------------------
       common /output/
      $     asdir, asdif, aldir, aldif
 
+      i = 1
+      
+      asdir(i) = 1.
+      asdif(i) = 2.
+      aldir(i) = 3.
+      aldif(i) = 4.
+      
       return
       end
