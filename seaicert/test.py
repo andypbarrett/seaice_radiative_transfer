@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from interface import input_common, test
+from interface import input_common, output_common, test
 import default_input
 
 
@@ -50,6 +50,16 @@ def print_parameters(mycom):
     print(f"Ice scaling factor: {mycom.R_ice_in}")
     return
 
+
+def print_output(output_common):
+    print(f"Albedo shortwave direct: {output_common.asdir[0]}")
+    print(f"Albedo shortwave diffuse: {output_common.asdif[0]}")
+    print(f"Albedo longwave direct: {output_common.aldir[0]}")
+    print(f"Albedo longwave diffuse: {output_common.aldif[0]}")
+    print(f"Visible solar absorbed by ocean: {output_common.F_SW_ocn_vs}")
+    print(f"Near-IR absorbed by ocean: {output_common.F_SW_ocn_ni}")
+
+
 # Initialize parameters from default values
 input_common.dayyr_in = default_input.day_of_year
 input_common.rlat_in = default_input.latitude
@@ -76,6 +86,4 @@ input_common.clwp_in = to_array(default_input.cloud_liquid_water_path,
                                 np.float32)
 
 test()
-
-#print_parameters(input_com)
-
+print_output(output_common)

@@ -112,36 +112,39 @@ plond = PLON + 1 + 2*NXPT
 class OutputCom(ctypes.Structure):
     """Defines c-types for output common black used to return
        results"""
-    _fields_ = [ ("asdir", ctypes.c_float * plond),
-                 ("asdif", ctypes.c_float * plond),
-                 ("aldir", ctypes.c_float * plond),
-                 ("asdir", ctypes.c_float * plond),
+    _fields_ = [("asdir", ctypes.c_float * plond),
+                ("asdif", ctypes.c_float * plond),
+                ("aldir", ctypes.c_float * plond),
+                ("aldif", ctypes.c_float * plond),
+                ("F_SW_ocn_vs", ctypes.c_float),
+                ("F_SW_ocn_ni", ctypes.c_float),
                 ]
 
 
 class InputCom(ctypes.Structure):
     """Defines c types for input common block that is
        used to set input parameters"""
-    _fields_ = [ ("dayyr_in", ctypes.c_float),
-                 ("rlat_in", ctypes.c_float),
-                 ("lev_in", ctypes.c_int * PLEV),
-                 ("pmidm1_in", ctypes.c_float * PLEV),
-                 ("tm1_in", ctypes.c_float * PLEV),
-                 ("qm1_in", ctypes.c_float * PLEV),
-                 ("o3mmr_in", ctypes.c_float * PLEV),
-                 ("cld_in", ctypes.c_float * PLEV),
-                 ("clwp_in", ctypes.c_float * PLEV),
-                 ("ps_in", ctypes.c_float),
-                 ("co2mix_in", ctypes.c_float),
-                 ("ts_in", ctypes.c_float),
-                 ("tg_in", ctypes.c_float),
-                 ("sndpth_in", ctypes.c_float),
-                 ("rhos_in", ctypes.c_float),
-                 ("rs_in", ctypes.c_float),
-                 ("hpnd_in", ctypes.c_float),
-                 ("R_pnd_in", ctypes.c_float),
-                 ("hice_in", ctypes.c_float),
-                 ("R_ice_in", ctypes.c_float),]
+    _fields_ = [("dayyr_in", ctypes.c_float),
+                ("rlat_in", ctypes.c_float),
+                ("lev_in", ctypes.c_int * PLEV),
+                ("pmidm1_in", ctypes.c_float * PLEV),
+                ("tm1_in", ctypes.c_float * PLEV),
+                ("qm1_in", ctypes.c_float * PLEV),
+                ("o3mmr_in", ctypes.c_float * PLEV),
+                ("cld_in", ctypes.c_float * PLEV),
+                ("clwp_in", ctypes.c_float * PLEV),
+                ("ps_in", ctypes.c_float),
+                ("co2mix_in", ctypes.c_float),
+                ("ts_in", ctypes.c_float),
+                ("tg_in", ctypes.c_float),
+                ("sndpth_in", ctypes.c_float),
+                ("rhos_in", ctypes.c_float),
+                ("rs_in", ctypes.c_float),
+                ("hpnd_in", ctypes.c_float),
+                ("R_pnd_in", ctypes.c_float),
+                ("hice_in", ctypes.c_float),
+                ("R_ice_in", ctypes.c_float),
+                ]
 
 
 # Assign library and common blocks for interface
