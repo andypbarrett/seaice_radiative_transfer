@@ -144,17 +144,12 @@ class InputCom(ctypes.Structure):
                  ("R_ice_in", ctypes.c_float),]
 
 
-class OutputCom(ctypes.Structure):
-    """Defines c-types for output common black used to return
-       results"""
-    pass
-
-
 # Assign library and common blocks for interface
 crmlib = ctypes.CDLL("../1D_dE_CCSM/libtest.so")  # need generic definition
 
 # Common blocks
 input_common = InputCom.in_dll(crmlib, "input_")
+output_common = OutputCom.in_dll(crmlib, "output_")
 
 # Alias for main program function
 test = crmlib.test_parameters_
