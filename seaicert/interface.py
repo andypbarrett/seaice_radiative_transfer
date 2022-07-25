@@ -110,13 +110,15 @@ plond = PLON + 1 + 2*NXPT
 
 
 class OutputCom(ctypes.Structure):
-    """Defines c-types for output block"""
+    """Defines c-types for output common black used to return
+       results"""
     _fields_ = [ ("asdir", ctypes.c_float * plond),
                  ("asdif", ctypes.c_float * plond),
                  ("aldir", ctypes.c_float * plond),
                  ("asdir", ctypes.c_float * plond),
                 ]
-    
+
+
 class InputCom(ctypes.Structure):
     """Defines c types for input common block that is
        used to set input parameters"""
