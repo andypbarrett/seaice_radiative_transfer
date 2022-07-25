@@ -6,8 +6,8 @@ FORTRAN = gfortran
 
 #test_parameters: test_parameters.o print_parameters.o
 #	$(FORTRAN) test_parameters.o print_parameters.o -o test_parameters 
-libtest.so: test_parameters.o print_parameters.o init.o
-	$(FORTRAN) --shared test_parameters.o print_parameters.o init.o -o libtest.so
+libtest.so: test_parameters.o print_parameters.o init.o return_parameters.o
+	$(FORTRAN) --shared test_parameters.o print_parameters.o init.o return_parameters.o -o libtest.so
 
 test_parameters.o: test_parameters.f
 	$(FORTRAN) -fPIC -c test_parameters.f
@@ -18,5 +18,8 @@ init.o: init.f
 print_parameters.o: print_parameters.f
 	$(FORTRAN) -fPIC -c print_parameters.f
 
+return_parameters.o: return_parameters.f
+	$(FORTRAN) -fPIC -c return_parameters.f
+	
 clean:
 	rm test_parameters.o print_parameters.o init.o
