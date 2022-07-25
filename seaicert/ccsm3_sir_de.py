@@ -3,7 +3,25 @@ import numpy as np
 
 import default_input
 
+
 class SeaIceRT():
+    """Main class for running CCSM3_SIR_DE
+
+    TBD: add example for initialization and running
+
+    Need methods to 
+       - initialize structure
+       - initialize model - part of run
+       - repr input parameters
+       - get results
+       - run model
+            - copy initialization to model
+            - run model
+            - copy results to sructure/variables
+       - repr results
+       - get inputs from file/ERA5 or some other reanalysis
+
+    """
 
     def __init__(self):
         self.day_of_year = default_input.day_of_year
@@ -27,11 +45,21 @@ class SeaIceRT():
         self.sea_ice_thickness = default_input.sea_ice_thickness
         self.sea_ice_tuning_parameter = default_input.sea_ice_tuning_parameter
 
+    def get_parameters(self):
+        for attr, value in self.__dict__.items():
+            print(f"{attr} = {value}")
+
+    def run(self):
+        """Run sea ice radiative transfer model"""
+        return
 
     def __repr__(self):
-        return (f"{self.day_of_year:7.3f} day of year " + \
-                "(1=january 1; from 1 to 365) " + \
-                "(140.477 > mu0 = 0.5) at 80 lat" + "\n" + \
-                f"{self.latitude:5.2f}   latitude    (from +90 to -90)" + "\n"
-                )
+        return (
+            "SeaIceRT input parameters:\n" + \
+            f"{self.day_of_year:7.3f} day of year " + \
+            "(1=january 1; from 1 to 365) " + \
+            "(140.477 > mu0 = 0.5) at 80 lat" + "\n" + \
+            f"{self.latitude:5.2f}   latitude    (from +90 to -90)" + "\n" + \
+            "\n"
+        )
    
