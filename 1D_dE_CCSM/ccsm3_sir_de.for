@@ -1156,7 +1156,41 @@ c
 c     
       data amd   /  28.9644   /
       data amo   /  48.0000   /
+
 c
+c----------------------------------------------------------------------
+c     Input variables used to initialize
+      real 
+     $     dayyr_in,            ! day of year
+     $     rlat_in,              ! latitude input
+     $     co2mix_in            ! co2 volume mixing ratio read in
+      
+      integer lev_in(plev)      ! level input
+      
+      real
+     $     cld_in(plev),
+     $     clwp_in(plev),
+     $     hice_in,
+     $     hpnd_in,
+     $     o3mmr_in(plev),
+     $     pmidm1_in(plev),
+     $     ps_in,
+     $     qm1_in(plev),
+     $     rhos_in,
+     $     rs_in,
+     $     R_ice_in,
+     $     R_pnd_in,
+     $     sndpth_in,
+     $     tg_in,
+     $     tm1_in(plev),
+     $     ts_in
+
+      common /input/ dayyr_in, rlat_in, lev_in, pmidm1_in,
+     $     tm1_in, qm1_in, o3mmr_in, cld_in, clwp_in,
+     $     ps_in, co2mix_in, ts_in, tg_in, sndpth_in,
+     $     rhos_in, rs_in, hpnd_in, R_pnd_in,
+     $     hice_in, R_ice_in
+      
 c-----------------------------------------------------------------------
       open(unit=5,file='ccsm3_sir_de_input.dat',status='old')
 c     
