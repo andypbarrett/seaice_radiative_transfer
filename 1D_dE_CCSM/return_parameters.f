@@ -25,5 +25,5 @@ C----------------------------------------------------------------------
      $     aldir(plond),        ! albedo: longwave, direct
      $     aldif(plond)         ! albedo: longwave, diffuse
 
-      common /results/
+      common /output/
      $     asdir, asdif, aldir, aldif
