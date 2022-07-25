@@ -6,6 +6,8 @@
 
       call print_parameters()
 
+      call return_parameters()
+      
       return
       end
       
