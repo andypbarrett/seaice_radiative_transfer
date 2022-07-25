@@ -21,13 +21,23 @@ C----------------------------------------------------------------------
      $          plevp = plev + 1,
      $          plond = plon + 1 + 2*nxpt)
       
-      real asdir(plond),        ! albedo: shortwave, direct
-     $     asdif(plond),        ! albedo: shortwave, diffuse
-     $     aldir(plond),        ! albedo: longwave, direct
-     $     aldif(plond)         ! albedo: longwave, diffuse
+      real asdir(plond),    ! albedo: shortwave, direct
+     $     asdif(plond),    ! albedo: shortwave, diffuse
+     $     aldir(plond),    ! albedo: longwave, direct
+     $     aldif(plond),    ! albedo: longwave, diffuse
+     $     F_SW_vs,         ! solar vs absorbed in sea ice
+     $     F_SW_ni,         ! solar ni absorbed in sea ice
+     $     F_SW_srf_vs,     ! vs solar absorbed in sea ice surface layer
+     $     F_SW_srf_ni,     ! ni solar absorbed in sea ice surface layer
+     $     F_SW_ocn_vs,     ! vs solar absorbed in underlying ocean
+     $     F_SW_ocn_ni,     ! ni solar absorbed in underlying ocean
+     $     F_SW_srf,        ! total solar absorbed in sea ice surface layer
+     $     Q_SW_vs,         ! solar vs absorbed in sea ice layer
+     $     Q_SW_ni          ! solar ni absorbed in sea ice layer
 
       common /output/
-     $     asdir, asdif, aldir, aldif
+     $     asdir, asdif, aldir, aldif,
+     $     F_SW_ocn_vs, F_SW_ocn_ni
 
       i = 1
       
@@ -35,6 +45,8 @@ C----------------------------------------------------------------------
       asdif(i) = 2.
       aldir(i) = 3.
       aldif(i) = 4.
+      F_SW_ocn_vs = 5.
+      F_SW_ocn_ni = 6.
       
       return
       end
