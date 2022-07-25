@@ -1,6 +1,21 @@
 """Test routines for CRM"""
 
+import numpy as np
+
 from interface import input_common, test
+import default_input
+
+
+def to_array(obj, dtype):
+    """convert list to array
+
+    :obj: list object
+    :dtype: ctype equivalent numpy data type
+
+    :returns: ctype array
+    """
+    return np.ctypeslib.as_ctypes(np.array(obj).astype(dtype))
+
 
 def print_parameters(mycom):
     print(f"Day of year (1..365): {mycom.dayyr_in}")
@@ -36,6 +51,30 @@ def print_parameters(mycom):
     return
 
 # Initialize parameters from default values
+input_common.dayyr_in = default_input.day_of_year
+input_common.rlat_in = default_input.latitude
+input_common.ps_in = default_input.surface_pressure
+input_common.co2mix_in = default_input.co2_volume_mixing_ratio
+input_common.ts_in = default_input.surface_air_temperature
+input_common.tg_in = default_input.ground_temperature
+input_common.sndpth_in = default_input.snow_depth
+input_common.rhos_in = default_input.snow_density
+input_common.rs_in = default_input.snow_grain_radius
+input_common.hpnd_in = default_input.pond_depth
+input_common.R_pnd_in = default_input.pond_tuning_parameter
+input_common.hice_in = default_input.sea_ice_thickness
+input_common.R_ice_in = default_input.sea_ice_tuning_parameter
+
+input_common.lev_in = to_array(default_input.level, np.int32)
+input_common.pmidm1_in = to_array(default_input.pressure, np.float32)
+input_common.tm1_in = to_array(default_input.air_temperature, np.float32)
+input_common.qm1_in = to_array(default_input.water_vapor_mixing_ratio,
+                               np.float32)
+input_common.o3mmr_in = to_array(default_input.ozone_mixing_ratio, np.float32)
+input_common.cld_in = to_array(default_input.cloud_cover, np.float32)
+input_common.clwp_in = to_array(default_input.cloud_liquid_water_path,
+                                np.float32)
+
 test()
 
 #print_parameters(input_com)
