@@ -152,7 +152,7 @@ crmlib = ctypes.CDLL("../1D_dE_CCSM/libcrm.so")  # need generic definition
 
 # Common blocks
 input_common = InputCom.in_dll(crmlib, "input_")
-#output_common = OutputCom.in_dll(crmlib, "output_")
+output_common = OutputCom.in_dll(crmlib, "output_")
 
 # Alias for main program function
 test = crmlib.crm_
