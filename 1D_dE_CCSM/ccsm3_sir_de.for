@@ -1212,44 +1212,68 @@ C      i = 1
       write(0,579) R_pnd_in
       write(0,580) hice_in
       write(0,581) R_ice_in
+
+c----------------------------------------------------------------------
+c     Copy input vars to vars used in crm
+      i = 1
+      dayyr(i) = dayyr_in
+      rlat(i) = rlat_in
+      do 207 k=1,plev
+         pmidm1(i,k) = pmidm1_in(k)
+         tm1(i,k) = tm1_in(k)
+         qm1(i,k) = qm1_in(k)
+         o3mmr(i,k) = o3mmr_in(k)
+         cld(i,k) = cld_in(k)
+         clwp(i,k) = clwp_in(k)
+c         if( cld(i,k) .gt. 0.99999 ) cld(i,k) = .99999
+ 207  continue
+      ps(i) = ps_in
+      co2mix = co2mix_in
+      ts(i) = ts_in
+      tg(i) = tg_in
+      sndpth(i) = sndpth_in
+      rhos(i) = rhos_in
+      rs(i) = rs_in
+      hpnd(i) = hpnd_in
+      R_pnd(i) = R_pnd_in
+      hice(i) = hice_in
+      R_ice(i) = R_ice_in
       
 c-----------------------------------------------------------------------
-      open(unit=5,file='ccsm3_sir_de_input.dat',status='old')
+c      open(unit=5,file='ccsm3_sir_de_input.dat',status='old')
 c     
 c     begin read of data:
 c     
       do 100 i=1,1
 c
-         write(6,*) 'Fish!'
-         read(5,101)  label
- 101     format(a80)
+         label = '-------------------'
          write(6,*)   label
 c     
-         read(5,101)  label
+         label = 'CCSM3 Sea Ice Radiation with Delta Eddington Input'
+         write(6,*)   label
+         
+         label = '--------------------'
          write(6,*)   label
 c     
-         read(5,101)  label
-         write(6,*)   label
-c     
-         read(5,*)    dayyr(i)
+C         read(5,*)    dayyr(i)
          write(6,*) ' day of year (1..365)  = ',dayyr(i)
 c     
-         read(5,*)    rlat(i)
+C         read(5,*)    rlat(i)
          write(6,*) ' latitude (-90 to +90) = ',rlat(i)
 c     
-         read(5,101)  label
+         label = '-------------'
          write(6,*)   label
 c     
          do 200 k=1,plev
-            read(5,*) lev(k),pmidm1(i,k),tm1(i,k),qm1(i,k),o3mmr(i,k)
-     +           ,cld(i,k),clwp(i,k)
+C            read(5,*) lev(k),pmidm1(i,k),tm1(i,k),qm1(i,k),o3mmr(i,k)
+C     +           ,cld(i,k),clwp(i,k)
             write(6,99) k   ,pmidm1(i,k),tm1(i,k),qm1(i,k),o3mmr(i,k)
      +           ,cld(i,k),clwp(i,k)
  99         format(1x,i3,1x,6(1pe10.3,1x))
             if( cld(i,k) .gt. 0.99999 ) cld(i,k) = .99999
  200     continue
 c
-         read(5,*)     ps(i)
+C         read(5,*)     ps(i)
          write(6,571) ps(i)
  571     format('  surface pressure         = ',f7.2)
 c     
@@ -1276,7 +1300,7 @@ c
 c     
  150     continue
 c     
-         read(5,*)       co2mix
+C         read(5,*)       co2mix
          write(6,572) co2mix
  572     format('  atmospheric co2 vmr      = ',1pe10.3)
 c
@@ -1285,11 +1309,11 @@ c     that setting.
 c
          co2vmr = co2mix
 c
-         read(5,*)       ts(i)
+C         read(5,*)       ts(i)
          write(6,573)    ts(i)
  573     format('  surface air temperature  = ',f7.2)
 c     
-         read(5,*)       tg(i)
+c         read(5,*)       tg(i)
          write(6,574)    tg(i)
  574     format('  surface skin temperature = ',f7.2)
 c     
@@ -1300,31 +1324,31 @@ c 2=sea ice
 c .04m
          rghnss(i,1) = .04
 c
-         read(5,*)       sndpth(i)
+c         read(5,*)       sndpth(i)
          write(6,575)    sndpth(i)
  575     format('  snow physical depth (m)        = ',f9.4)
 c
-         read(5,*)       rhos(i)
+c         read(5,*)       rhos(i)
          write(6,576)    rhos(i)
  576     format('  snow density (kg/m3)           = ',f9.4)
 c
-         read(5,*)       rs(i)
+c         read(5,*)       rs(i)
          write(6,577)    rs(i)
  577     format('  snow grain radius (microns)    = ',f9.4)
 c
-         read(5,*)       hpnd(i)
+c         read(5,*)       hpnd(i)
          write(6,578)    hpnd(i)
  578     format('  pond physical depth (m)        = ',f9.4)
 c
-         read(5,*)       R_pnd(i)
+c         read(5,*)       R_pnd(i)
          write(6,579)    R_pnd(i)
  579     format('  pond tuning parameter          = ',f9.4)
 c     
-         read(5,*)       hice(i)
+c         read(5,*)       hice(i)
          write(6,580)    hice(i)
  580     format('  sea ice thickness (m)          = ',f9.4)
 c
-         read(5,*)       R_ice(i)
+c         read(5,*)       R_ice(i)
          write(6,581)    R_ice(i)
  581     format('  sea ice tuning parameter       = ',f9.4)
 c     

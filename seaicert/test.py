@@ -86,4 +86,4 @@ input_common.clwp_in = to_array(default_input.cloud_liquid_water_path,
                                 np.float32)
 
 test()
-print_output(output_common)
+#print_output(output_common)
