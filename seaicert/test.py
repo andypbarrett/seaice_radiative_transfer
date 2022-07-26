@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from interface import input_common, output_common, test
+from interface import input_common, test
 import default_input
 
 
