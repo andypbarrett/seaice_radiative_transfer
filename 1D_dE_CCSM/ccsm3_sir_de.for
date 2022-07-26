@@ -1190,6 +1190,28 @@ c     Input variables used to initialize
      $     ps_in, co2mix_in, ts_in, tg_in, sndpth_in,
      $     rhos_in, rs_in, hpnd_in, R_pnd_in,
      $     hice_in, R_ice_in
+
+C      i = 1
+      
+      write(0,*) 'Test inputs'
+      write(0,*) ' day of year (1..365)  = ',dayyr_in
+      write(0,*) ' latitude (-90 to +90) = ',rlat_in
+      do 203 k=1,plev
+         write(0,99) k   ,pmidm1_in(k),tm1_in(k),
+     +        qm1_in(k),o3mmr_in(k)
+     +        ,cld_in(k),clwp_in(k)
+ 203  continue
+      write(0,571) ps_in
+      write(0,572) co2mix_in
+      write(0,573) ts_in
+      write(0,574) tg_in
+      write(0,575) sndpth_in
+      write(0,576) rhos_in
+      write(0,577) rs_in
+      write(0,578) hpnd_in
+      write(0,579) R_pnd_in
+      write(0,580) hice_in
+      write(0,581) R_ice_in
       
 c-----------------------------------------------------------------------
       open(unit=5,file='ccsm3_sir_de_input.dat',status='old')
@@ -1197,7 +1219,8 @@ c
 c     begin read of data:
 c     
       do 100 i=1,1
-c     
+c
+         write(6,*) 'Fish!'
          read(5,101)  label
  101     format(a80)
          write(6,*)   label
