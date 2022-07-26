@@ -469,7 +469,13 @@ C
      &,             Fdirup_ni(plond,0:klevp),Fdirdn_ni(plond,0:klevp)
      &,             Fdifup_ni(plond,0:klevp),Fdifdn_ni(plond,0:klevp)
      &,             ksrf
-C
+c----------------------------------------------------------------------
+c     Common block for output
+c     added A.P.Barrett 2022-07-26
+c----------------------------------------------------------------------
+      common /output/ asdir, asdif, aldir, aldif,
+     $     F_SW_ocn_vs, F_SW_ocn_ni
+C     
 c------------------------------Externals--------------------------------
 c
       external albland
