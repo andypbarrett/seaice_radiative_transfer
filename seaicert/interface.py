@@ -107,6 +107,10 @@ PLEV = 18
 NXPT = 1
 plevp = PLEV + 1
 plond = PLON + 1 + 2*NXPT
+ksnow = 1
+kseaice = 4
+klev = ksnow + kseaice + 1
+klevp = klev + 1 + 1  # required because defs are 0:klevp
 
 
 class OutputCom(ctypes.Structure):
@@ -119,6 +123,36 @@ class OutputCom(ctypes.Structure):
                 ("F_SW_ocn_vs", ctypes.c_float),
                 ("F_SW_ocn_ni", ctypes.c_float),
                 ]
+
+
+class RadFluxSeaiceCom(ctypes.Structure):
+    """Defines c-types for seaice radiation flux variables"""
+    _fields_ = [
+        ("hi_ssl", ctypes.c_float),
+        ("hs_ssl", ctypes.c_float),
+        ("ksrf", ctypes.c_int),
+        ("Fdirup_vs", ctypes.c_float * klevp * plond),
+        ("Fdirdn_vs", ctypes.c_float * klevp * plond),
+        ("Fdifup_vs", ctypes.c_float * klevp * plond),
+        ("Fdifdn_vs", ctypes.c_float * klevp * plond),
+        ("Fdirup_ni", ctypes.c_float * klevp * plond),
+        ("Fdirdn_ni", ctypes.c_float * klevp * plond),
+        ("Fdifup_ni", ctypes.c_float * klevp * plond),
+        ("Fdifdn_ni", ctypes.c_float * klevp * plond),
+        ]
+
+
+class SeaiceCom(ctypes.Structure):
+    """Defines c-types for seaice common block L426"""
+    _fields_ = [
+        ("I_vs", ctypes.c_float),  # Frac. trns vs thru sea ice sfc
+        ("I_ni", ctypes.c_float),  # Frac. trns ni thru sea ice sfc
+        ("zd", ctypes.c_float * klevp),  # Interface depths for snow/pond, sea ice
+        ("Tri_vs", ctypes.c_float * klevp),  # Frac trns vs sfc to sea ice layers
+        ("Tri_ni", ctypes.c_float * klevp),  # Frac trns no sfc to sea ice layers
+        ("Tro_vs", ctypes.c_float),  # Frac trns vs to ocean
+        ("Tro_ni", ctypes.c_float),  # Frac trns ni to ocean
+        ]
 
 
 class InputCom(ctypes.Structure):
@@ -153,6 +187,7 @@ crmlib = ctypes.CDLL("../1D_dE_CCSM/libcrm.so")  # need generic definition
 # Common blocks
 input_common = InputCom.in_dll(crmlib, "input_")
 output_common = OutputCom.in_dll(crmlib, "output_")
+seaice_common = SeaiceCom.in_dll(crmlib, "seaice_")
 
 # Alias for main program function
 test = crmlib.crm_
