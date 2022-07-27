@@ -123,6 +123,9 @@ class OutputCom(ctypes.Structure):
                 ("F_SW_ocn_vs", ctypes.c_float),
                 ("F_SW_ocn_ni", ctypes.c_float),
                 ("layer_type", ctypes.c_char * 10 * klevp),
+                ("Q_SW_vs_out", ctypes.c_float * klevp),
+                ("Q_SW_ni_out", ctypes.c_float * klevp),
+                ("Q_SW_total_out", ctypes.c_float * klevp),
                 ]
 
 

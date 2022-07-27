@@ -61,8 +61,12 @@ def print_output(output_common):
     print(f"Albedo longwave diffuse: {output_common.aldif[0]}")
     print(f"Visible solar absorbed by ocean: {output_common.F_SW_ocn_vs}")
     print(f"Near-IR absorbed by ocean: {output_common.F_SW_ocn_ni}")
-    for s in output_common.layer_type[:]:
-        print(f"layer type: {s[:]}")
+    zipped = zip(output_common.layer_type[:],
+                 output_common.Q_SW_vs_out[:],
+                 output_common.Q_SW_ni_out[:],
+                 output_common.Q_SW_total_out[:])
+    for i, (t, qvs, qni, qtt) in enumerate(zipped):
+        print(f"{i:2d} {t[:].decode():10s} {' '*10} {qvs:6.2f} {' '*10} {qni:6.2f} {qtt:6.2f}")
 #    print(f"Up vs flux direct: {output_common.Fdirup_vs[:][0]}")
 
 

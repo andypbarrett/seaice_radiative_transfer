@@ -474,9 +474,15 @@ c     Common block for output
 c     added A.P.Barrett 2022-07-26
 c----------------------------------------------------------------------
       character(len=10) layer_type(klev+2)
+      real
+     $     Q_SW_vs_out(klev+2),
+     $     Q_SW_ni_out(klev+2),
+     $     Q_SW_total_out(klev+2),
+     $     Q_SW_total
       
       common /output/ asdir, asdif, aldir, aldif,
-     $     F_SW_ocn_vs, F_SW_ocn_ni, layer_type
+     $     F_SW_ocn_vs, F_SW_ocn_ni, layer_type,
+     $     Q_SW_vs_out, Q_SW_ni_out, Q_SW_total_out
 C     
 c------------------------------Externals--------------------------------
 c
@@ -817,10 +823,16 @@ C
      $         'and absorption (Q) ---- ')
         write(6,*) 
      & ' level   depth  Tr_vs     Q_vs   Tr_ni    Q_ni     Q_total' 
-        write(6,101) F_SW_vs*(1.-I_vs),F_SW_ni*(1.-I_ni),
-     &               F_SW_vs*(1.-I_vs)+F_SW_ni*(1.-I_ni)
+        Q_SW_vs = F_SW_vs*(1.-I_vs)
+        Q_SW_ni = F_SW_ni*(1.-I_ni)
+        Q_SW_total = Q_SW_vs + Q_SW_ni
+        write(6,101) Q_SW_vs,Q_SW_ni,
+     &               Q_SW_total
  101    format('  surface ',15x,f6.2,10x,f6.2,5x,f6.2)
         layer_type(1) = 'surface'
+        Q_SW_vs_out(1) = Q_SW_vs
+        Q_SW_ni_out(1) = Q_SW_ni
+        Q_SW_total_out(1) = Q_SW_total 
 c     
 c print out column layer absorption and interface transmission
 c
@@ -838,37 +850,42 @@ C
      $       (Fdifdn_ni(1,k)-Fdifup_ni(1,k))*solld(1))
      $      -((Fdirdn_ni(1,k+1)-Fdirup_ni(1,k+1))*soll(1) + 
      $       (Fdifdn_ni(1,k+1)-Fdifup_ni(1,k+1))*solld(1))
+            Q_SW_total = Q_SW_vs + Q_SW_ni
+
+            Q_SW_vs_out(k+2) = Q_SW_vs
+            Q_SW_ni_out(k+2) = Q_SW_ni
+            Q_SW_total_out(k+2) = Q_SW_total
 C
             if( sndpth(1) .gt. .00001 ) then
               if( k .le. ksnow ) then
                 write(6,322) k,Q_SW_vs,Q_SW_ni,
-     $                         Q_SW_vs+Q_SW_ni
+     $                         Q_SW_total
  322            format('  snow ',i2,16x,f6.2,10x,f6.2,5x,f6.2)
                 layer_type(k+2) = 'snow'
               else
                 write(6,325) k,Q_SW_vs,Q_SW_ni,
-     $                         Q_SW_vs+Q_SW_ni
+     $                         Q_SW_total
               endif
             else 
               if( hpnd(1) .gt. .00001 ) then
                 if( k .le. ksnow ) then
                   write(6,323) k,Q_SW_vs,Q_SW_ni,
-     $                         Q_SW_vs+Q_SW_ni
+     $                         Q_SW_total
  323              format('  pond ',i2,16x,f6.2,10x,f6.2,5x,f6.2)
                   layer_type(k+2) = 'pond'
                 else
                   write(6,325) k,Q_SW_vs,Q_SW_ni,
-     $                         Q_SW_vs+Q_SW_ni
+     $                         Q_SW_total
                 endif
               else
                 if( k .le. ksnow ) then
                   write(6,324) k,Q_SW_vs,Q_SW_ni,
-     $                         Q_SW_vs+Q_SW_ni
+     $                         Q_SW_total
  324              format('  air  ',i2,16x,f6.2,10x,f6.2,5x,f6.2)
                   layer_type(k+2) = 'air'
                 else
                   write(6,325) k,Q_SW_vs,Q_SW_ni,
-     $                         Q_SW_vs+Q_SW_ni
+     $                         Q_SW_total
  325              format('  ice  ',i2,16x,f6.2,10x,f6.2,5x,f6.2)
                   layer_type(k+2) = 'ice'
                 endif
@@ -885,6 +902,10 @@ C
         write(6,223) F_SW_ocn_vs,F_SW_ocn_ni,F_SW_ocn_vs+F_SW_ocn_ni
  223    format(2x,'ocean',18x,f6.2,10x,f6.2,5x,f6.2)
         layer_type(klevp+1) = 'ocean'
+        Q_SW_vs_out(klevp+1) = F_SW_ocn_vs
+        Q_SW_ni_out(klevp+1) = F_SW_ocn_ni
+        Q_SW_total_out(klevp+1) = F_SW_ocn_vs + F_SW_ocn_ni
+        
 c
  100  continue
 c
