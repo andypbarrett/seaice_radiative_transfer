@@ -61,6 +61,10 @@ def print_output(output_common):
     print(f"Albedo longwave diffuse: {output_common.aldif[0]}")
     print(f"Visible solar absorbed by ocean: {output_common.F_SW_ocn_vs}")
     print(f"Near-IR absorbed by ocean: {output_common.F_SW_ocn_ni}")
+    print('-'*70)
+    print('Surface absorption ad albedos')
+    print('-'*70)
+    print(f"Solar vs direct surface irradiance: {output_common.sols[0]:6.2f} Wm-2")
     zipped = zip(output_common.layer_type[:],
                  output_common.Q_SW_vs_out[:],
                  output_common.Q_SW_ni_out[:],
