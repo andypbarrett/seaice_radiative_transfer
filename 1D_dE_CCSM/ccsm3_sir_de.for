@@ -473,8 +473,10 @@ c----------------------------------------------------------------------
 c     Common block for output
 c     added A.P.Barrett 2022-07-26
 c----------------------------------------------------------------------
+      character(len=10) layer_type(klev+2)
+      
       common /output/ asdir, asdif, aldir, aldif,
-     $     F_SW_ocn_vs, F_SW_ocn_ni
+     $     F_SW_ocn_vs, F_SW_ocn_ni, layer_type
 C     
 c------------------------------Externals--------------------------------
 c
@@ -818,7 +820,8 @@ C
         write(6,101) F_SW_vs*(1.-I_vs),F_SW_ni*(1.-I_ni),
      &               F_SW_vs*(1.-I_vs)+F_SW_ni*(1.-I_ni)
  101    format('  surface ',15x,f6.2,10x,f6.2,5x,f6.2)
-c
+        layer_type(1) = 'surface'
+c     
 c print out column layer absorption and interface transmission
 c
         do k=0,klev
@@ -841,6 +844,7 @@ C
                 write(6,322) k,Q_SW_vs,Q_SW_ni,
      $                         Q_SW_vs+Q_SW_ni
  322            format('  snow ',i2,16x,f6.2,10x,f6.2,5x,f6.2)
+                layer_type(k+2) = 'snow'
               else
                 write(6,325) k,Q_SW_vs,Q_SW_ni,
      $                         Q_SW_vs+Q_SW_ni
@@ -851,6 +855,7 @@ C
                   write(6,323) k,Q_SW_vs,Q_SW_ni,
      $                         Q_SW_vs+Q_SW_ni
  323              format('  pond ',i2,16x,f6.2,10x,f6.2,5x,f6.2)
+                  layer_type(k+2) = 'pond'
                 else
                   write(6,325) k,Q_SW_vs,Q_SW_ni,
      $                         Q_SW_vs+Q_SW_ni
@@ -860,10 +865,12 @@ C
                   write(6,324) k,Q_SW_vs,Q_SW_ni,
      $                         Q_SW_vs+Q_SW_ni
  324              format('  air  ',i2,16x,f6.2,10x,f6.2,5x,f6.2)
+                  layer_type(k+2) = 'air'
                 else
                   write(6,325) k,Q_SW_vs,Q_SW_ni,
      $                         Q_SW_vs+Q_SW_ni
  325              format('  ice  ',i2,16x,f6.2,10x,f6.2,5x,f6.2)
+                  layer_type(k+2) = 'ice'
                 endif
               endif
             endif
@@ -877,6 +884,7 @@ C
      $         (Fdifdn_ni(1,klevp)-Fdifup_ni(1,klevp))*solld(1))
         write(6,223) F_SW_ocn_vs,F_SW_ocn_ni,F_SW_ocn_vs+F_SW_ocn_ni
  223    format(2x,'ocean',18x,f6.2,10x,f6.2,5x,f6.2)
+        layer_type(klevp+1) = 'ocean'
 c
  100  continue
 c

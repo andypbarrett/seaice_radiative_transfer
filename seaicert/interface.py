@@ -122,6 +122,7 @@ class OutputCom(ctypes.Structure):
                 ("aldif", ctypes.c_float * plond),
                 ("F_SW_ocn_vs", ctypes.c_float),
                 ("F_SW_ocn_ni", ctypes.c_float),
+                ("layer_type", ctypes.c_char * 10 * klevp),
                 ]
 
 

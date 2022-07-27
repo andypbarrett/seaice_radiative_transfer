@@ -61,6 +61,8 @@ def print_output(output_common):
     print(f"Albedo longwave diffuse: {output_common.aldif[0]}")
     print(f"Visible solar absorbed by ocean: {output_common.F_SW_ocn_vs}")
     print(f"Near-IR absorbed by ocean: {output_common.F_SW_ocn_ni}")
+    for s in output_common.layer_type[:]:
+        print(f"layer type: {s[:]}")
 #    print(f"Up vs flux direct: {output_common.Fdirup_vs[:][0]}")
 
 
