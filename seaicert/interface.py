@@ -120,12 +120,25 @@ class OutputCom(ctypes.Structure):
                 ("asdif", ctypes.c_float * plond),
                 ("aldir", ctypes.c_float * plond),
                 ("aldif", ctypes.c_float * plond),
-                ("F_SW_ocn_vs", ctypes.c_float),
-                ("F_SW_ocn_ni", ctypes.c_float),
-                ("layer_type", ctypes.c_char * 10 * klevp),
-                ("Q_SW_vs_out", ctypes.c_float * klevp),
-                ("Q_SW_ni_out", ctypes.c_float * klevp),
-                ("Q_SW_total_out", ctypes.c_float * klevp),
+                ("F_SW_ocn_vs", ctypes.c_float),  # Solar vs absorbed in ocean
+                ("F_SW_ocn_ni", ctypes.c_float),  # Solar no absorbed in ocean
+                ("layer_type", ctypes.c_char * 10 * klevp),  # Name of layer
+                ("Q_SW_vs_out", ctypes.c_float * klevp),  # Solar vs absorbed in layer
+                ("Q_SW_ni_out", ctypes.c_float * klevp),  # Solar ni absorbed in layer
+                ("Q_SW_total_out", ctypes.c_float * klevp),  # Total solar absorbed in layer
+                ("sols", ctypes.c_float * plond),  # Downward solar onto surface sw direct
+                ("solsd", ctypes.c_float * plond),  # Downward solar onto surface sw diffuse
+                ("vsfdir", ctypes.c_float),  # Visible fraction direct
+                ("soll", ctypes.c_float * plond),  # Downward solar on surface ni direct
+                ("solld", ctypes.c_float * plond),  # Downward solar on surface ni diffuse
+                ("nifdir", ctypes.c_float),  # Near-ir fraction direct
+                ("fsds", ctypes.c_float),  # Total solar surface irradiance Wm-2
+                ("vsfrac", ctypes.c_float),  # Total visible fraction of irradiance
+                ("frs", ctypes.c_float),  # Solar absorbed at surface
+                ("albsrf", ctypes.c_float),  # Broadband surface albedo
+                ("F_SW_vs", ctypes.c_float),  # Visible absorbed in snow/sea ice Wm-2
+                ("F_SW_ni", ctypes.c_float),  # Near-IR absorbed in snow/sea ice Wm-2
+                ("F_SW_srf", ctypes.c_float),  # Total absorbed in sea ice surface layer Wm-2
                 ]
 
 

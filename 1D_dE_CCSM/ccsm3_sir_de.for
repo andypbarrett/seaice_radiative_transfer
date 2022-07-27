@@ -482,7 +482,10 @@ c----------------------------------------------------------------------
       
       common /output/ asdir, asdif, aldir, aldif,
      $     F_SW_ocn_vs, F_SW_ocn_ni, layer_type,
-     $     Q_SW_vs_out, Q_SW_ni_out, Q_SW_total_out
+     $     Q_SW_vs_out, Q_SW_ni_out, Q_SW_total_out,
+     $     sols, solsd, vsfdir, soll, solld, nifdir,
+     $     fsds, vsfrac, frs, albsrf,
+     $     F_SW_vs, F_SW_ni, F_SW_srf
 C     
 c------------------------------Externals--------------------------------
 c
