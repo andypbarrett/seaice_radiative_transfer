@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from interface import input_common, output_common, test
+from interface import input_common, output_common, seaice_common, test
 import default_input
 
 
@@ -52,12 +52,35 @@ def print_parameters(mycom):
 
 
 def print_output(output_common):
+    print("-"*70)
+    print("CCSM3 Sea Ice Delta Eddington calculation")
+    print("-"*70)
     print(f"Albedo shortwave direct: {output_common.asdir[0]}")
     print(f"Albedo shortwave diffuse: {output_common.asdif[0]}")
     print(f"Albedo longwave direct: {output_common.aldir[0]}")
     print(f"Albedo longwave diffuse: {output_common.aldif[0]}")
     print(f"Visible solar absorbed by ocean: {output_common.F_SW_ocn_vs}")
     print(f"Near-IR absorbed by ocean: {output_common.F_SW_ocn_ni}")
+#    print(f"Up vs flux direct: {output_common.Fdirup_vs[:][0]}")
+
+
+def print_seaice():
+    zipped = zip(
+        seaice_common.zd[:],
+        seaice_common.Tri_vs[:],
+        seaice_common.Tri_ni[:]
+    )
+    
+    print("-"*70)
+    print("CCSM3 Sea Ice Transmission")
+    print("-"*70)
+    print(f"I_vs: {seaice_common.I_vs}")
+    print(f"I_ni: {seaice_common.I_ni}")
+    print("level   depth Tr_vs  Q_vs  Tr_ni  Q_ni  Q_total")
+    for i, (zd, tri_vs, tri_ni) in enumerate(zipped):
+        print(f"{i:2d} {zd:5.3f} {tri_vs:6.4f}       {tri_ni:6.4f}")
+    print(f"Tro_vs: {seaice_common.Tro_vs}")
+    print(f"Tro_ni: {seaice_common.Tro_ni}")
 
 
 # Initialize parameters from default values
@@ -87,3 +110,4 @@ input_common.clwp_in = to_array(default_input.cloud_liquid_water_path,
 
 test()
 print_output(output_common)
+print_seaice()
