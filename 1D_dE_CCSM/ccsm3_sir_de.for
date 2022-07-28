@@ -835,7 +835,8 @@ C
         layer_type(1) = 'surface'
         Q_SW_vs_out(1) = Q_SW_vs
         Q_SW_ni_out(1) = Q_SW_ni
-        Q_SW_total_out(1) = Q_SW_total 
+        Q_SW_total_out(1) = Q_SW_total
+
 c     
 c print out column layer absorption and interface transmission
 c
