@@ -30,10 +30,10 @@ klevp = klev + 1 + 1  # required because defs are 0:klevp
 class OutputCom(ctypes.Structure):
     """Defines c-types for output common black used to return
        results"""
-    _fields_ = [("asdir", ctypes.c_float * plond),
-                ("asdif", ctypes.c_float * plond),
-                ("aldir", ctypes.c_float * plond),
-                ("aldif", ctypes.c_float * plond),
+    _fields_ = [("asdir", ctypes.c_float * plond),  # Albedo visible direct
+                ("asdif", ctypes.c_float * plond),  # Albedo visible diffuse
+                ("aldir", ctypes.c_float * plond),  # Albedo near-ir direct
+                ("aldif", ctypes.c_float * plond),  # Albedo near-ir diffuse
                 ("F_SW_ocn_vs", ctypes.c_float),  # Solar vs absorbed in ocean
                 ("F_SW_ocn_ni", ctypes.c_float),  # Solar no absorbed in ocean
                 ("layer_type", ctypes.c_char * 10 * klevp),  # Name of layer
