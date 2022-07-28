@@ -24,8 +24,9 @@ plond = PLON + 1 + 2*NXPT
 ksnow = 1
 kseaice = 4
 klev = ksnow + kseaice + 1
-klevp = klev + 1 + 1  # required because defs are 0:klevp
-
+klevp = klev + 1
+klevp1 = klevp + 1
+klevp2 = klevp + 2  # required because defs are 0:klevp
 
 class OutputCom(ctypes.Structure):
     """Defines c-types for output common black used to return
@@ -36,10 +37,9 @@ class OutputCom(ctypes.Structure):
                 ("aldif", ctypes.c_float * plond),  # Albedo near-ir diffuse
                 ("F_SW_ocn_vs", ctypes.c_float),  # Solar vs absorbed in ocean
                 ("F_SW_ocn_ni", ctypes.c_float),  # Solar no absorbed in ocean
-                ("layer_type", ctypes.c_char * 10 * klevp),  # Name of layer
-                ("Q_SW_vs_out", ctypes.c_float * klevp),  # Solar vs absorbed in layer
-                ("Q_SW_ni_out", ctypes.c_float * klevp),  # Solar ni absorbed in layer
-                ("Q_SW_total_out", ctypes.c_float * klevp),  # Total solar absorbed in layer
+                ("Q_SW_vs_out", ctypes.c_float * klevp2),  # Solar vs absorbed in layer
+                ("Q_SW_ni_out", ctypes.c_float * klevp2),  # Solar ni absorbed in layer
+                ("Q_SW_total_out", ctypes.c_float * klevp2),  # Total solar absorbed in layer
                 ("sols", ctypes.c_float * plond),  # Downward solar onto surface sw direct
                 ("solsd", ctypes.c_float * plond),  # Downward solar onto surface sw diffuse
                 ("vsfdir", ctypes.c_float),  # Visible fraction direct
@@ -53,6 +53,7 @@ class OutputCom(ctypes.Structure):
                 ("F_SW_vs", ctypes.c_float),  # Visible absorbed in snow/sea ice Wm-2
                 ("F_SW_ni", ctypes.c_float),  # Near-IR absorbed in snow/sea ice Wm-2
                 ("F_SW_srf", ctypes.c_float),  # Total absorbed in sea ice surface layer Wm-2
+                ("layer_type", ctypes.c_char * 10 * klevp2),  # Name of layer
                 ]
 
 
@@ -78,9 +79,9 @@ class SeaiceCom(ctypes.Structure):
     _fields_ = [
         ("I_vs", ctypes.c_float),  # Frac. trns vs thru sea ice sfc
         ("I_ni", ctypes.c_float),  # Frac. trns ni thru sea ice sfc
-        ("zd", ctypes.c_float * klevp),  # Interface depths for snow/pond, sea ice
-        ("Tri_vs", ctypes.c_float * klevp),  # Frac trns vs sfc to sea ice layers
-        ("Tri_ni", ctypes.c_float * klevp),  # Frac trns no sfc to sea ice layers
+        ("zd", ctypes.c_float * klevp1),  # Interface depths for snow/pond, sea ice
+        ("Tri_vs", ctypes.c_float * klevp1),  # Frac trns vs sfc to sea ice layers
+        ("Tri_ni", ctypes.c_float * klevp1),  # Frac trns no sfc to sea ice layers
         ("Tro_vs", ctypes.c_float),  # Frac trns vs to ocean
         ("Tro_ni", ctypes.c_float),  # Frac trns ni to ocean
         ]
