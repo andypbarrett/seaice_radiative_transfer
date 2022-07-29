@@ -71,6 +71,17 @@ class SeaIceRT():
         )
 
 
+def to_array(obj, dtype):
+    """convert list to array
+
+    :obj: list object
+    :dtype: ctype equivalent numpy data type
+
+    :returns: ctype array
+    """
+    return np.ctypeslib.as_ctypes(np.array(obj).astype(dtype))
+
+
 def set_model_input(param_dict):
     """Assigns model parameters to input_common structure
 
