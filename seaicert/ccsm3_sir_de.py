@@ -87,8 +87,15 @@ class SeaIceRT():
         """Run sea ice radiative transfer model"""
         set_model_input(self.__dict__)
         test()
-        print_output()
+#        print_output()
         return
+
+    def get_results(self):
+        """Returns a dictionary of model results"""
+        return get_model_results()
+
+    def print_results(self):
+        print_output()
 
     def __repr__(self):
         return (
@@ -143,6 +150,41 @@ def set_model_input(param_dict):
     return
 
    
+def get_model_results():
+    """Returns a dictionary of results"""
+    results = {}
+    results["surface_direct_shortwave_reflectance"] = output_common.asdir[0]
+    results["surface_diffuse_shortwave_reflectance"] = output_common.asdif[0]
+    results["surface_direct_longwave_reflectance"] = output_common.aldir[0]
+    results["surface_diffuse_longwave_reflectance"] = output_common.aldif[0]
+    results["downwelling_shortwave_flux_absorbed_by_ocean"] = output_common.F_SW_ocn_vs
+    results["downwelling_longwave_flux_absorbed_by_ocean"] = output_common.F_SW_ocn_ni
+    results["downwelling_shortwave_flux_absorbed_by_seaice_layer"] = output_common.Q_SW_vs_out[:]
+    results["downwelling_longwave_flux_absorbed_by_seaice_layer"] = output_common.Q_SW_ni_out[:]
+    results["downwelling_radiative_flux_absorbed_by_seaice_layer"] = output_common.Q_SW_total_out[:]
+    results["surface_downwelling_direct_shortwave_flux"] = output_common.sols[0]
+    results["surface_downwelling_diffuse_shortwave_flux"] = output_common.solsd[0]
+    results["fraction_of_direct_shortwave_at_surface"] = output_common.vsfdir
+    results["surface_downwelling_direct_longwave_flux"] = output_common.soll[0]
+    results["surface_downwelling_diffuse_longwave_flux"] = output_common.soll[0]
+    results["fraction_of_direct_longwave_at_surface"] = output_common.nifdir
+    results["surface_downwelling_radiative_flux"] = output_common.fsds
+    results["fraction_of_downwelling_radiative_flux_as_shortwave"] = output_common.frs
+    results["surface_albedo"] = output_common.albsrf
+    results["downwelling_shortwave_absorbed_by_seaice"] = output_common.F_SW_vs
+    results["downwelling_longwave_absorbed_seaice"] = output_common.F_SW_ni
+    results["downwelling_radiative_flux_absorbed_by_seaice_surface_layer"] = output_common.F_SW_srf
+    results["seaice_layer_type"] = [t[:].decode().strip() for t in output_common.layer_type[:]]
+    results["fraction_of_shortwave_flux_transmitted_through_seaice_surface"] = seaice_common.I_vs
+    results["fraction_of_longwave_flux_transmitted_through_seaice_surface"] = seaice_common.I_vs
+    results["depth_of_seaice_layer_interface"] = seaice_common.zd[:]
+    results["fraction_of_surface_shortwave_flux_transmitted_to_layer"] = seaice_common.Tri_vs[:]
+    results["fraction_of_surface_longwave_flux_transmitted_to_layer"] = seaice_common.Tri_ni[:]
+    results["fraction_of_surface_shortwave_flux_transmitted_to_ocean"] = seaice_common.Tro_vs
+    results["fraction_of_surface_longwave_flux_transmitted_to_ocean"] = seaice_common.Tro_ni
+    return results
+
+    
 @dataclass
 class DEInput:
     """
