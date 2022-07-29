@@ -55,6 +55,8 @@ class SeaIceRT():
     def run(self):
         """Run sea ice radiative transfer model"""
         set_model_input(self.__dict__)
+        test()
+        print_output()
         return
 
     def __repr__(self):
