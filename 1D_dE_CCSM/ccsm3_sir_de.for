@@ -870,6 +870,7 @@ C
               else
                 write(6,325) k,Q_SW_vs,Q_SW_ni,
      $                         Q_SW_total
+                layer_type(k+2) = 'ice'
               endif
             else 
               if( hpnd(1) .gt. .00001 ) then
@@ -881,6 +882,7 @@ C
                 else
                   write(6,325) k,Q_SW_vs,Q_SW_ni,
      $                         Q_SW_total
+                  layer_type(k+2) = 'ice'
                 endif
               else
                 if( k .le. ksnow ) then
@@ -889,10 +891,10 @@ C
  324              format('  air  ',i2,16x,f6.2,10x,f6.2,5x,f6.2)
                   layer_type(k+2) = 'air'
                 else
-                  layer_type(k+2) = 'ice'
                   write(6,325) k,Q_SW_vs,Q_SW_ni,
      $                         Q_SW_total
  325              format('  ice  ',i2,16x,f6.2,10x,f6.2,5x,f6.2)
+                  layer_type(k+2) = 'ice'
                 endif
               endif
             endif
