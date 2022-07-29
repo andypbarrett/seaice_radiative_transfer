@@ -41,18 +41,67 @@ class SeaIceRT():
     :cloud_cover:  Cloud cover - non-dimension 0.-1.
     :cloud_liquid_water_path: Cloud liquid water path (g/m2)
 
+
+    Running the model
+    In [1]: from ccsm3_sir_de import SeaIceRT
+
+    In [2]: model = SeaIceRT()
+
+    In [3]: model.run()
+
+    # For a single column run, results can be printed to standard out
+    In [17]: model.print_results()
+    ----------------------------------------------------------------------
+    CCSM3 Sea Ice Delta Eddington calculation
+    ----------------------------------------------------------------------
+    ----------------------------------------------------------------------
+    Visible and near-ir direct and diffuse albedos
+    Visible: 0.2 to 0.7 micrometers
+    Near-IR: 0.7 to 5.0 micrometers
+    ----------------------------------------------------------------------
+    Albedo shortwave direct: 0.16
+    Albedo shortwave diffuse: 0.19
+    Albedo longwave direct: 0.04
+    Albedo longwave diffuse: 0.06
+    
+    ...
+    snip
+    ...
+    
+    ----------------------------------------------------------------------
+    Snow/Sea ice transmitted flux (Tr fraction) and absorption (Q Wm-2)
+    ----------------------------------------------------------------------
+    Level      depth Tr_vs  Q_vs   Tr_ni  Q_ni   Q_total
+    ----------------------------------------------------------------------
+    0 surface                  30.67         77.73 108.40
+              0.000 1.0000        1.0000
+    1 pond                     14.55         76.65  91.20
+              0.250 0.9494        0.0130
+    2 pond                     13.78          1.06  14.84
+              0.500 0.8625        0.0002
+    3 ice                       2.34          0.02   2.36
+              0.050 0.7889        0.0000
+    4 ice                      12.37          0.00  12.37
+              0.375 0.6230        0.0000
+    5 ice                      10.74          0.00  10.74
+              0.750 0.4731        0.0000
+    6 ice                       7.74          0.00   7.74
+              1.125 0.3552        0.0000
+    7 ice                       5.26          0.00   5.26
+              1.500 0.2613        0.0000
+    8 ocean                    31.46          0.00  31.46
+
+    # Results can be returned as a dictionary
+    results = model.get_results()
+
+    # Individual fields can be accessed using normal dictionary access methods
+    In [19]: results["downwelling_shortwave_flux_absorbed_by_ocean"]
+    Out[19]: 31.46452522277832
+
     TBD: add example for initialization and running
 
     Need methods to 
-       - initialize structure
-       - initialize model - part of run
        - repr input parameters
-       - get results
-       - run model
-            - copy initialization to model
-            - run model
-            - copy results to sructure/variables
-       - repr results
        - get inputs from file/ERA5 or some other reanalysis
 
     """
