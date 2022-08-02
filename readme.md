@@ -15,6 +15,7 @@ from a Fortan 77 `PROGRAM` to a `SUBROUTINE`.  This allows the fortran
 code to be built as a library, which is called from python using the
 `ctypes` package.
 
+A full description of the original model can be found [here](https://opensky.ucar.edu/islandora/object/technotes:484)
 
 The easiest way to install the wrapper and model is using git.  
 
