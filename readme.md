@@ -18,7 +18,7 @@ code to be built as a library, which is called from python using the
 The easiest way to install the wrapper and model is using git.  
 
 ```
-git clone 
+git clone git@github.com:andypbarrett/seaice_radiative_transfer.git
 
 cd seaice_radiative_transfer
 ```
