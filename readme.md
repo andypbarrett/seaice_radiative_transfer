@@ -85,4 +85,45 @@ Snow/Sea ice transmitted flux (Tr fraction) and absorption (Q Wm-2)
               1.500 0.2612        0.0000
  8 ocean                    27.57          0.00  27.57
 ```
+Model parameters can be changed simply by modify `model` parameters, for example:
+
+```
+In [11]: model.pond_depth
+Out[11]: 0.5
+
+In [12]: model.pond_depth = 1.
+```
+
+A list of model parameters is given below.
+
+ |  Model Parameters
+ |  ----------------
+ |  
+ |  Spatio-temporal parameters:
+ |  
+ |  :day_of_year: day of year, 1..365, where day 1 = January 1
+ |  :latitude: latitude (-90 to 90)  (test=80.)
+ |  
+ |  Surface characteristics:
+ |  :surface_pressure:  Surface pressure in mb (test=1008 mb)
+ |  :co2_volume_mixing_ratio:  CO2 volume mixing ratio (test 3.7e-04)
+ |  :surface_air_temperature:  Surface air temperature (K) (test=273.16 K)
+ |  :ground_temperature:  Surface skin temperature (K) (test=273.17 K)
+ |  :snow_depth:  Physical snow depth in meters (test=0 m)
+ |  :snow_density:  Snow density (kg/m3) (test=330 kg/m3)
+ |  :snow_grain_radius:  Snow grain radius in microns (um) (test=50. um)
+ |  :pond_depth:  Physical pond depth in meters (test=0.5 m)
+ |  :pond_tuning_parameter:  Pond tuning parameter in standard deviations (test=-1.)
+ |  :sea_ice_thickness:  Physical ice thickness in meters (test=1.5 m)
+ |  :sea_ice_tuning_parameter:  Sea ice tuning parameter in standard deviations (test=0.)
+ |  
+ |  Atmospheric Profile - 18 element array-like objects
+ |  :level: number id of level 1..18
+ |  :pressure: Pressure in mb
+ |  :air_temperature: air temperature in Kelvin
+ |  :water_vapor_mixing_ratio:  Water vapour mixing ration (g/g)
+ |  :ozone_mixing_ratio:  Ozone mixing ration (g/g)
+ |  :cloud_cover:  Cloud cover - non-dimension 0.-1.
+ |  :cloud_liquid_water_path: Cloud liquid water path (g/m2)
+
 
