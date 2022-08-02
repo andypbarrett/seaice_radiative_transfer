@@ -1,3 +1,59 @@
+c-----------------------------NOTICE------------------------------------
+c
+c            NCAR COMMUNITY CLIMATE MODEL, VERSION 3.0
+c            COPYRIGHT (C) 1996
+c            UNIVERSITY CORPORATION FOR ATMOSPHERIC RESEARCH
+c            ALL RIGHTS RESERVED
+c
+c               ------------ ----- --- ---------- ------
+c  ********** | distribution terms and conditions notice | ************
+c               ------------ ----- --- ---------- ------
+c
+c (c) copyright 1996 university corporation for atmospheric research/
+c national center for atmospheric research/
+c climate and global dynamics division
+c
+c this software, the community climate model (ccm), version ccm3, was
+c developed by the climate and global dynamics division (cgd) climate
+c modeling section (cms) of the national center for atmospheric research
+c (ncar), which is operated by the university corporation for
+c atmospheric research (ucar) and sponsored by the national science
+c foundation (nsf).
+c
+c access and use of this software shall impose the following obligations
+c and understandings on the user.  the user is granted the right,
+c without any fee or cost, to use, copy, modify, alter, enhance and
+c distribute this software, and any derivative works thereof, and its
+c supporting documentation for any purpose whatsoever, except commercial
+c sales, provided that this entire notice appears in all copies of the
+c software, derivative works and supporting documentation.  further, the
+c user agrees to credit ucar/ncar/cgd in any publications that result
+c from the use of this software or in any software package that includes
+c this software.  the names ucar/ncar/cgd, however, may not be used in
+c any advertising or publicity to endorse or promote any products or
+c commercial entity unless specific written permission is obtained from
+c ucar/ncar/cgd.
+c
+c the ccm3 materials are made available with the understanding that
+c ucar/ncar/cgd is not obligated to provide (and will not provide) the
+c user with any support, consulting, training, or assistance of any kind
+c with regard to the use, operation and performance of this software, nor
+c to provide the user with any updates, revisions, new versions, or "bug
+c fixes."
+c
+c this software is provided by ucar/ncar/cgd "as is" and any express or
+c implied warranties, including but not limited to, the implied
+c warranties of merchantability and fitness for a particular purpose are
+c disclaimed.  in no event shall ucar/ncar/cgd be liable for any
+c special, indirect or consequential damages or any damages whatsoever,
+c including but not limited to claims associated with the loss of data
+c or profits, which may result from an action in contract, negligence or
+c other tortious claim that arises out of or in connection with the
+c access, use or performance of this software.
+c
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+
 MIT License
 
 Copyright (c) 2022 Andy Barrett
