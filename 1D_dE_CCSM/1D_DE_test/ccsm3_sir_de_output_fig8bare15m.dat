@@ -3,8 +3,8 @@
  -----------------------------------------------------------------               
  CCSM3 Sea Ice Radiation with Delta Eddington Input                              
  -----------------------------------------------------------------               
-  day of year (1..365)  =    140.4770000000000     
-  latitude (-90 to +90) =    80.00000000000000     
+  day of year (1..365)  =    140.477005    
+  latitude (-90 to +90) =    80.0000000    
    level p(mb)  t(k) h2ommr(g/g) o3mmr(g/g) cld cvr  cld lwp (g/m2)              
    1  2.000E+00  2.730E+02  4.000E-06  7.000E-06  0.000E+00  0.000E+00
    2  5.000E+00  2.510E+02  4.000E-06  1.300E-05  0.000E+00  0.000E+00
@@ -38,7 +38,7 @@
   .... end of profile data input .... 
 
   .... Begin CCSM3 Sea Ice Delta Eddington calculation ....
-  cosine solar zenith angle    =   0.5001022189195627     
+  cosine solar zenith angle    =   0.500103354    
   spectral albedo for interval =   1 direct and diffuse = 0.78366 0.75371
   spectral albedo for interval =   2 direct and diffuse = 0.59338 0.55139
   spectral albedo for interval =   3 direct and diffuse = 0.12440 0.10033
@@ -51,18 +51,18 @@
   Klamda = irradiance extinction coefficent per m
   level   Fdirdn_vs  Fdirup_vs Fdifdn_vs Fdifup_vs  
     0       1.00000   0.78366   1.00000   0.75371
-                                                  Klamda =  0.00000
+                                                  Klamda = -0.00000
     1       1.00000   0.78366   1.00000   0.75371
-                                                  Klamda =  0.00000
+                                                  Klamda = -0.00000
     2       1.00000   0.78366   1.00000   0.75371
-                                                  Klamda = 15.03962
-    3       0.39656   0.19091   0.45268   0.21793
-                                                  Klamda =  1.73498
-    4       0.22207   0.08222   0.25349   0.09386
+                                                  Klamda = 15.03967
+    3       0.39655   0.19092   0.45268   0.21793
+                                                  Klamda =  1.73495
+    4       0.22207   0.08222   0.25350   0.09386
                                                   Klamda =  0.96689
-    5       0.15388   0.04634   0.17565   0.05289
+    5       0.15388   0.04634   0.17566   0.05289
                                                   Klamda =  1.06247
-    6       0.10273   0.01558   0.11726   0.01779
+    6       0.10273   0.01558   0.11727   0.01779
                                                   Klamda =  2.30277
     7       0.04073   0.00041   0.04650   0.00046
   level   Fdirdn_ni  Fdirup_ni Fdifdn_ni Fdifup_ni  
@@ -79,17 +79,17 @@
   .... Atmosphere/Surface Radiation Calculation ....
   ---- solar and longwave results ---- 
   ------------------ 
-  calendar day of year      =  140.47700
+  calendar day of year      =  140.47701
   earth-sun distance factor =    0.97532
   earth latitude            =   80.00000
   cosine solar zenith angle =    0.50010
-  local solar time          =   11.44800
+  local solar time          =   11.44812
   solar toa insolation      =  666.77 wm-2
   solar toa albedo          =    0.61347
   solar toa absorbed        =  257.73 wm-2
   solar absorbed atmosphere =  161.52 wm-2
   solar absorbed surface    =   96.21 wm-2
-  solar clear toa absorbed  =  331.15 wm-2
+  solar clear toa absorbed  =  331.16 wm-2
   solar clear atm absorbed  =  145.96 wm-2
   solar clear srf absorbed  =  185.20 wm-2
   solar cloud forcing       =  -73.43 wm-2
@@ -159,11 +159,11 @@
   vs fraction of total irradiance     =    0.64725
   ni fraction of total irradiance     =    0.35275
   solar absorbed at surface           =   96.21 wm-2
-  broad band surface albedo           =    0.64736
+  broad band surface albedo           =    0.64735
   solar vs absorbed in snow/sea ice   =   43.49 wm-2
   solar ni absorbed in snow/sea ice   =   52.72 wm-2
   total solar absorbed in srfc layer  =   41.65 wm-2
-  I_vs (frac vs abs pentrating srf)   =    0.95312
+  I_vs (frac vs abs pentrating srf)   =    0.95310
   I_ni (frac ni abs pentrating srf)   =    0.24858
   ------------------------------ 
   ---- snow/sea ice transmitted flux (Tr) and absorption (Q) ---- 

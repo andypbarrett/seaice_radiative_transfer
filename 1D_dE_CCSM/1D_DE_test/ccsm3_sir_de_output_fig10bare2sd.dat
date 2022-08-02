@@ -1,0 +1,189 @@
+ .... Begin CCSM3 Sea Ice Radiation with Delta Eddington ....
+ .... read in profile data ....
+ -----------------------------------------------------------------               
+ CCSM3 Sea Ice Radiation with Delta Eddington Input                              
+ -----------------------------------------------------------------               
+  day of year (1..365)  =    140.477005    
+  latitude (-90 to +90) =    80.0000000    
+   level p(mb)  t(k) h2ommr(g/g) o3mmr(g/g) cld cvr  cld lwp (g/m2)              
+   1  2.000E+00  2.730E+02  4.000E-06  7.000E-06  0.000E+00  0.000E+00
+   2  5.000E+00  2.510E+02  4.000E-06  1.300E-05  0.000E+00  0.000E+00
+   3  1.500E+01  2.340E+02  4.000E-06  1.000E-05  0.000E+00  0.000E+00
+   4  3.500E+01  2.260E+02  4.000E-06  5.500E-06  0.000E+00  0.000E+00
+   5  6.000E+01  2.250E+02  4.000E-06  4.200E-06  0.000E+00  0.000E+00
+   6  1.050E+02  2.250E+02  4.000E-06  2.200E-06  0.000E+00  0.000E+00
+   7  1.600E+02  2.250E+02  6.400E-06  1.000E-06  0.000E+00  0.000E+00
+   8  2.350E+02  2.250E+02  2.600E-05  5.000E-07  0.000E+00  0.000E+00
+   9  3.200E+02  2.340E+02  1.200E-04  2.000E-07  0.000E+00  0.000E+00
+  10  4.200E+02  2.470E+02  5.200E-04  1.400E-07  0.000E+00  0.000E+00
+  11  5.200E+02  2.570E+02  1.100E-03  1.000E-07  0.000E+00  0.000E+00
+  12  6.100E+02  2.650E+02  2.000E-03  8.000E-08  0.000E+00  0.000E+00
+  13  7.100E+02  2.720E+02  3.100E-03  7.000E-08  0.000E+00  0.000E+00
+  14  8.000E+02  2.770E+02  4.200E-03  6.000E-08  0.000E+00  0.000E+00
+  15  8.700E+02  2.800E+02  5.100E-03  5.500E-08  0.000E+00  0.000E+00
+  16  9.300E+02  2.810E+02  5.900E-03  5.000E-08  1.000E+00  6.000E+01
+  17  9.700E+02  2.780E+02  4.000E-03  4.500E-08  0.000E+00  0.000E+00
+  18  1.000E+03  2.760E+02  3.000E-03  4.000E-08  0.000E+00  0.000E+00
+  surface pressure         = 1008.00
+  atmospheric co2 vmr      =  3.700E-04
+  surface air temperature  =  273.16
+  surface skin temperature =  273.16
+  snow physical depth (m)        =    0.0000
+  snow density (kg/m3)           =  330.0000
+  snow grain radius (microns)    =   50.0000
+  pond physical depth (m)        =    0.0000
+  pond tuning parameter          =    0.0000
+  sea ice thickness (m)          =    2.0000
+  sea ice tuning parameter       =    2.0000
+  .... end of profile data input .... 
+
+  .... Begin CCSM3 Sea Ice Delta Eddington calculation ....
+  cosine solar zenith angle    =   0.500103354    
+  spectral albedo for interval =   1 direct and diffuse = 0.82354 0.79908
+  spectral albedo for interval =   2 direct and diffuse = 0.63612 0.59738
+  spectral albedo for interval =   3 direct and diffuse = 0.15116 0.12333
+  visible and near-ir direct and diffuse albedos
+  albvs_dir   =  0.82354
+  albvs_dif   =  0.79908
+  albni_dir   =  0.52942
+  albni_dif   =  0.49309
+  up/down normalized fluxes vs, ni into snow/sea ice 
+  Klamda = irradiance extinction coefficent per m
+  level   Fdirdn_vs  Fdirup_vs Fdifdn_vs Fdifup_vs  
+    0       1.00000   0.82354   1.00000   0.79908
+                                                  Klamda = -0.00000
+    1       1.00000   0.82354   1.00000   0.79908
+                                                  Klamda = -0.00000
+    2       1.00000   0.82354   1.00000   0.79908
+                                                  Klamda = 16.13492
+    3       0.37170   0.20603   0.42429   0.23518
+                                                  Klamda =  1.93354
+    4       0.14627   0.06437   0.16697   0.07348
+                                                  Klamda =  1.01981
+    5       0.08681   0.03335   0.09909   0.03807
+                                                  Klamda =  1.13070
+    6       0.04852   0.01047   0.05539   0.01195
+                                                  Klamda =  2.09287
+    7       0.01515   0.00015   0.01730   0.00017
+  level   Fdirdn_ni  Fdirup_ni Fdifdn_ni Fdifup_ni  
+    0       1.00000   0.52942   1.00000   0.49309
+    1       1.00000   0.52942   1.00000   0.49309
+    2       1.00000   0.52942   1.00000   0.49309
+    3       0.10620   0.01546   0.12314   0.01793
+    4       0.00003   0.00000   0.00003   0.00000
+    5       0.00000   0.00000   0.00000   0.00000
+    6       0.00000   0.00000   0.00000   0.00000
+    7       0.00000   0.00000   0.00000   0.00000
+  .... CCSM3 Sea Ice Delta Eddington calculation completed ....
+
+  .... Atmosphere/Surface Radiation Calculation ....
+  ---- solar and longwave results ---- 
+  ------------------ 
+  calendar day of year      =  140.47701
+  earth-sun distance factor =    0.97532
+  earth latitude            =   80.00000
+  cosine solar zenith angle =    0.50010
+  local solar time          =   11.44812
+  solar toa insolation      =  666.77 wm-2
+  solar toa albedo          =    0.62473
+  solar toa absorbed        =  250.22 wm-2
+  solar absorbed atmosphere =  162.23 wm-2
+  solar absorbed surface    =   87.98 wm-2
+  solar clear toa absorbed  =  312.22 wm-2
+  solar clear atm absorbed  =  147.14 wm-2
+  solar clear srf absorbed  =  165.08 wm-2
+  solar cloud forcing       =  -62.00 wm-2
+  solar clear sky albedo    =    0.53174
+  ------------------ 
+  longwave net up toa       =  258.71 wm-2
+  longwave net surface up   =  -19.20 wm-2
+  longwave down at surface  =  334.88 wm-2
+  longwave clear outgoing   =  250.76 wm-2
+  longwave clear net srf    =   57.33 wm-2
+  longwave cloud forcing    =   -7.95 wm-2
+  ------------------ 
+  net cloud forcing         =  -69.96 wm-2
+  ------------------------------ 
+  ---- cloud particle radii and ice fraction ---- 
+    level   pr(mb)  r_liq(um)  r_ice(um)  f(ice)
+     1     2.000     7.000     30.000      0.000
+     2     5.000     7.000     30.000      0.608
+     3    15.000     7.000     30.000      1.000
+     4    35.000     7.000     30.000      1.000
+     5    60.000     7.000     30.000      1.000
+     6   105.000     7.000     30.000      1.000
+     7   160.000     7.000     30.000      1.000
+     8   235.000     7.000     30.000      1.000
+     9   320.000     7.000     30.000      1.000
+    10   420.000     7.000     29.167      0.808
+    11   520.000     7.000     24.206      0.308
+    12   610.000     7.000     19.742      0.000
+    13   710.000     7.000     14.782      0.000
+    14   800.000     7.000     10.317      0.000
+    15   870.000     7.000     10.000      0.000
+    16   930.000     7.000     10.000      0.000
+    17   970.000     7.000     10.000      0.000
+    18  1000.000     7.000     10.000      0.000
+  ------------------------------ 
+  ---- heating rates in K/day ---- 
+    level  pr(mb)    qrs        qrl        qnet
+     1     2.000     9.958     -9.702      0.256
+     2     5.000     6.620     -4.899      1.721
+     3    15.000     3.433     -2.338      1.095
+     4    35.000     1.806     -1.230      0.577
+     5    60.000     1.377     -0.780      0.597
+     6   105.000     0.824     -0.517      0.307
+     7   160.000     0.524     -0.514      0.010
+     8   235.000     0.560     -0.816     -0.256
+     9   320.000     0.904     -1.354     -0.450
+    10   420.000     1.361     -1.819     -0.458
+    11   520.000     1.346     -1.707     -0.361
+    12   610.000     1.393     -1.863     -0.470
+    13   710.000     1.413     -1.893     -0.480
+    14   800.000     1.440     -1.917     -0.477
+    15   870.000     1.480     -1.994     -0.514
+    16   930.000     4.032    -18.834    -14.801
+    17   970.000     0.236     -0.487     -0.251
+    18  1000.000     0.193     -0.229     -0.036
+  ------------------------------ 
+  ---- surface absorption and albedos ---- 
+  solar vs direct surface irradiance  =    0.12 wm-2
+  solar vs diffuse surface irradiance =  186.36 wm-2
+  vs fraction of direct irradiance    =    0.00062
+  vs fraction of diffuse irradiance   =    0.99938
+  solar ni direct surface irradiance  =    0.03 wm-2
+  solar ni diffuse surface irradiance =   99.63 wm-2
+  ni fraction of direct irradiance    =    0.00035
+  ni fraction of diffuse irradiance   =    0.99965
+  total solar surface irradiance      =  286.14 wm-2
+  vs fraction of total irradiance     =    0.65169
+  ni fraction of total irradiance     =    0.34831
+  solar absorbed at surface           =   87.98 wm-2
+  broad band surface albedo           =    0.69251
+  solar vs absorbed in snow/sea ice   =   37.46 wm-2
+  solar ni absorbed in snow/sea ice   =   50.52 wm-2
+  total solar absorbed in srfc layer  =   42.24 wm-2
+  I_vs (frac vs abs pentrating srf)   =    0.94122
+  I_ni (frac ni abs pentrating srf)   =    0.20755
+  ------------------------------ 
+  ---- snow/sea ice transmitted flux (Tr) and absorption (Q) ---- 
+  level   depth  Tr_vs     Q_vs   Tr_ni    Q_ni     Q_total
+  surface                  2.20           40.03      42.24
+          0.000  1.0000           1.0000
+  air   0                  0.00            0.00       0.00
+          0.000  1.0000           1.0000
+  air   1                  0.00            0.00       0.00
+          0.000  1.0000           1.0000
+  ice   2                  2.20           40.03      42.24
+          0.050  0.4243           0.1231
+  ice   3                 17.83           10.48      28.31
+          0.500  0.1670           0.0000
+  ice   4                  6.05            0.00       6.06
+          1.000  0.0991           0.0000
+  ice   5                  3.28            0.00       3.28
+          1.500  0.0554           0.0000
+  ice   6                  4.91            0.00       4.91
+          2.000  0.0173           0.0000
+  ocean                    3.19            0.00       3.19
+  ------------------------------ 
+  .... Column Radiation Calculation Completed ....

@@ -1,0 +1,27 @@
+From https://stackoverflow.com/questions/39533409/access-common-block-variables-from-ctypes
+
+In [1]: import ctypes
+
+In [2]: class MyComm(ctypes.Structure):
+   ...:     _fields_ = [("x", ctypes.c_int), ("y", ctypes.c_float), ("z", ctypes.c_float * 5)]
+
+### Needs a path e.g. ./
+In [4]: mylib = ctypes.CDLL("./mylib.so")
+
+In [6]: mycom = MyComm.in_dll(mylib, "mycom_")
+
+In [9]: set_param = mylib.calling_sub_
+
+In [10]: mycom.x = 2
+
+In [11]: mycom.y = 99.87654
+
+### There is probably a way to do this with pointers but this works and is not too onerous
+In [16]: for i, z in enumerate([1.2, 4.5, 5.6]):
+    ...:     mycom.z[i] = z
+
+In [17]: set_param()
+ integer:            2
+ myreal:    99.8765411    
+ myarray:    1.20000005       4.50000000       5.59999990       0.00000000       0.00000000    
+Out[17]: 0

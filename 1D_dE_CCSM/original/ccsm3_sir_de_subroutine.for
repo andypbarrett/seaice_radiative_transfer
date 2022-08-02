@@ -109,7 +109,7 @@ c
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 c
-      subroutine crm()
+      subroutine crm
 c     
 c     ccm3 radiation column model
 c     Jeffrey Kiehl, Bruce Briegleb, and Charlie Zender  
@@ -165,19 +165,19 @@ C
 C Radiation resolution and I/O parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
       integer
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plngbuf
 C
       parameter(plon    = 1,
      $          plev    = 18,
@@ -189,22 +189,24 @@ C
      $          jintmx  = 1,
      $          plond   = plon + 1 + 2*nxpt,
      $          platd   = plat + 2*nxpt + 2*jintmx,
-     $          plevd   = plev*(3 + pcnst))
-      parameter(plngbuf = 512*((plond*plevp*plevp + plond*plev*4 +
-     $                          plond*plevp)/512 + 1))
+     $     plevd   = plev*(3 + pcnst))
+
+      plngbuf = int(512*((plond*plevp*plevp +
+     $                plond*plev*4 +
+     $                plond*plevp)/512 + 1))
 C
 C Sea Ice Resolution parameters
 C
-      integer ksnow   ! Number of snow layers in CCSM
-      integer kseaice ! Number of sea ice layers in CCSM
-      integer klev    ! Number of layers minus one (0 layer at top) for rad calculation
-      integer klevp   ! klev + 1
+      integer ksnow
+      integer kseaice
+      integer klev
+      integer klevp
 C
       parameter( ksnow   = 1, kseaice =  4, klev = ksnow + kseaice + 1,
      $           klevp   = klev + 1)
 C
-      integer kstrt   ! ice starting index for printout
-      integer kend    ! ice ending index for printout
+      integer kstrt
+      integer kend
 C------------------------------Commons----------------------------------
 c
 c $Id: comtim.h,v 1.1.1.1 1995/02/09 23:26:44 ccm2 Exp $
@@ -219,32 +221,32 @@ C
      $              mcdate  ,mcsec   ,nndbas  ,nnsbas  ,nnbdat  ,
      $              nnbsec  ,doabsems,dosw    ,dolw
 C
-      real calday,   ! Current calendar day = julian day + fraction
-     $     dtime,    ! Time step in seconds (delta t)
-     $     twodt     ! 2 * delta t 
+      real calday,
+     $     dtime,
+     $     twodt
       integer
-     $     nrstrt,   ! Starting time step of restart run (constant) 
-     $     nstep,    ! Current time step
-     $     nstepr,   ! Current time step of restart run(updated w/nstep)
-     $     nestep,   ! Time step on which to stop run
-     $     nelapse,  ! Requested elapsed time for model run
-     $     nstop,    ! nestep + 1
-     $     mdbase,   ! Base day of run
-     $     msbase,   ! Base seconds of base day
-     $     mdcur,    ! Current day of run
-     $     mscur,    ! Current seconds of current day
-     $     mbdate,   ! Base date of run (yymmdd format)
-     $     mbsec,    ! Base seconds of base date
-     $     mcdate,   ! Current date of run (yymmdd format)
-     $     mcsec,    ! Current seconds of current date
-     $     nndbas,   ! User input base day
-     $     nnsbas,   ! User input base seconds of input base day
-     $     nnbdat,   ! User input base date (yymmdd format)
-     $     nnbsec    ! User input base seconds of input base date
+     $     nrstrt,
+     $     nstep,
+     $     nstepr,
+     $     nestep,
+     $     nelapse,
+     $     nstop,
+     $     mdbase,
+     $     msbase,
+     $     mdcur,
+     $     mscur,
+     $     mbdate,
+     $     mbsec,
+     $     mcdate,
+     $     mcsec,
+     $     nndbas,
+     $     nnsbas,
+     $     nnbdat,
+     $     nnbsec
       logical
-     $     doabsems, ! True => abs/emiss calculation this timestep
-     $     dosw,     ! True => shortwave calculation this timestep
-     $     dolw      ! True => longwave calculation this timestep
+     $     doabsems,
+     $     dosw,
+     $     dolw
 C
 c
 c $Id: comctl.h,v 1.1.1.1 1995/02/09 23:26:41 ccm2 Exp $
@@ -258,209 +260,209 @@ C
      $              ldebug  ,aeres   ,ozncyc  ,sstcyc  ,dodiavg ,
      $              aeregen ,cpuchek
       integer
-     $     itsst,   ! Sea surf. temp. update freq. (iters)
-     $     nsrest,  ! Restart flag
-     $     iradsw,  ! Iteration frequency for shortwave radiation computation
-     $     iradlw,  ! Iteration frequency for longwave radiation computation
-     $     iradae   ! Iteration freq. for absorptivity/emissivity comp
+     $     itsst,
+     $     nsrest,
+     $     iradsw,
+     $     iradlw,
+     $     iradae
       logical
-     $     anncyc,  ! Do annual cycle (otherwise perpetual)
-     $     nlend,   ! Flag for end of run
-     $     nlres,   ! If true, continuation run
-     $     nlhst,   ! If true, regeneration run
-     $     lbrnch,  ! If true, branch run
-     $     ldebug,  ! If in debug mode, link output files to /usr/tmp
+     $     anncyc,
+     $     nlend,
+     $     nlres,
+     $     nlhst,
+     $     lbrnch,
+     $     ldebug,
 C                   !    before mswrite, and remove all but last file
-     $     aeres,   ! If true, a/e data will be stored on restart file
-     $     ozncyc,  ! If true, cycle ozone dataset
-     $     sstcyc,  ! If true, cycle sst dataset
-     $     dodiavg, ! true => diurnal averaging
-     $     aeregen, ! true => absor/emis part of regeneration data
-     $     cpuchek  ! If true, check remaining cpu time at each writeup
+     $     aeres,
+     $     ozncyc,
+     $     sstcyc,
+     $     dodiavg,
+     $     aeregen,
+     $     cpuchek
 C
 C------------------------------Arguments--------------------------------
 c
 c     Fields specified by the user in getdat()
 c
       integer 
-     $     ioro(plond)          ! land/ocean/sea ice flag
+     $     ioro(plond)
 c
       real 
-     $     clat,                ! Current latitude (radians)
-     $     cld(plond,plevp),    ! fractional cloud cover
-     $     clwp(plond,plev),    ! cloud liquid water path
-     $     coslat,              ! cosine latitude
+     $     clat,
+     $     cld(plond,plevp),
+     $     clwp(plond,plev),
+     $     coslat,
 c
 c     NB: o3mmr and o3vmr should be dimensioned (plond,plevr) if a different 
 c     size radiation grid is used. Clashes between prgrid.h and ptrrgrid.h
 c     (they both define plngbuf) prevent us from dimensioning anything by
 c     plevr in this top level crm() routine.
 c
-     $     o3mmr(plond,plev),  ! Ozone volume mixing ratio
-     $     o3vmr(plond,plev),  ! Ozone volume mixing ratio
-     $     pilnm1(plond,plevp), ! natural log of pintm1
-     $     pintm1(plond,plevp), ! model interface pressures
-     $     pmidm1(plond,plev),  ! model level pressures
-     $     pmlnm1(plond,plev),  ! natural log of pmidm1
-     $     ps(plond),           ! surface pressure
-     $     qm1(plond,plev),     ! model level specific humidity
-     $     sndpth(plond),       ! snow physical depth 
-     $     rhos(plond),         ! snow density
-     $     rs(plond),           ! snow grain radius
-     $     R_ice(plond),        ! sea ice standard deviation tuning parameter
-     $     R_pnd(plond),        ! ponded ice standard deviation tuning parameter
-     $     tg(plond),           ! surface (skin) temperature
-     $     hpnd(plond),         ! pond depth (m)
-     $     hice(plond),         ! sea ice thickness
-     $     tm1(plond,plev),     ! model level temperatures
-     $     ts(plond)            ! surface air temperature
+     $     o3mmr(plond,plev),
+     $     o3vmr(plond,plev),
+     $     pilnm1(plond,plevp),
+     $     pintm1(plond,plevp),
+     $     pmidm1(plond,plev),
+     $     pmlnm1(plond,plev),
+     $     ps(plond),
+     $     qm1(plond,plev),
+     $     sndpth(plond),
+     $     rhos(plond),
+     $     rs(plond),
+     $     R_ice(plond),
+     $     R_pnd(plond),
+     $     tg(plond),
+     $     hpnd(plond),
+     $     hice(plond),
+     $     tm1(plond,plev),
+     $     ts(plond)
 c     
 c     Fields computed from user input
 c
       real 
-     $     effcld(plond,plevp), ! effective cloud=cld*emis
-     $     emis(plond,plev),    ! cloud emissivity
-     $     fice(plond,plev),    ! fractional amount of ice
-     $     rei(plond,plev),     ! ice particle size
-     $     rel(plond,plev)      ! liquid effective drop size (microns)
+     $     effcld(plond,plevp),
+     $     emis(plond,plev),
+     $     fice(plond,plev),
+     $     rei(plond,plev),
+     $     rel(plond,plev)
       real 
-     $     coszrs(plond),       ! cosine solar zenith angle
-     $     eccf,                ! earth/sun distance factor 
-     $     loctim(plond),       ! local time of solar computation
-     $     srfrad(plond)        ! srf radiative heat flux
+     $     coszrs(plond),
+     $     eccf,
+     $     loctim(plond),
+     $     srfrad(plond)
 c
-      real asdir(plond),        ! albedo: shortwave, direct
-     $     asdif(plond),        ! albedo: shortwave, diffuse
-     $     aldir(plond),        ! albedo: longwave, direct
-     $     aldif(plond)         ! albedo: longwave, diffuse
+      real asdir(plond),
+     $     asdif(plond),
+     $     aldir(plond),
+     $     aldif(plond)
 c
 C     
 C     Output longwave arguments from radctl()
 C
       real 
-     $     flwds(plond),        ! Surface down longwave flux
-     $     lwup(plond),         ! Surface up longwave flux from coupler
-     $     qrl(plond,plev)      ! Longwave cooling rate
+     $     flwds(plond),
+     $     lwup(plond),
+     $     qrl(plond,plev)
 C     
 C     Output shortwave arguments from radctl()
 C
       real 
-     $     fsns(plond),         ! Surface absorbed solar flux
-     $     qrs(plond,plev),     ! Solar heating rate
-     $     soll(plond),         ! Downward solar rad onto surface (lw direct)
-     $     solld(plond),        ! Downward solar rad onto surface (lw diffuse)
-     $     sols(plond),         ! Downward solar rad onto surface (sw direct)
-     $     solsd(plond)         ! Downward solar rad onto surface (sw diffuse)
+     $     fsns(plond),
+     $     qrs(plond,plev),
+     $     soll(plond),
+     $     solld(plond),
+     $     sols(plond),
+     $     solsd(plond)
 c
 c     Additional CRM diagnostic output from radctl()
 c
       real 
-     $     flns(plond),         ! srf longwave cooling (up-dwn) flux
-     $     flnsc(plond),        ! clr sky lw flx at srf (up-dwn)
-     $     flnt(plond),         ! net outgoing lw flx at model top
-     $     flntc(plond),        ! clr sky lw flx at model top
-     $     fsnsc(plond),        ! clr sky surface abs solar flux
-     $     fsnt(plond),         ! total column absorbed solar flux
-     $     fsntc(plond),        ! clr sky total column abs solar flux
-     $     solin(plond)         ! solar incident flux
+     $     flns(plond),
+     $     flnsc(plond),
+     $     flnt(plond),
+     $     flntc(plond),
+     $     fsnsc(plond),
+     $     fsnt(plond),
+     $     fsntc(plond),
+     $     solin(plond)
 C
 C special for sea ice albedos:  27 October 2004
 C
-      real fnidr(plond)         ! fraction of direct to total nir down srf flux
-      real tclrsf(plond,plevp)  ! Product of clr-sky fractions from top
+      real fnidr(plond)
+      real tclrsf(plond,plevp)
 c
 c     Local workspace: These variables are not saved.
 c
       real
-     $     alb,                 ! for radiation output
-     $     albc,                ! for radiation output
-     $     cfl,                 ! for radiation output
-     $     cfn,                 ! for radiation output
-     $     clatm,               ! for radiation output
-     $     cls,                 ! for radiation output
-     $     clt,                 ! for radiation output
-     $     fla,                 ! for radiation output
-     $     fld,                 ! for radiation output
-     $     flw,                 ! for radiation output
-     $     frs,                 ! for radiation output
-     $     fsnstm,              ! for radiation output
-     $     hbuf,                ! history buffer
-     $     pie,                 ! for radiation output
-     $     pmb,                 ! for radiation output
-     $     qrlday,              ! for radiation output
-     $     qrsday,              ! for radiation output
-     $     rlat,                ! for radiation output
-     $     sab,                 ! for radiation output
-     $     scf,                 ! for radiation output
-     $     sol                  ! for radiation output
+     $     alb,
+     $     albc,
+     $     cfl,
+     $     cfn,
+     $     clatm,
+     $     cls,
+     $     clt,
+     $     fla,
+     $     fld,
+     $     flw,
+     $     frs,
+     $     fsnstm,
+     $     hbuf,
+     $     pie,
+     $     pmb,
+     $     qrlday,
+     $     qrsday,
+     $     rlat,
+     $     sab,
+     $     scf,
+     $     sol
       real
-     $     fsds,                ! for radiation output
-     $     vsfdir,              ! visible fraction direct
-     $     nifdir,              ! near-ir fraction direct
-     $     vsfrac,              ! visible fraction total srf irradiance
-     $     albsrf               ! broadband surface albedo
+     $     fsds,
+     $     vsfdir,
+     $     nifdir,
+     $     vsfrac,
+     $     albsrf
 c     
       integer
-     $     i,                   ! longitude index
-     $     k,                   ! level index
-     $     lat                  ! latitude row index 
+     $     i,
+     $     k,
+     $     lat
 c
 c     Fundamental constants needed by radini()
 c
       real 
-     $     cpairx,              ! heat capacity dry air at constant prs (J/kg/K)
-     $     epsilox,             ! ratio mean mol weight h2o to dry air
-     $     gravx,               ! gravitational acceleration (m/s**2)
-     $     stebolx              ! Sefan-Boltzmann constant (W/m**2/K**4)
+     $     cpairx,
+     $     epsilox,
+     $     gravx,
+     $     stebolx
 C-----------------------------------------------------------------------
 C Absorption data for sea ice
 C
       real
-     &   I_vs     ! frac transmission vs through sea ice surface layer
-     &,  I_ni     ! frac transmission ni through sea ice surface layer
-     &,  Tri_vs   ! frac transmission vs, surface to sea ice layer interface
-     &,  Tri_ni   ! frac transmission ni, surface to sea ice layer interface
-     &,  Tro_vs   ! frac transmission vs to ocean
-     &,  Tro_ni   ! frac transmission ni to ocean
-     &,  zd       ! interface depths for snow/pond and sea ice (from its own surface)
+     &   I_vs
+     &,  I_ni
+     &,  Tri_vs
+     &,  Tri_ni
+     &,  Tro_vs
+     &,  Tro_ni
+     &,  zd
       common/seaice/I_vs,I_ni,zd(0:klevp)
      &             ,Tri_vs(0:klevp),Tri_ni(0:klevp)
      &             ,Tro_vs,Tro_ni
 C
       real
-     &  F_SW_vs     ! solar vs absorbed in sea ice
-     &, F_SW_ni     ! solar ni absorbed in sea ice
-     &, F_SW_srf_vs ! vs solar absorbed in sea ice surface layer
-     &, F_SW_srf_ni ! ni solar absorbed in sea ice surface layer
-     &, F_SW_ocn_vs ! vs solar absorbed in underlying ocean
-     &, F_SW_ocn_ni ! ni solar absorbed in underlying ocean
-     &, F_SW_srf    ! total solar absorbed in sea ice surface layer
-     &, Q_SW_vs     ! solar vs absorbed in sea ice layer
-     &, Q_SW_ni     ! solar ni absorbed in sea ice layer
-     &, z           ! depth in sea ice (m)
-     &, z0          ! offset depth in sea ice (m)
-     &, dz          ! thickness of thermodynamic ice layer
-     &, frac_vs     ! fraction of direct visible flux
-     &, frac_ni     ! fraction of direct near-ir flux
+     &  F_SW_vs
+     &, F_SW_ni
+     &, F_SW_srf_vs
+     &, F_SW_srf_ni
+     &, F_SW_ocn_vs
+     &, F_SW_ocn_ni
+     &, F_SW_srf
+     &, Q_SW_vs
+     &, Q_SW_ni
+     &, z
+     &, z0
+     &, dz
+     &, frac_vs
+     &, frac_ni
       integer 
-     &  nmb         ! counter for ice layers
+     &  nmb
 c
 C-----------------------------------------------------------------------
 C Fluxes for sea ice
 C
-      real hi_ssl     ! sea ice surface scattering layer thickness (m)
-      real hs_ssl     ! snow surface scattering layer thickness (m)
-      integer ksrf    ! interface index for surface absorption
+      real hi_ssl
+      real hs_ssl
+      integer ksrf
 C
-      real Fdirup_vs  ! Up   flux to dir beam at model interface vs band
-      real Fdirdn_vs  ! Down flux to dir beam at model interface vs band
-      real Fdifup_vs  ! Up   flux to dif beam at model interface vs band
-      real Fdifdn_vs  ! Down flux to dif beam at model interface vs band
+      real Fdirup_vs
+      real Fdirdn_vs
+      real Fdifup_vs
+      real Fdifdn_vs
 C
-      real Fdirup_ni  ! Up   flux to dir beam at model interface ni band
-      real Fdirdn_ni  ! Down flux to dir beam at model interface ni band
-      real Fdifup_ni  ! Up   flux to dif beam at model interface ni band
-      real Fdifdn_ni  ! Down flux to dif beam at model interface ni band
+      real Fdirup_ni
+      real Fdirdn_ni
+      real Fdifup_ni
+      real Fdifdn_ni
 C
       common/radflux_seaice/
      &              hi_ssl, hs_ssl
@@ -469,25 +471,7 @@ C
      &,             Fdirup_ni(plond,0:klevp),Fdirdn_ni(plond,0:klevp)
      &,             Fdifup_ni(plond,0:klevp),Fdifdn_ni(plond,0:klevp)
      &,             ksrf
-c----------------------------------------------------------------------
-c     Common block for output
-c     added A.P.Barrett 2022-07-26
-c----------------------------------------------------------------------
-      character(len=10) layer_type(klevp+2)
-      real
-     $     Q_SW_vs_out(klevp+2),
-     $     Q_SW_ni_out(klevp+2),
-     $     Q_SW_total_out(klevp+2),
-     $     Q_SW_total
-      
-      common /output/ asdir, asdif, aldir, aldif,
-     $     F_SW_ocn_vs, F_SW_ocn_ni,
-     $     Q_SW_vs_out, Q_SW_ni_out, Q_SW_total_out,
-     $     sols, solsd, vsfdir, soll, solld, nifdir,
-     $     fsds, vsfrac, frs, albsrf,
-     $     F_SW_vs, F_SW_ni, F_SW_srf,
-     $     layer_type
-C     
+C
 c------------------------------Externals--------------------------------
 c
       external albland
@@ -615,9 +599,9 @@ C
      $     rei     ,fice    ,sols    ,soll    ,solsd   ,
      $     solld   ,
 c++csz
-     $     fsnt,fsntc,fsnsc,flnt,flns,flntc,flnsc,solin, ! output 
+     $     fsnt,fsntc,fsnsc,flnt,flns,flntc,flnsc,solin,
      $     eccf,
-     $     o3vmr) ! input
+     $     o3vmr)
 c--csz
 c
       do i=1,plon
@@ -827,18 +811,10 @@ C
      $         'and absorption (Q) ---- ')
         write(6,*) 
      & ' level   depth  Tr_vs     Q_vs   Tr_ni    Q_ni     Q_total' 
-        Q_SW_vs = F_SW_vs*(1.-I_vs)
-        Q_SW_ni = F_SW_ni*(1.-I_ni)
-        Q_SW_total = Q_SW_vs + Q_SW_ni
-        write(6,101) Q_SW_vs,Q_SW_ni,
-     &               Q_SW_total
+        write(6,101) F_SW_vs*(1.-I_vs),F_SW_ni*(1.-I_ni),
+     &               F_SW_vs*(1.-I_vs)+F_SW_ni*(1.-I_ni)
  101    format('  surface ',15x,f6.2,10x,f6.2,5x,f6.2)
-        layer_type(1) = 'surface'
-        Q_SW_vs_out(1) = Q_SW_vs
-        Q_SW_ni_out(1) = Q_SW_ni
-        Q_SW_total_out(1) = Q_SW_total
-
-c     
+c
 c print out column layer absorption and interface transmission
 c
         do k=0,klev
@@ -855,46 +831,35 @@ C
      $       (Fdifdn_ni(1,k)-Fdifup_ni(1,k))*solld(1))
      $      -((Fdirdn_ni(1,k+1)-Fdirup_ni(1,k+1))*soll(1) + 
      $       (Fdifdn_ni(1,k+1)-Fdifup_ni(1,k+1))*solld(1))
-            Q_SW_total = Q_SW_vs + Q_SW_ni
-
-            Q_SW_vs_out(k+2) = Q_SW_vs
-            Q_SW_ni_out(k+2) = Q_SW_ni
-            Q_SW_total_out(k+2) = Q_SW_total
 C
             if( sndpth(1) .gt. .00001 ) then
               if( k .le. ksnow ) then
                 write(6,322) k,Q_SW_vs,Q_SW_ni,
-     $                         Q_SW_total
+     $                         Q_SW_vs+Q_SW_ni
  322            format('  snow ',i2,16x,f6.2,10x,f6.2,5x,f6.2)
-                layer_type(k+2) = 'snow'
               else
                 write(6,325) k,Q_SW_vs,Q_SW_ni,
-     $                         Q_SW_total
-                layer_type(k+2) = 'ice'
+     $                         Q_SW_vs+Q_SW_ni
               endif
             else 
               if( hpnd(1) .gt. .00001 ) then
                 if( k .le. ksnow ) then
                   write(6,323) k,Q_SW_vs,Q_SW_ni,
-     $                         Q_SW_total
+     $                         Q_SW_vs+Q_SW_ni
  323              format('  pond ',i2,16x,f6.2,10x,f6.2,5x,f6.2)
-                  layer_type(k+2) = 'pond'
                 else
                   write(6,325) k,Q_SW_vs,Q_SW_ni,
-     $                         Q_SW_total
-                  layer_type(k+2) = 'ice'
+     $                         Q_SW_vs+Q_SW_ni
                 endif
               else
                 if( k .le. ksnow ) then
                   write(6,324) k,Q_SW_vs,Q_SW_ni,
-     $                         Q_SW_total
+     $                         Q_SW_vs+Q_SW_ni
  324              format('  air  ',i2,16x,f6.2,10x,f6.2,5x,f6.2)
-                  layer_type(k+2) = 'air'
                 else
                   write(6,325) k,Q_SW_vs,Q_SW_ni,
-     $                         Q_SW_total
+     $                         Q_SW_vs+Q_SW_ni
  325              format('  ice  ',i2,16x,f6.2,10x,f6.2,5x,f6.2)
-                  layer_type(k+2) = 'ice'
                 endif
               endif
             endif
@@ -908,10 +873,6 @@ C
      $         (Fdifdn_ni(1,klevp)-Fdifup_ni(1,klevp))*solld(1))
         write(6,223) F_SW_ocn_vs,F_SW_ocn_ni,F_SW_ocn_vs+F_SW_ocn_ni
  223    format(2x,'ocean',18x,f6.2,10x,f6.2,5x,f6.2)
-        layer_type(klevp+2) = 'ocean'
-        Q_SW_vs_out(klevp+2) = F_SW_ocn_vs
-        Q_SW_ni_out(klevp+2) = F_SW_ocn_ni
-        Q_SW_total_out(klevp+2) = F_SW_ocn_vs + F_SW_ocn_ni
 c
  100  continue
 c
@@ -976,19 +937,19 @@ C
 C Radiation resolution and I/O parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
       integer
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plngbuf
 C
       parameter(plon    = 1,
      $          plev    = 18,
@@ -1018,32 +979,32 @@ C
      $              mcdate  ,mcsec   ,nndbas  ,nnsbas  ,nnbdat  ,
      $              nnbsec  ,doabsems,dosw    ,dolw
 C
-      real calday,   ! Current calendar day = julian day + fraction
-     $     dtime,    ! Time step in seconds (delta t)
-     $     twodt     ! 2 * delta t 
+      real calday,
+     $     dtime,
+     $     twodt
       integer
-     $     nrstrt,   ! Starting time step of restart run (constant) 
-     $     nstep,    ! Current time step
-     $     nstepr,   ! Current time step of restart run(updated w/nstep)
-     $     nestep,   ! Time step on which to stop run
-     $     nelapse,  ! Requested elapsed time for model run
-     $     nstop,    ! nestep + 1
-     $     mdbase,   ! Base day of run
-     $     msbase,   ! Base seconds of base day
-     $     mdcur,    ! Current day of run
-     $     mscur,    ! Current seconds of current day
-     $     mbdate,   ! Base date of run (yymmdd format)
-     $     mbsec,    ! Base seconds of base date
-     $     mcdate,   ! Current date of run (yymmdd format)
-     $     mcsec,    ! Current seconds of current date
-     $     nndbas,   ! User input base day
-     $     nnsbas,   ! User input base seconds of input base day
-     $     nnbdat,   ! User input base date (yymmdd format)
-     $     nnbsec    ! User input base seconds of input base date
+     $     nrstrt,
+     $     nstep,
+     $     nstepr,
+     $     nestep,
+     $     nelapse,
+     $     nstop,
+     $     mdbase,
+     $     msbase,
+     $     mdcur,
+     $     mscur,
+     $     mbdate,
+     $     mbsec,
+     $     mcdate,
+     $     mcsec,
+     $     nndbas,
+     $     nnsbas,
+     $     nnbdat,
+     $     nnbsec
       logical
-     $     doabsems, ! True => abs/emiss calculation this timestep
-     $     dosw,     ! True => shortwave calculation this timestep
-     $     dolw      ! True => longwave calculation this timestep
+     $     doabsems,
+     $     dosw,
+     $     dolw
 C
 c
 c $Id: crdalb.h,v 1.1.1.1 1995/02/09 23:26:46 ccm2 Exp $
@@ -1071,11 +1032,11 @@ C
 C szad = strong zenith angle dependent
 C wzad = weak   zenith angle dependent
 C
-      real albvss, ! Grid box alb for vis over szad surfaces
-     $     albvsw, ! Grid box alb for vis over wzad surfaces
-     $     albnis, ! Grid box alb for nir over szad surfaces
-     $     albniw, ! Grid box alb for nir over wzad surfaces
-     $     frctst  ! Fraction of area in grid box with szad surfaces
+      real albvss,
+     $     albvsw,
+     $     albnis,
+     $     albniw,
+     $     frctst
 C
 C Surface boundary data
 C
@@ -1112,12 +1073,12 @@ C
      $              evapf (plond,plat),vevapf(plond,plat),
      $              snwjan(plond,plat),snwjly(plond,plat)
 C
-      real vegtyp, ! Surface thermal type, based on veg type
-     $     rghnss, ! Aerodynamic roughness length
-     $     evapf , ! Constant surface evaporability
-     $     vevapf, ! Variable surface evaporability
-     $     snwjan, ! Snow cover (liq water equiv) for January
-     $     snwjly  ! Snow cover (liq water equiv) for July
+      real vegtyp,
+     $     rghnss,
+     $     evapf ,
+     $     vevapf,
+     $     snwjan,
+     $     snwjly
 C
 c
 c $Id: crdcon.h,v 1.1.1.1 1995/02/09 23:26:46 ccm2 Exp $
@@ -1130,171 +1091,110 @@ C
      $              stebol  ,rgsslp  ,co2vmr  ,dpfo3   ,dpfco2  ,
      $              dayspy  ,pie
 C
-      real gravit,    ! Acceleration of gravity
-     $     rga,       ! 1./gravit
-     $     cpair,     ! Specific heat of dry air
-     $     epsilo,    ! Ratio of mol. wght of H2O to dry air
-     $     sslp,      ! Standard sea-level pressure
-     $     stebol,    ! Stefan-Boltzmann's constant
-     $     rgsslp,    ! 0.5/(gravit*sslp)
-     $     co2vmr,    ! CO2 volume mixing ratio
-     $     dpfo3,     ! Voigt correction factor for O3
-     $     dpfco2,    ! Voigt correction factor for CO2
-     $     dayspy,    ! Number of days per 1 year
-     $     pie        ! 3.14.....
+      real gravit,
+     $     rga,
+     $     cpair,
+     $     epsilo,
+     $     sslp,
+     $     stebol,
+     $     rgsslp,
+     $     co2vmr,
+     $     dpfo3,
+     $     dpfco2,
+     $     dayspy,
+     $     pie
 C
 c-----------------------------------------------------------------------
 c
 c output arguments
 c
       integer 
-     $     ioro(plond)          ! land surface flag
+     $     ioro(plond)
 c     
       real 
-     $     clat,                ! model latitude in radians
-     $     cld(plond,plevp),    ! cloud fraction
-     $     clwp(plond,plev),    ! cloud liquid water path (g/m**2)
-     $     coslat,              ! cosine latitude
-     $     loctim(plond),       ! local time of solar computation
-     $     o3mmr(plond,plev),   ! o3 mass mixing ratio
-     $     o3vmr(plond,plev),   ! o3 mass mixing ratio
-     $     pilnm1(plond,plevp), ! ln(pintm1)
-     $     pintm1(plond,plevp), ! pressure at model interfaces 
-     $     pmidm1(plond,plev),  ! pressure at model mid-levels 
-     $     pmlnm1(plond,plev),  ! ln(pmidm1)
-     $     ps(plond),           ! model surface pressure field
-     $     qm1(plond,plev),     ! moisture field
-     $     sndpth(plond),       ! snow physical depth 
-     $     rhos(plond),         ! snow density
-     $     rs(plond),           ! snow grain radius
-     $     R_ice(plond),        ! sea ice standard deviation tuning parameter
-     $     R_pnd(plond),        ! ponded ice standard deviation tuning parameter
-     $     hpnd(plond),         ! pond depth (m)
-     $     tg(plond),           ! surface (skin) temperature
-     $     hice(plond),         ! sea ice thickness
-     $     tm1(plond,plev),     ! atmospheric temperature
-     $     ts(plond)            ! surface (air)  temperature
+     $     clat,
+     $     cld(plond,plevp),
+     $     clwp(plond,plev),
+     $     coslat,
+     $     loctim(plond),
+     $     o3mmr(plond,plev),
+     $     o3vmr(plond,plev),
+     $     pilnm1(plond,plevp),
+     $     pintm1(plond,plevp),
+     $     pmidm1(plond,plev),
+     $     pmlnm1(plond,plev),
+     $     ps(plond),
+     $     qm1(plond,plev),
+     $     sndpth(plond),
+     $     rhos(plond),
+     $     rs(plond),
+     $     R_ice(plond),
+     $     R_pnd(plond),
+     $     hpnd(plond),
+     $     tg(plond),
+     $     hice(plond),
+     $     tm1(plond,plev),
+     $     ts(plond)
 c     
 c     local workspace
 c     
       real 
-     $     dayyr(plond),        ! day of year
-     $     rlat(plond)          ! latitude input
+     $     dayyr(plond),
+     $     rlat(plond)
 c     
-      real co2mix               ! co2 volume mixing ratio read in
+      real co2mix
 c     
       integer 
-     $     i,                   ! longitude index
-     $     k,                   ! level  index
-     $     lev(plev)            ! level input
+     $     i,
+     $     k,
+     $     lev(plev)
 c     
       character*80 label
 c     
       real 
-     $     amd,                 ! effective molecular weight of dry air (g/mol)
-     $     amo,                 ! molecular weight of ozone (g/mol)
-     $     vmmr                 ! ozone volume mixing ratio
+     $     amd,
+     $     amo,
+     $     vmmr
 c     
       data amd   /  28.9644   /
       data amo   /  48.0000   /
-
 c
-c----------------------------------------------------------------------
-c     Input variables used to initialize
-      real 
-     $     dayyr_in,            ! day of year
-     $     rlat_in,              ! latitude input
-     $     co2mix_in            ! co2 volume mixing ratio read in
-      
-      integer lev_in(plev)      ! level input
-      
-      real
-     $     cld_in(plev),
-     $     clwp_in(plev),
-     $     hice_in,
-     $     hpnd_in,
-     $     o3mmr_in(plev),
-     $     pmidm1_in(plev),
-     $     ps_in,
-     $     qm1_in(plev),
-     $     rhos_in,
-     $     rs_in,
-     $     R_ice_in,
-     $     R_pnd_in,
-     $     sndpth_in,
-     $     tg_in,
-     $     tm1_in(plev),
-     $     ts_in
-
-      common /input/ dayyr_in, rlat_in, lev_in, pmidm1_in,
-     $     tm1_in, qm1_in, o3mmr_in, cld_in, clwp_in,
-     $     ps_in, co2mix_in, ts_in, tg_in, sndpth_in,
-     $     rhos_in, rs_in, hpnd_in, R_pnd_in,
-     $     hice_in, R_ice_in
-
-C      i = 1
-      
-c----------------------------------------------------------------------
-c     Copy input vars to vars used in crm
-      i = 1
-      dayyr(i) = dayyr_in
-      rlat(i) = rlat_in
-      do 207 k=1,plev
-         pmidm1(i,k) = pmidm1_in(k)
-         tm1(i,k) = tm1_in(k)
-         qm1(i,k) = qm1_in(k)
-         o3mmr(i,k) = o3mmr_in(k)
-         cld(i,k) = cld_in(k)
-         clwp(i,k) = clwp_in(k)
-c         if( cld(i,k) .gt. 0.99999 ) cld(i,k) = .99999
- 207  continue
-      ps(i) = ps_in
-      co2mix = co2mix_in
-      ts(i) = ts_in
-      tg(i) = tg_in
-      sndpth(i) = sndpth_in
-      rhos(i) = rhos_in
-      rs(i) = rs_in
-      hpnd(i) = hpnd_in
-      R_pnd(i) = R_pnd_in
-      hice(i) = hice_in
-      R_ice(i) = R_ice_in
-      
 c-----------------------------------------------------------------------
-c      open(unit=5,file='ccsm3_sir_de_input.dat',status='old')
+      open(unit=5,file='ccsm3_sir_de_input.dat',status='old')
 c     
 c     begin read of data:
 c     
       do 100 i=1,1
-c
-         label = '-------------------'
+c     
+         read(5,101)  label
+ 101     format(a80)
          write(6,*)   label
 c     
-         label = 'CCSM3 Sea Ice Radiation with Delta Eddington Input'
-         write(6,*)   label
-         
-         label = '--------------------'
+         read(5,101)  label
          write(6,*)   label
 c     
-C         read(5,*)    dayyr(i)
+         read(5,101)  label
+         write(6,*)   label
+c     
+         read(5,*)    dayyr(i)
          write(6,*) ' day of year (1..365)  = ',dayyr(i)
 c     
-C         read(5,*)    rlat(i)
+         read(5,*)    rlat(i)
          write(6,*) ' latitude (-90 to +90) = ',rlat(i)
 c     
-         label = '-------------'
+         read(5,101)  label
          write(6,*)   label
 c     
          do 200 k=1,plev
-C            read(5,*) lev(k),pmidm1(i,k),tm1(i,k),qm1(i,k),o3mmr(i,k)
-C     +           ,cld(i,k),clwp(i,k)
+            read(5,*) lev(k),pmidm1(i,k),tm1(i,k),qm1(i,k),o3mmr(i,k)
+     +           ,cld(i,k),clwp(i,k)
             write(6,99) k   ,pmidm1(i,k),tm1(i,k),qm1(i,k),o3mmr(i,k)
      +           ,cld(i,k),clwp(i,k)
  99         format(1x,i3,1x,6(1pe10.3,1x))
             if( cld(i,k) .gt. 0.99999 ) cld(i,k) = .99999
  200     continue
 c
-C         read(5,*)     ps(i)
+         read(5,*)     ps(i)
          write(6,571) ps(i)
  571     format('  surface pressure         = ',f7.2)
 c     
@@ -1321,7 +1221,7 @@ c
 c     
  150     continue
 c     
-C         read(5,*)       co2mix
+         read(5,*)       co2mix
          write(6,572) co2mix
  572     format('  atmospheric co2 vmr      = ',1pe10.3)
 c
@@ -1330,11 +1230,11 @@ c     that setting.
 c
          co2vmr = co2mix
 c
-C         read(5,*)       ts(i)
+         read(5,*)       ts(i)
          write(6,573)    ts(i)
  573     format('  surface air temperature  = ',f7.2)
 c     
-c         read(5,*)       tg(i)
+         read(5,*)       tg(i)
          write(6,574)    tg(i)
  574     format('  surface skin temperature = ',f7.2)
 c     
@@ -1345,31 +1245,31 @@ c 2=sea ice
 c .04m
          rghnss(i,1) = .04
 c
-c         read(5,*)       sndpth(i)
+         read(5,*)       sndpth(i)
          write(6,575)    sndpth(i)
  575     format('  snow physical depth (m)        = ',f9.4)
 c
-c         read(5,*)       rhos(i)
+         read(5,*)       rhos(i)
          write(6,576)    rhos(i)
  576     format('  snow density (kg/m3)           = ',f9.4)
 c
-c         read(5,*)       rs(i)
+         read(5,*)       rs(i)
          write(6,577)    rs(i)
  577     format('  snow grain radius (microns)    = ',f9.4)
 c
-c         read(5,*)       hpnd(i)
+         read(5,*)       hpnd(i)
          write(6,578)    hpnd(i)
  578     format('  pond physical depth (m)        = ',f9.4)
 c
-c         read(5,*)       R_pnd(i)
+         read(5,*)       R_pnd(i)
          write(6,579)    R_pnd(i)
  579     format('  pond tuning parameter          = ',f9.4)
 c     
-c         read(5,*)       hice(i)
+         read(5,*)       hice(i)
          write(6,580)    hice(i)
  580     format('  sea ice thickness (m)          = ',f9.4)
 c
-c         read(5,*)       R_ice(i)
+         read(5,*)       R_ice(i)
          write(6,581)    R_ice(i)
  581     format('  sea ice tuning parameter       = ',f9.4)
 c     
@@ -1443,9 +1343,9 @@ c
      $                  rei     ,fice    ,sols    ,soll    ,solsd   ,
      $                  solld   ,
 c++csz
-     $     fsnt,fsntc,fsnsc,flnt,flns,flntc,flnsc,solin, ! output
-     $     eccf, ! output
-     $     o3vmr) ! input
+     $     fsnt,fsntc,fsnsc,flnt,flns,flntc,flnsc,solin,
+     $     eccf,
+     $     o3vmr)
 c--csz
 C-----------------------------------------------------------------------
 C
@@ -1498,17 +1398,17 @@ C
 C Basic grid point resolution parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
 C
       parameter(plon   = 1,
      $          plev   = 18,
@@ -1530,9 +1430,9 @@ C
 C Define radiation vertical grid and buffer length for abs/ems out-of-core file
 C
       integer
-     $     plevr,   ! number of vertical levels
-     $     plevrp,  ! plevr + 1
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plevr,
+     $     plevrp,
+     $     plngbuf
 C
       parameter(plevr = 18,
      $          plevrp = plevr + 1,
@@ -1547,39 +1447,39 @@ C
 C Model grid point resolution parameters.
 C
       integer
-     $     plnlv,    ! Length of multilevel field slice
-     $     plndlv,   ! Length of multilevel 3-d field slice
-     $     pbflnb,   ! Length of buffer 1
-     $     pbflna,   ! Length of buffer 2
-     $     pbflnm1,  ! Length of buffer m1
-     $     pflenb,   ! Length of buffer 1, padded for unblocked I/O
-     $     pflena,   ! Length of buffer 2, padded for unblocked I/O
-     $     plenalcl, ! Length of buffer 2, needed in SPEGRD
-     $     ptifld,   ! Number of fields on time-invariant boundary dataset
-     $     ptvsfld,  ! Number of fields on time-variant boundary dataset
-     $     ptvofld,  ! Number of fields on ozone dataset
-     $     plenhi,   ! Length of integer header record
-     $     plenhc,   ! Length of character header record
-     $     plenhr,   ! Length of real header record
-     $     plexbuf,  ! Length of communication buffer for flux coupling
-     $     ptapes,   ! Maximum number of history tapes allowed
-     $     pflds     ! Number of fields in master field list
+     $     plnlv,
+     $     plndlv,
+     $     pbflnb,
+     $     pbflna,
+     $     pbflnm1,
+     $     pflenb,
+     $     pflena,
+     $     plenalcl,
+     $     ptifld,
+     $     ptvsfld,
+     $     ptvofld,
+     $     plenhi,
+     $     plenhc,
+     $     plenhr,
+     $     plexbuf,
+     $     ptapes,
+     $     pflds
       integer
-     $     ptileni,  ! Length of time-invariant integer header
-     $     ptilenc,  ! Length of time-invariant character header
-     $     ptvoleni, ! Length of ozone integer header
-     $     ptvolenc, ! Length of ozone character header
-     $     ptvsleni, ! Length of time-variant integer header
-     $     ptvslenc  ! Length of time-variant character header
+     $     ptileni,
+     $     ptilenc,
+     $     ptvoleni,
+     $     ptvolenc,
+     $     ptvsleni,
+     $     ptvslenc
       integer
-     $     plenhis,  ! Length of integer header scalars
-     $     plenhcs,  ! Length of character header scalars
-     $     ptilenis, ! Length of time-invariant integer scalars
-     $     ptilencs, ! Length of time-invariant character scalars
-     $     ptolenis, ! Length of ozone integer header scalars
-     $     ptolencs, ! Length of ozone character header scalars
-     $     ptslenis, ! Length of time-variant integer header scalars
-     $     ptslencs  ! Length of time-variant character header scalars
+     $     plenhis,
+     $     plenhcs,
+     $     ptilenis,
+     $     ptilencs,
+     $     ptolenis,
+     $     ptolencs,
+     $     ptslenis,
+     $     ptslencs
 C
       parameter(plnlv=plon*plev,plndlv=plond*plev)
 C
@@ -1643,25 +1543,25 @@ C
      $              ldebug  ,aeres   ,ozncyc  ,sstcyc  ,dodiavg ,
      $              aeregen ,cpuchek
       integer
-     $     itsst,   ! Sea surf. temp. update freq. (iters)
-     $     nsrest,  ! Restart flag
-     $     iradsw,  ! Iteration frequency for shortwave radiation computation
-     $     iradlw,  ! Iteration frequency for longwave radiation computation
-     $     iradae   ! Iteration freq. for absorptivity/emissivity comp
+     $     itsst,
+     $     nsrest,
+     $     iradsw,
+     $     iradlw,
+     $     iradae
       logical
-     $     anncyc,  ! Do annual cycle (otherwise perpetual)
-     $     nlend,   ! Flag for end of run
-     $     nlres,   ! If true, continuation run
-     $     nlhst,   ! If true, regeneration run
-     $     lbrnch,  ! If true, branch run
-     $     ldebug,  ! If in debug mode, link output files to /usr/tmp
+     $     anncyc,
+     $     nlend,
+     $     nlres,
+     $     nlhst,
+     $     lbrnch,
+     $     ldebug,
 C                   !    before mswrite, and remove all but last file
-     $     aeres,   ! If true, a/e data will be stored on restart file
-     $     ozncyc,  ! If true, cycle ozone dataset
-     $     sstcyc,  ! If true, cycle sst dataset
-     $     dodiavg, ! true => diurnal averaging
-     $     aeregen, ! true => absor/emis part of regeneration data
-     $     cpuchek  ! If true, check remaining cpu time at each writeup
+     $     aeres,
+     $     ozncyc,
+     $     sstcyc,
+     $     dodiavg,
+     $     aeregen,
+     $     cpuchek
 C
 C-----------------------------------------------------------------------
 c
@@ -1671,7 +1571,7 @@ c
 C
 C Integer and logical variables related to history tapes
 C
-      integer pichsum  ! Max. value of 4*ichar(character)
+      integer pichsum
       parameter (pichsum=508)
 C
       common /comhst/
@@ -1686,34 +1586,34 @@ C
      $   islocc(0:pichsum,ptapes)         ,hstwr(ptapes)      ,
      $   rstwr             ,nacsav(pflds,plat)
 C
-      integer nhtfrq,  ! Array of write frequencies
-     $        mfilt    ! Number of write-ups per volume
-      logical nlfilt   ! Flag for extra file on 1st vol (ktape=1)
-      logical hstwr    ! Flag for history writes
-      logical rstwr    ! Flag for restart writes
-      integer ndens,   ! Array of input packing densities
-     $        nflds,   ! Array of total fields on tape
-     $        nfils,   ! Array of current files on the volume
-     $        hunit,   ! History tape disk units
-     $        nrlen,   ! Record length
-     $        nplen,   ! Packed record length,
-     $        sunit,   ! History tape SSD unit
-     $        stfnum,  ! Starting number for history tape naming
-     $        mtapes,  ! Actual number of tapes requested
-     $        nexcl,   ! Actual number of excluded fields
-     $        nincl,   ! Actual number of included primary tape fields
-     $        hbufpt,  ! Ptrs to start of fields for each tape in hbuf
-     $        nacs,    ! Number of accumulations for field
-     $        nacsav,  ! Saved accumulations for restart
-     $        iflds,   ! Integer portion of master field list
-     $        nupnt,   ! Array of unpacked field pointers
-     $        npnt,    ! Array of packed field pointers
-     $        ndcurf,  ! First "current" day for each tape
-     $        ncdatf,  ! First "current" date for each tape
-     $        nscurf,  ! First "current" second of day for each tape
-     $        ncsecf,  ! First "current" second of date for each tape
-     $        nfldsc,  ! Number of fields starting with given ichar(1-4)
-     $        islocc   ! Index of starting location for each ichar sum
+      integer nhtfrq,
+     $        mfilt
+      logical nlfilt
+      logical hstwr
+      logical rstwr
+      integer ndens,
+     $        nflds,
+     $        nfils,
+     $        hunit,
+     $        nrlen,
+     $        nplen,
+     $        sunit,
+     $        stfnum,
+     $        mtapes,
+     $        nexcl,
+     $        nincl,
+     $        hbufpt,
+     $        nacs,
+     $        nacsav,
+     $        iflds,
+     $        nupnt,
+     $        npnt,
+     $        ndcurf,
+     $        ncdatf,
+     $        nscurf,
+     $        ncsecf,
+     $        nfldsc,
+     $        islocc
 C
 C  Character variables related to history tapes
 C
@@ -1723,17 +1623,17 @@ C
      $   ctitle             ,fieldn(2,pflds)     ,exclude(pflds)      ,
      $   primary(pflds)     ,aux(pflds,ptapes-1)
 C
-      character*80 nfpath,    ! Array of first pathnames, for header
-     $             ppath,     ! Array of previous pathnames, for header
-     $             cpath      ! Array of current pathnames
-      character    nhfil*6,   ! Array of current file names
-     $             ninavg*1,  ! Tape fields instantaneous or averaged
-     $             caseid*8   ! Case identifier
-      character*80 ctitle     ! Case title
-      character*8  fieldn,    ! Character portion of master field list
-     $             exclude,   ! List of fields to rm from primary tape
-     $             primary,   ! List of fields to add to primary tape
-     $             aux        ! Lists of fields for auxiliary tapes
+      character*80 nfpath,
+     $             ppath,
+     $             cpath
+      character    nhfil*6,
+     $             ninavg*1,
+     $             caseid*8
+      character*80 ctitle
+      character*8  fieldn,
+     $             exclude,
+     $             primary,
+     $             aux
 C
 C-----------------------------------------------------------------------
 c
@@ -1749,114 +1649,114 @@ C
      $              mcdate  ,mcsec   ,nndbas  ,nnsbas  ,nnbdat  ,
      $              nnbsec  ,doabsems,dosw    ,dolw
 C
-      real calday,   ! Current calendar day = julian day + fraction
-     $     dtime,    ! Time step in seconds (delta t)
-     $     twodt     ! 2 * delta t 
+      real calday,
+     $     dtime,
+     $     twodt
       integer
-     $     nrstrt,   ! Starting time step of restart run (constant) 
-     $     nstep,    ! Current time step
-     $     nstepr,   ! Current time step of restart run(updated w/nstep)
-     $     nestep,   ! Time step on which to stop run
-     $     nelapse,  ! Requested elapsed time for model run
-     $     nstop,    ! nestep + 1
-     $     mdbase,   ! Base day of run
-     $     msbase,   ! Base seconds of base day
-     $     mdcur,    ! Current day of run
-     $     mscur,    ! Current seconds of current day
-     $     mbdate,   ! Base date of run (yymmdd format)
-     $     mbsec,    ! Base seconds of base date
-     $     mcdate,   ! Current date of run (yymmdd format)
-     $     mcsec,    ! Current seconds of current date
-     $     nndbas,   ! User input base day
-     $     nnsbas,   ! User input base seconds of input base day
-     $     nnbdat,   ! User input base date (yymmdd format)
-     $     nnbsec    ! User input base seconds of input base date
+     $     nrstrt,
+     $     nstep,
+     $     nstepr,
+     $     nestep,
+     $     nelapse,
+     $     nstop,
+     $     mdbase,
+     $     msbase,
+     $     mdcur,
+     $     mscur,
+     $     mbdate,
+     $     mbsec,
+     $     mcdate,
+     $     mcsec,
+     $     nndbas,
+     $     nnsbas,
+     $     nnbdat,
+     $     nnbsec
       logical
-     $     doabsems, ! True => abs/emiss calculation this timestep
-     $     dosw,     ! True => shortwave calculation this timestep
-     $     dolw      ! True => longwave calculation this timestep
+     $     doabsems,
+     $     dosw,
+     $     dolw
 C
 C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      real hbuf(*)              ! history tape buffer,for calls to outfld
-      integer lat               ! Latitude row index
-      real ts(plond),           ! Surface (skin) temperature
-     $     pmid(plond,plev),    ! Model level pressures
-     $     pint(plond,plevp),   ! Model interface pressures
-     $     pmln(plond,plev),    ! Natural log of pmid
-     $     rel(plond,plev),     ! liquid cloud particle effective radius
-     $     rei(plond,plev),     ! ice effective drop size (microns)
-     $     fice(plond,plev),    ! fractional ice content within cloud
-     $     piln(plond,plevp),   ! Natural log of pint
-     $     t(plond,plev),       ! Model level temperatures
-     $     h2ommr(plond,plev),  ! Model level specific humidity
-     $     cld(plond,plevp),    ! Fractional cloud cover
-     $     effcld(plond,plevp), ! Effective fractional cloud cover
-     $     clwp(plond,plev)     ! Cloud liquid water path
-      real coszrs(plond),       ! Cosine solar zenith angle
+      real hbuf(*)
+      integer lat
+      real ts(plond),
+     $     pmid(plond,plev),
+     $     pint(plond,plevp),
+     $     pmln(plond,plev),
+     $     rel(plond,plev),
+     $     rei(plond,plev),
+     $     fice(plond,plev),
+     $     piln(plond,plevp),
+     $     t(plond,plev),
+     $     h2ommr(plond,plev),
+     $     cld(plond,plevp),
+     $     effcld(plond,plevp),
+     $     clwp(plond,plev)
+      real coszrs(plond),
      $     albs(plond),
      $     albsd(plond),
      $     albl(plond),
      $     albld(plond)
-      real clat,                  ! current latitude(radians)
-     $     coslat                 ! cosine latitude
+      real clat,
+     $     coslat
 C
 C Output solar arguments
 C
-      real fsns(plond),         ! Surface absorbed solar flux
-     $     sols(plond),         ! Downward solar rad onto surface (sw direct)
-     $     soll(plond),         ! Downward solar rad onto surface (lw direct)
-     $     solsd(plond),        ! Downward solar rad onto surface (sw diffuse)
-     $     solld(plond),        ! Downward solar rad onto surface (lw diffuse)
-     $     qrs(plond,plev)      ! Solar heating rate
+      real fsns(plond),
+     $     sols(plond),
+     $     soll(plond),
+     $     solsd(plond),
+     $     solld(plond),
+     $     qrs(plond,plev)
 C
 C Output longwave arguments
 C
-      real qrl(plond,plev),     ! Longwave cooling rate
-     $     flwds(plond),        ! Surface down longwave flux
-     $     lwup(plond)          ! Surface up longwave flux from coupler
+      real qrl(plond,plev),
+     $     flwds(plond),
+     $     lwup(plond)
 C
 C---------------------------Local variables-----------------------------
 C
-      integer i                 ! index
-      real solin(plond),        ! Solar incident flux
-     $     fsnt(plond),         ! Net column abs solar flux at model top
-     $     fsntc(plond),        ! Clear sky total column abs solar flux
-     $     fsnsc(plond)         ! Clear sky surface abs solar flux
-      real flnt(plond),         ! Net outgoing lw flux at model top
-     $     flns(plond),         ! Srf longwave cooling (up-down) flux
-     $     flntc(plond),        ! Clear sky lw flux at model top
-     $     flnsc(plond)         ! Clear sky lw flux at srf (up-down)
-      real pbr(plond,plevr),    ! Model mid-level pressures (dynes/cm2)
-     $     pnm(plond,plevrp),   ! Model interface pressures (dynes/cm2)
-     $     o3vmr(plond,plevr),  ! Ozone volume mixing ratio
-     $     o3mmr(plond,plevr),  ! Ozone mass mixing ratio
-     $     plco2(plond,plevrp), ! Prs weighted CO2 path
-     $     plh2o(plond,plevrp), ! Prs weighted H2O path
-     $     tclrsf(plond,plevrp),! Total clear sky fraction, level to space
-     $     eccf                 ! Earth/sun distance factor
-      real tmp(plond)           ! Temporary for outfld
-      real n2o(plond,plev),        ! nitrous oxide mass mixing ratio
-     $     ch4(plond,plev),        ! methane mass mixing ratio
-     $     cfc11(plond,plev),      ! cfc11 mass mixing ratio
-     $     cfc12(plond,plev)       ! cfc12 mass mixing ratio
-      real aermmr(plond,plevr), ! level aerosol mass mixing ratio
-     $     rh(plond,plevr)      ! level relative humidity (fraction)
+      integer i
+      real solin(plond),
+     $     fsnt(plond),
+     $     fsntc(plond),
+     $     fsnsc(plond)
+      real flnt(plond),
+     $     flns(plond),
+     $     flntc(plond),
+     $     flnsc(plond)
+      real pbr(plond,plevr),
+     $     pnm(plond,plevrp),
+     $     o3vmr(plond,plevr),
+     $     o3mmr(plond,plevr),
+     $     plco2(plond,plevrp),
+     $     plh2o(plond,plevrp),
+     $     tclrsf(plond,plevrp),
+     $     eccf
+      real tmp(plond)
+      real n2o(plond,plev),
+     $     ch4(plond,plev),
+     $     cfc11(plond,plev),
+     $     cfc12(plond,plev)
+      real aermmr(plond,plevr),
+     $     rh(plond,plevr)
 C
 C Declare local arrays to which model input arrays are interpolated here.
 C Current default is none since radiation grid = model grid.
 C
 C Externals.
 C
-      external radinp,          ! Computes latitude dependent radiation input
-     $         aermix,          ! Specifies aerosol mass mixing ratio
-     $         radcsw,          ! Computes solar radiation
-     $         radozn,          ! Computes ozone volume mixing ratio
-     $         radclw,          ! Computes longwave radiation
-     $         torgrid,         ! Interpolate model variables to radiation grid
-     $         fmrgrid          ! Interpolate radiation variables to model grid
+      external radinp,
+     $         aermix,
+     $         radcsw,
+     $         radozn,
+     $         radclw,
+     $         torgrid,
+     $         fmrgrid
 C--------------------------------------------------------------------------
 C
 C Interpolate model input arrays to radiation vertical grid.  Currently this 
@@ -2018,17 +1918,17 @@ C
 C Basic grid point resolution parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
 C
       parameter(plon   = 1,
      $          plev   = 18,
@@ -2050,9 +1950,9 @@ C
 C Define radiation vertical grid and buffer length for abs/ems out-of-core file
 C
       integer
-     $     plevr,   ! number of vertical levels
-     $     plevrp,  ! plevr + 1
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plevr,
+     $     plevrp,
+     $     plngbuf
 C
       parameter(plevr = 18,
      $          plevrp = plevr + 1,
@@ -2067,39 +1967,39 @@ C
 C Model grid point resolution parameters.
 C
       integer
-     $     plnlv,    ! Length of multilevel field slice
-     $     plndlv,   ! Length of multilevel 3-d field slice
-     $     pbflnb,   ! Length of buffer 1
-     $     pbflna,   ! Length of buffer 2
-     $     pbflnm1,  ! Length of buffer m1
-     $     pflenb,   ! Length of buffer 1, padded for unblocked I/O
-     $     pflena,   ! Length of buffer 2, padded for unblocked I/O
-     $     plenalcl, ! Length of buffer 2, needed in SPEGRD
-     $     ptifld,   ! Number of fields on time-invariant boundary dataset
-     $     ptvsfld,  ! Number of fields on time-variant boundary dataset
-     $     ptvofld,  ! Number of fields on ozone dataset
-     $     plenhi,   ! Length of integer header record
-     $     plenhc,   ! Length of character header record
-     $     plenhr,   ! Length of real header record
-     $     plexbuf,  ! Length of communication buffer for flux coupling
-     $     ptapes,   ! Maximum number of history tapes allowed
-     $     pflds     ! Number of fields in master field list
+     $     plnlv,
+     $     plndlv,
+     $     pbflnb,
+     $     pbflna,
+     $     pbflnm1,
+     $     pflenb,
+     $     pflena,
+     $     plenalcl,
+     $     ptifld,
+     $     ptvsfld,
+     $     ptvofld,
+     $     plenhi,
+     $     plenhc,
+     $     plenhr,
+     $     plexbuf,
+     $     ptapes,
+     $     pflds
       integer
-     $     ptileni,  ! Length of time-invariant integer header
-     $     ptilenc,  ! Length of time-invariant character header
-     $     ptvoleni, ! Length of ozone integer header
-     $     ptvolenc, ! Length of ozone character header
-     $     ptvsleni, ! Length of time-variant integer header
-     $     ptvslenc  ! Length of time-variant character header
+     $     ptileni,
+     $     ptilenc,
+     $     ptvoleni,
+     $     ptvolenc,
+     $     ptvsleni,
+     $     ptvslenc
       integer
-     $     plenhis,  ! Length of integer header scalars
-     $     plenhcs,  ! Length of character header scalars
-     $     ptilenis, ! Length of time-invariant integer scalars
-     $     ptilencs, ! Length of time-invariant character scalars
-     $     ptolenis, ! Length of ozone integer header scalars
-     $     ptolencs, ! Length of ozone character header scalars
-     $     ptslenis, ! Length of time-variant integer header scalars
-     $     ptslencs  ! Length of time-variant character header scalars
+     $     plenhis,
+     $     plenhcs,
+     $     ptilenis,
+     $     ptilencs,
+     $     ptolenis,
+     $     ptolencs,
+     $     ptslenis,
+     $     ptslencs
 C
       parameter(plnlv=plon*plev,plndlv=plond*plev)
 C
@@ -2162,53 +2062,53 @@ C
      $              stebol  ,rgsslp  ,co2vmr  ,dpfo3   ,dpfco2  ,
      $              dayspy  ,pie
 C
-      real gravit,    ! Acceleration of gravity
-     $     rga,       ! 1./gravit
-     $     cpair,     ! Specific heat of dry air
-     $     epsilo,    ! Ratio of mol. wght of H2O to dry air
-     $     sslp,      ! Standard sea-level pressure
-     $     stebol,    ! Stefan-Boltzmann's constant
-     $     rgsslp,    ! 0.5/(gravit*sslp)
-     $     co2vmr,    ! CO2 volume mixing ratio
-     $     dpfo3,     ! Voigt correction factor for O3
-     $     dpfco2,    ! Voigt correction factor for CO2
-     $     dayspy,    ! Number of days per 1 year
-     $     pie        ! 3.14.....
+      real gravit,
+     $     rga,
+     $     cpair,
+     $     epsilo,
+     $     sslp,
+     $     stebol,
+     $     rgsslp,
+     $     co2vmr,
+     $     dpfo3,
+     $     dpfco2,
+     $     dayspy,
+     $     pie
 C
 C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      real pint(plond,plevrp),  ! Radiation level interface pressures (dynes/cm2)
-     $     pmid(plond,plevr),   ! Radiation level mid-level pressures (dynes/cm2)
-     $     h2ommr(plond,plev),  ! Radiation level specific humidity   (g/g)
-     $     t(plond,plev)        ! Radiation level temperatures        (K)
+      real pint(plond,plevrp),
+     $     pmid(plond,plevr),
+     $     h2ommr(plond,plev),
+     $     t(plond,plev)
 C
 C Output arguments
 C
-      real aermmr(plond,plevr), ! Radiation level aerosol mass mixing ratio
-     $     rh(plond,plevr)      ! Radiation level relative humidity (fraction)
+      real aermmr(plond,plevr),
+     $     rh(plond,plevr)
 C
 C---------------------------Local variables-----------------------------
 C
-      integer i,     ! longitude index
-     $        k,     ! level index
-     $        mxaerl ! max nmbr aerosol levels counting up from surface
+      integer i,
+     $        k,
+     $        mxaerl
 C
-      real tauvis,  ! visible optical depth
-     $     kaervs,  ! visible extinction coefficiant of aerosol (m2/g)
-     $     omgvis,  ! visible omega0
-     $     gvis,    ! visible forward scattering asymmetry parameter
-     $     rhcnst   ! constant relative humidity factor
+      real tauvis,
+     $     kaervs,
+     $     omgvis,
+     $     gvis,
+     $     rhcnst
 C
 C Relative humidity factor
 C
-      real rhfac,              ! multiplication factor for kaer
-     $     rhpc,               ! level relative humidity in %
-     $     a0,                 ! constant in rh mult factor
-     $     a1,                 ! constant in rh mult factor
-     $     a2,                 ! constant in rh mult factor
-     $     a3                  ! constant in rh mult factor
+      real rhfac,
+     $     rhpc,
+     $     a0,
+     $     a1,
+     $     a2,
+     $     a3
 c
       data a0 / -9.2906106183    /
       data a1 /  0.52570211505   /
@@ -2326,19 +2226,19 @@ C
 C Radiation resolution and I/O parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
       integer
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plngbuf
 C
       parameter(plon    = 1,
      $          plev    = 18,
@@ -2359,10 +2259,10 @@ c
 c $Id: albedo.h,v 1.1.1.1 1995/02/09 23:26:33 ccm2 Exp $
 c $Author: ccm2 $
 c
-      real snws,           ! Snow albedo for 0.2-0.7 micro-meters
-     $     snwl,           ! Snow albedo for 0.7-5.0 micro-meters
-     $     sices,          ! Sea ice albedo for 0.2-0.7 micro-meters
-     $     sicel           ! Sea ice albedo for 0.7-5.0 micro-meters
+      real snws,
+     $     snwl,
+     $     sices,
+     $     sicel
       parameter (snws  = 0.95,
      $           snwl  = 0.70,
      $           sices = 0.70,
@@ -2394,11 +2294,11 @@ C
 C szad = strong zenith angle dependent
 C wzad = weak   zenith angle dependent
 C
-      real albvss, ! Grid box alb for vis over szad surfaces
-     $     albvsw, ! Grid box alb for vis over wzad surfaces
-     $     albnis, ! Grid box alb for nir over szad surfaces
-     $     albniw, ! Grid box alb for nir over wzad surfaces
-     $     frctst  ! Fraction of area in grid box with szad surfaces
+      real albvss,
+     $     albvsw,
+     $     albnis,
+     $     albniw,
+     $     frctst
 C
 C Surface boundary data
 C
@@ -2435,43 +2335,43 @@ C
      $              evapf (plond,plat),vevapf(plond,plat),
      $              snwjan(plond,plat),snwjly(plond,plat)
 C
-      real vegtyp, ! Surface thermal type, based on veg type
-     $     rghnss, ! Aerodynamic roughness length
-     $     evapf , ! Constant surface evaporability
-     $     vevapf, ! Variable surface evaporability
-     $     snwjan, ! Snow cover (liq water equiv) for January
-     $     snwjly  ! Snow cover (liq water equiv) for July
+      real vegtyp,
+     $     rghnss,
+     $     evapf ,
+     $     vevapf,
+     $     snwjan,
+     $     snwjly
 C
 C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      integer lat          ! Lat index for two dimensional data arrays
-      integer ioro(plond)  ! Surface type flag (ocean, land, sea ice)
-      real sndpth(plond),  ! Snow physical depth
-     $     coszrs(plond)   ! Cosine solar zenith angle
+      integer lat
+      integer ioro(plond)
+      real sndpth(plond),
+     $     coszrs(plond)
 C
 C Output arguments
 C
-      real albs(plond),    ! Srf alb for direct rad   0.2-0.7 micro-ms
-     $     albl(plond),    ! Srf alb for direct rad   0.7-5.0 micro-ms
-     $     albsd(plond),   ! Srf alb for diffuse rad  0.2-0.7 micro-ms
-     $     albld(plond)    ! Srf alb for diffuse rad  0.7-5.0 micro-ms
+      real albs(plond),
+     $     albl(plond),
+     $     albsd(plond),
+     $     albld(plond)
 C
 C---------------------------Local variables-----------------------------
 C
-      integer i,ii         ! Longitude indices
-      integer indx(plond)  ! Longitude index array (land)
-      integer npts         ! Number of land points
-      real rs,             ! Empirical fact strng znth angl dependence
-     $     rw,             ! Empirical fact weak  znth angl dependence
-     $     frsnow,         ! Horizontal fraction of snow cover
-     $     snwhgt,         ! Physical snow height
-     $     rghsnw          ! Roughness for horizontal snow cover fractn
-      real salbs(plond),   ! Snow alb for direct rad  0.2-0.7 micro-ms
-     $     salbl(plond),   ! Snow alb for direct rad  0.7-5.0 micro-ms
-     $     salbsd(plond),  ! Snow alb for diffuse rad  0.2-0.7 micro-ms
-     $     salbld(plond)   ! Snow alb for diffuse rad  0.7-5.0 micro-ms
+      integer i,ii
+      integer indx(plond)
+      integer npts
+      real rs,
+     $     rw,
+     $     frsnow,
+     $     snwhgt,
+     $     rghsnw
+      real salbs(plond),
+     $     salbl(plond),
+     $     salbsd(plond),
+     $     salbld(plond)
 C
 C Externals
 C
@@ -2485,7 +2385,7 @@ C
 CDIR$ IVDEP
       do ii=1,npts
          i = indx(ii)
-         if (coszrs(i).gt.0.0) then         ! Sun above horizon
+         if (coszrs(i).gt.0.0) then
 C
 C Use empirical factors to adjust surface albedos for zenith angle
 C effects, distinguishing between strong and weakly dependent surfaces:
@@ -2568,13 +2468,13 @@ C
 C Resolution parameters
 C
       integer
-     $     plon,      ! number of longitudes
-     $     nxpt,      ! no.of points outside active domain for interpolant
-     $     plond      ! slt extended domain longitude
-      integer ksnow   ! Number of snow layers in CCSM
-      integer kseaice ! Number of sea ice layers in CCSM
-      integer klev    ! Number of layers minus one (0 layer at top) for rad calculation
-      integer klevp   ! klev + 1
+     $     plon,
+     $     nxpt,
+     $     plond
+      integer ksnow
+      integer kseaice
+      integer klev
+      integer klevp
       parameter(plon    = 1,
      $          nxpt    = 1,
      $          plond   = plon + 1 + 2*nxpt,
@@ -2585,81 +2485,81 @@ C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      integer lat           ! Lat index for two dimensional data arrays
-      integer ioro(plond)   ! Surface type flag (ocean, land, sea ice)
-      real fnidr(plond)     ! fraction of direct to total nir down srf flux
-      real sndpth(plond)    ! Snow physical depth (m)
-      real rhos(plond)      ! snow density
-      real rs(plond)        ! snow grain radius
-      real R_ice(plond)     ! sea ice standard deviation tuning parameter
-      real R_pnd(plond)     ! ponded ice standard deviation tuning parameter
-      real mu0(plond)       ! Cosine solar zenith angle
-      real tg(plond)        ! surface skin temperature (K)
-      real hpnd(plond)      ! pond thickness (m)
-      real hice(plond)      ! sea ice thickness (m)
+      integer lat
+      integer ioro(plond)
+      real fnidr(plond)
+      real sndpth(plond)
+      real rhos(plond)
+      real rs(plond)
+      real R_ice(plond)
+      real R_pnd(plond)
+      real mu0(plond)
+      real tg(plond)
+      real hpnd(plond)
+      real hice(plond)
 C
 C Output arguments
 C
-      real albs(plond)      ! Srf alb for direct rad   0.2-0.7 micro-ms
-      real albl(plond)      ! Srf alb for direct rad   0.7-5.0 micro-ms
-      real albsd(plond)     ! Srf alb for diffuse rad  0.2-0.7 micro-ms
-      real albld(plond)     ! Srf alb for diffuse rad  0.7-5.0 micro-ms
+      real albs(plond)
+      real albl(plond)
+      real albsd(plond)
+      real albld(plond)
 C
 C---------------------------Local variables-----------------------------
 C
-      integer i,ii,         ! Longitude indices
-     $        indx(plond),  ! Indices for computation points (ocean or sea ice)
-     $        indxo(plond), ! Indices for computation points (ocean)
-     $        indxsi(plond),! Indices for computation points (sea ice)
-     $        npts,         ! Number of ocean/sea ice points
-     $        nptso,        ! Number of ocean points
-     $        nptssi        ! Number of sea ice points
-      integer k             ! level index
+      integer i,ii,
+     $        indx(plond),
+     $        indxo(plond),
+     $        indxsi(plond),
+     $        npts,
+     $        nptso,
+     $        nptssi
+      integer k
 C
 C Externals
 C
-      external  wheneq      ! When equal funct gives indices for condtn
-      external  whenne      ! When not equal funct gives indices for condtn
+      external  wheneq
+      external  whenne
 C
 C-----------------------------------------------------------------------
 C 
       real 
-     &   dT_mlt    ! change in temp to give melt pond albedo change
-     &,  Timelt    ! sea ice melting temperature
-     &,  c0        ! 0.0
-     &,  c1        ! 1.0
+     &   dT_mlt
+     &,  Timelt
+     &,  c0
+     &,  c1
 
       parameter (
-     &   dT_mlt    = -1.      ! change in temp to give melting albedo change
-     &,  Timelt    = 0.00     ! ice melting temperature
-     &,  c0        = 0.00     ! 0.0
-     &,  c1        = 1.00 )   ! 1.0
+     &   dT_mlt    = -1.
+     &,  Timelt    = 0.00
+     &,  c0        = 0.00
+     &,  c1        = 1.00 )
 
       real 
-     &   hs     ! snow thickness (m)
-     &,  fi     ! bare ice area fraction
-     &,  fp     ! melt pond fraction
-     &,  hp     ! melt pond depth
-     &,  z      ! depth in ice (m)
-     &,  Klmbda ! irradiance extinction coefficient
-      real dz,dz_ssl  ! Sea ice layer thickness and surface layer thickness
+     &   hs
+     &,  fi
+     &,  fp
+     &,  hp
+     &,  z
+     &,  Klmbda
+      real dz,dz_ssl
 C
 C-----------------------------------------------------------------------
 C Fluxes for sea ice
 C
-      real hi_ssl     ! sea ice surface scattering layer thickness (m)
-      real hs_ssl     ! snow surface scattering layer thickness (m)
-      integer ksrf    ! interface index for surface absorption
+      real hi_ssl
+      real hs_ssl
+      integer ksrf
 C
-      real Fdirup_vs  ! Up   flux to dir beam at model interface vs band
-      real Fdirdn_vs  ! Down flux to dir beam at model interface vs band
-      real Fdifup_vs  ! Up   flux to dif beam at model interface vs band
-      real Fdifdn_vs  ! Down flux to dif beam at model interface vs band
+      real Fdirup_vs
+      real Fdirdn_vs
+      real Fdifup_vs
+      real Fdifdn_vs
 C
-      real Fdirup_ni  ! Up   flux to dir beam at model interface ni band
-      real Fdirdn_ni  ! Down flux to dir beam at model interface ni band
-      real Fdifup_ni  ! Up   flux to dif beam at model interface ni band
-      real Fdifdn_ni  ! Down flux to dif beam at model interface ni band
+      real Fdirup_ni
+      real Fdirdn_ni
+      real Fdifup_ni
+      real Fdifdn_ni
 C
       common/radflux_seaice/
      &              hi_ssl, hs_ssl
@@ -2672,13 +2572,13 @@ C-----------------------------------------------------------------------
 C Absorption data for sea ice
 C
       real  
-     &   I_vs     ! frac transmission vs through sea ice surface layer
-     &,  I_ni     ! frac transmission ni through sea ice surface layer
-     &,  Tri_vs   ! frac transmission vs, surface to sea ice layer interface 
-     &,  Tri_ni   ! frac transmission ni, surface to sea ice layer interface 
-     &,  Tro_vs   ! frac transmission vs to ocean
-     &,  Tro_ni   ! frac transmission ni to ocean
-     &,  zd       ! interface depths for snow/pond and sea ice (from its own surface)
+     &   I_vs
+     &,  I_ni
+     &,  Tri_vs
+     &,  Tri_ni
+     &,  Tro_vs
+     &,  Tro_ni
+     &,  zd
       common/seaice/I_vs,I_ni,zd(0:klevp)
      &             ,Tri_vs(0:klevp),Tri_ni(0:klevp)
      &             ,Tro_vs,Tro_ni
@@ -2687,9 +2587,9 @@ C-----------------------------------------------------------------------
 C
 C Find ocean and sea ice surfaces.
 C
-      call whenne(plon,ioro,1,1,indx,npts)      ! Ocean or sea ice
-      call wheneq(plon,ioro,1,0,indxo,nptso)    ! Open ocean
-      call wheneq(plon,ioro,1,2,indxsi,nptssi)  ! Sea ice
+      call whenne(plon,ioro,1,1,indx,npts)
+      call wheneq(plon,ioro,1,0,indxo,nptso)
+      call wheneq(plon,ioro,1,2,indxsi,nptssi)
 C
 C Initialize all ocean/sea ice surface albedos to zero
 C
@@ -2928,13 +2828,13 @@ C------------------------------Parameters-------------------------------
 C
 C Resolution parameters
 C
-      integer plon      ! number of longitudes
-      integer nxpt      ! no.of points outside active domain for interpolant
-      integer plond     ! slt extended domain longitude
-      integer ksnow     ! Number of snow layers in CCSM
-      integer kseaice   ! Number of sea ice layers in CCSM
-      integer klev      ! Number of layers minus one (0 layer at top) for rad calculation
-      integer klevp     ! klev + 1
+      integer plon
+      integer nxpt
+      integer plond
+      integer ksnow
+      integer kseaice
+      integer klev
+      integer klevp
       parameter(plon    = 1,
      $          nxpt    = 1,
      $          plond   = plon + 1 + 2*nxpt,
@@ -2945,133 +2845,133 @@ C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      integer indxsi(plond) ! Indices for computation points (sea ice)
-      integer nptssi        ! Number of sea ice points
+      integer indxsi(plond)
+      integer nptssi
 C
-      real fnidr(plond)     ! fraction of direct to total nir down srf flux
-      real mu0(plond)       ! cosine solar zenith angle
-      real hs(plond)        ! Snow physical depth (m)
-      real rhos(plond)      ! snow density (kg/m3)
-      real rs(plond)        ! snow grain radius (micro-meters)
-      real hi(plond)        ! sea ice thickness (m)
-      real hp(plond)        ! Melt pond depth (m)
-      real R_ice(plond)     ! sea ice standard deviation tuning parameter
-      real R_pnd(plond)     ! ponded ice standard deviation tuning parameter
+      real fnidr(plond)
+      real mu0(plond)
+      real hs(plond)
+      real rhos(plond)
+      real rs(plond)
+      real hi(plond)
+      real hp(plond)
+      real R_ice(plond)
+      real R_pnd(plond)
 C
 C Output arguments
 C
-      real albs(plond)         ! 0.2-0.7 micro-meter srfc alb to direct rad
-      real albl(plond)         ! 0.7-5.0 micro-meter srfc alb to direct rad
-      real albsd(plond)        ! 0.2-0.7 micro-meter srfc alb to diffuse rad
-      real albld(plond)        ! 0.7-5.0 micro-meter srfc alb to diffuse rad
+      real albs(plond)
+      real albl(plond)
+      real albsd(plond)
+      real albld(plond)
 C
 C------------------------------Externals--------------------------------
 C
-      integer   isrchfgt       ! Search for first array element > 0
-      integer   isrchfle       ! Search for first array element < 0
-      external  simded         ! Computes delta-eddington solution
-      external  isrchfgt       ! Search for first array element > 0
-      external  isrchfle       ! Search for first array element < 0
+      integer   isrchfgt
+      integer   isrchfle
+      external  simded
+      external  isrchfgt
+      external  isrchfle
 C
 C---------------------------Local variables-----------------------------
 C
-      integer       ns            ! Spectral loop index
-      integer       i,ii          ! Longitude loop indices
-      integer       k             ! Level loop index
-      integer       ktop          ! Total number of levels overlying sea ice minus 1
-      integer       kice          ! Level starting index for sea ice
+      integer       ns
+      integer       i,ii
+      integer       k
+      integer       ktop
+      integer       kice
 C
-      integer srf(plond)          ! Type of layer over ice: 0=air,1=snow,2=water
-      real tau(plond,0:klev)      ! Layer extinction optical depth
-      real w(plond,0:klev)        ! Layer single scattering albedo
-      real g(plond,0:klev)        ! Layer asymmetery paramter
-      real dz,dz_ssl  ! Sea ice layer thickness and surface layer thickness
-      real fs      ! DL scaling factor to reduce (kseaice<4) or increase (kseaice>4) tau_dl
-      real c0      ! 0
-      real c1      ! 1
+      integer srf(plond)
+      real tau(plond,0:klev)
+      real w(plond,0:klev)
+      real g(plond,0:klev)
+      real dz,dz_ssl
+      real fs
+      real c0
+      real c1
       parameter (
-     &   c0        = 0.00     ! 0
-     &,  c1        = 1.00 )   ! 1
+     &   c0        = 0.00
+     &,  c1        = 1.00 )
 C
 C Spectral properties
 C
-      integer   nspint            ! Number of solar spectral intervals
+      integer   nspint
       parameter ( nspint = 3 )
-      real wt(nspint)             ! Spectral near-ir weights
+      real wt(nspint)
 C
 C Optical properties: k in m^{-1}; Q, w and g are dimensionless
 C
 C Snow optical properties
 C
-      real Qs(nspint)           ! Snow extinction efficiency
-      real ks(nspint)           ! Snow extinction coefficient
-      real ws(nspint)           ! Snow single scattering albedo
-      real gs(nspint)           ! Snow asymmetry parameter
+      real Qs(nspint)
+      real ks(nspint)
+      real ws(nspint)
+      real gs(nspint)
 C
 C Sea ice optical properties, distinguished by spectral interval
 C mn = mean values
 C
-      real ki_ssl_mn(nspint)     ! Surface-layer ice extinction coefficient
-      real wi_ssl_mn(nspint)     ! Surface-layer ice single scattering albedo
-      real gi_ssl_mn(nspint)     ! Surface-layer ice asymmetry parameter
+      real ki_ssl_mn(nspint)
+      real wi_ssl_mn(nspint)
+      real gi_ssl_mn(nspint)
 C
-      real ki_dl_mn(nspint)      ! Drained-layer ice extinction coefficient
-      real wi_dl_mn(nspint)      ! Drained-layer ice single scattering albedo
-      real gi_dl_mn(nspint)      ! Drained-layer ice asymmetry parameter
+      real ki_dl_mn(nspint)
+      real wi_dl_mn(nspint)
+      real gi_dl_mn(nspint)
 C
-      real ki_int_mn(nspint)     ! Interior-layer ice extinction coefficient
-      real wi_int_mn(nspint)     ! Interior-layer ice single scattering albedo
-      real gi_int_mn(nspint)     ! Interior-layer ice asymmetry parameter
+      real ki_int_mn(nspint)
+      real wi_int_mn(nspint)
+      real gi_int_mn(nspint)
 C
-      real ki_p_ssl_mn(nspint)   ! Ice under pond srf scat layer extinction coefficient
-      real wi_p_ssl_mn(nspint)   ! Ice under pond srf scat layer single scattering albedo
-      real gi_p_ssl_mn(nspint)   ! Ice under pond srf scat layer asymmetry parameter
+      real ki_p_ssl_mn(nspint)
+      real wi_p_ssl_mn(nspint)
+      real gi_p_ssl_mn(nspint)
 C
-      real ki_p_int_mn(nspint)   ! Ice under pond interior extinction coefficient
-      real wi_p_int_mn(nspint)   ! Ice under pond interior single scattering albedo
-      real gi_p_int_mn(nspint)   ! Ice under pond interior asymmetry parameter
+      real ki_p_int_mn(nspint)
+      real wi_p_int_mn(nspint)
+      real gi_p_int_mn(nspint)
 c
-      real fp_ice                 ! ice fraction of scat coeff for + stn dev in alb
-      real fm_ice                 ! ice fraction of scat coeff for - stn dev in alb
+      real fp_ice
+      real fm_ice
 c
-      real fp_pnd                 ! ponded ice fraction of scat coeff for + stn dev in alb
-      real fm_pnd                 ! ponded ice fraction of scat coeff for - stn dev in alb
+      real fp_pnd
+      real fm_pnd
 C
 C actual used in calculation
 C
-      real ki_ssl(nspint)         ! Surface-layer ice extinction coefficient
-      real wi_ssl(nspint)         ! Surface-layer ice single scattering albedo
-      real gi_ssl(nspint)         ! Surface-layer ice asymmetry parameter
+      real ki_ssl(nspint)
+      real wi_ssl(nspint)
+      real gi_ssl(nspint)
 C
-      real ki_dl(nspint)          ! Drained-layer ice extinction coefficient
-      real wi_dl(nspint)          ! Drained-layer ice single scattering albedo
-      real gi_dl(nspint)          ! Drained-layer ice asymmetry parameter
+      real ki_dl(nspint)
+      real wi_dl(nspint)
+      real gi_dl(nspint)
 C
-      real ki_int(nspint)         ! Interior-layer ice extinction coefficient
-      real wi_int(nspint)         ! Interior-layer ice single scattering albedo
-      real gi_int(nspint)         ! Interior-layer ice asymmetry parameter
+      real ki_int(nspint)
+      real wi_int(nspint)
+      real gi_int(nspint)
 C
-      real kalg                   ! algae absorption coefficient for 0.5 m thick layer
-      data kalg / 0.6 /           ! for path of 75 mg Chl a / m2
+      real kalg
+      data kalg / 0.6 /
 C
-      real ki_p_ssl(nspint)       ! Ice under pond srf scat layer extinction coefficient
-      real wi_p_ssl(nspint)       ! Ice under pond srf scat layer single scattering albedo
-      real gi_p_ssl(nspint)       ! Ice under pond srf scat layer asymmetry parameter
+      real ki_p_ssl(nspint)
+      real wi_p_ssl(nspint)
+      real gi_p_ssl(nspint)
 C
-      real ki_p_int(nspint)       ! Ice under pond extinction coefficient
-      real wi_p_int(nspint)       ! Ice under pond single scattering albedo
-      real gi_p_int(nspint)       ! Ice under pond asymmetry parameter
+      real ki_p_int(nspint)
+      real wi_p_int(nspint)
+      real gi_p_int(nspint)
 C
 C Water optical properties
 C
-      real kw(nspint)             ! Water extinction coefficient
-      real ww(nspint)             ! Water single scattering albedo
-      real gw(nspint)             ! Water asymmetry parameter
+      real kw(nspint)
+      real ww(nspint)
+      real gw(nspint)
 C
 C Albedos for underlying ocean
 C
-      real albodr(plond)          ! Spectral ocean albedo to direct rad
-      real albodf(plond)          ! Spectral ocean albedo to diffuse rad
+      real albodr(plond)
+      real albodf(plond)
 c
 c For tuning sea ice and pond iops 
 c
@@ -3084,14 +2984,14 @@ c
 c
 c set Qs, ws and gs table input
 c
-      integer nmbrad             ! number of snow grain radii for table input
-      integer nr                 ! loop index for grain number
+      integer nmbrad
+      integer nr
       parameter( nmbrad = 32 )
-      real rs_tab(nmbrad)        ! snow grain radius for each table entry (micro-meters)
-      real delr                  ! snow grain radius interpolation parameter
-      real Qs_tab(nspint,nmbrad) ! extinction efficiency for each snow grain radius
-      real ws_tab(nspint,nmbrad) ! single scatter albedo for each snow grain radius
-      real gs_tab(nspint,nmbrad) ! assymetry parameter   for each snow grain radius
+      real rs_tab(nmbrad)
+      real delr
+      real Qs_tab(nspint,nmbrad)
+      real ws_tab(nspint,nmbrad)
+      real gs_tab(nspint,nmbrad)
 c
       data rs_tab/ 
      $                5.,    7.,   10.,   15.,   20.,
@@ -3204,7 +3104,7 @@ c
      $    0.891356,    0.896851,    0.951945,
      $    0.891386,    0.897399,    0.954156/
 c
-      real rhoi                   ! pure ice density (kg/m3)
+      real rhoi
       data rhoi /  917.0 /
 C
 C ice, ponded ice and water IOPs
@@ -3236,35 +3136,35 @@ C
 C These arrays are defined at model interfaces; 0 is the top of the
 C layer above the sea ice; klevp is the sea ice/ocean interface:
 C
-      real trndir(plond,0:klevp)  ! Solar beam down transm from top
-      real trntdr(plond,0:klevp)  ! Total transmission to direct beam for layers above
-      real trndif(plond,0:klevp)  ! Diffuse transmission to diffuse beam for layers above
-      real rupdir(plond,0:klevp)  ! Ref to dir rad for layers below
-      real rupdif(plond,0:klevp)  ! Ref to dif rad for layers below
-      real rdndif(plond,0:klevp)  ! Ref to dif rad for layers above
-      real refk                   ! Interface multiple scattering k
+      real trndir(plond,0:klevp)
+      real trntdr(plond,0:klevp)
+      real trndif(plond,0:klevp)
+      real rupdir(plond,0:klevp)
+      real rupdif(plond,0:klevp)
+      real rdndif(plond,0:klevp)
+      real refk
 C
-      real fdirup(plond,0:klevp)  ! Up   flux to direct beam at model interface 
-      real fdirdn(plond,0:klevp)  ! Down flux to direct beam at model interface
-      real fdifup(plond,0:klevp)  ! Up   flux to diffuse beam at model interface 
-      real fdifdn(plond,0:klevp)  ! Down flux to diffuse beam at model interface
+      real fdirup(plond,0:klevp)
+      real fdirdn(plond,0:klevp)
+      real fdifup(plond,0:klevp)
+      real fdifdn(plond,0:klevp)
 C
 C-----------------------------------------------------------------------
 C Fluxes for sea ice
 C
-      real hi_ssl     ! sea ice surface scattering layer thickness (m)
-      real hs_ssl     ! snow surface scattering layer thickness (m)
-      integer ksrf    ! interface index for surface absorption
+      real hi_ssl
+      real hs_ssl
+      integer ksrf
 C
-      real Fdirup_vs  ! Up   flux to dir beam at model interface vs band
-      real Fdirdn_vs  ! Down flux to dir beam at model interface vs band
-      real Fdifup_vs  ! Up   flux to dif beam at model interface vs band
-      real Fdifdn_vs  ! Down flux to dif beam at model interface vs band
+      real Fdirup_vs
+      real Fdirdn_vs
+      real Fdifup_vs
+      real Fdifdn_vs
 C
-      real Fdirup_ni  ! Up   flux to dir beam at model interface ni band
-      real Fdirdn_ni  ! Down flux to dir beam at model interface ni band
-      real Fdifup_ni  ! Up   flux to dif beam at model interface ni band
-      real Fdifdn_ni  ! Down flux to dif beam at model interface ni band
+      real Fdirup_ni
+      real Fdirdn_ni
+      real Fdifup_ni
+      real Fdifdn_ni
 C
       common/radflux_seaice/
      &              hi_ssl, hs_ssl
@@ -3274,31 +3174,31 @@ C
      &,             Fdifup_ni(plond,0:klevp),Fdifdn_ni(plond,0:klevp)
      &,             ksrf
 C
-      data hi_ssl / .05 /     ! sea ice surface scattering layer thickness (m)
-      data hs_ssl / .04 /     ! snow surface scattering layer thickness (m)
+      data hi_ssl / .05 /
+      data hs_ssl / .04 /
 C
 C-----------------------------------------------------------------------
 C Absorption data for sea ice
 C
       real
-     &   I_vs     ! frac transmission vs through sea ice surface layer
-     &,  I_ni     ! frac transmission ni through sea ice surface layer
-     &,  Tri_vs   ! frac transmission vs, surface to sea ice layer interface
-     &,  Tri_ni   ! frac transmission ni, surface to sea ice layer interface
-     &,  Tro_vs   ! frac transmission vs to ocean
-     &,  Tro_ni   ! frac transmission ni to ocean
-     &,  zd       ! interface depths for snow/pond and sea ice (from its own surface)
+     &   I_vs
+     &,  I_ni
+     &,  Tri_vs
+     &,  Tri_ni
+     &,  Tro_vs
+     &,  Tro_ni
+     &,  zd
       common/seaice/I_vs,I_ni,zd(0:klevp)
      &             ,Tri_vs(0:klevp),Tri_ni(0:klevp)
      &             ,Tro_vs,Tro_ni
 C-----------------------------------------------------------------------
 C Data for melt ponds transition to bare sea ice
 C
-      real hpmin    ! minimum allowed melt pond depth
-      real hp0      ! melt pond depth below which iops wghted bare ice/ponded ice
-      real sig_i    ! ice scattering coefficient
-      real sig_p    ! pond scattering coefficient
-      real kext     ! weighted extinction coefficient
+      real hpmin
+      real hp0
+      real sig_i
+      real sig_p
+      real kext
 C
       data hpmin / .005 /
       data hp0   / .200 /
@@ -3774,7 +3674,7 @@ C
  4321   format('  spectral albedo for interval = ',i3,
      $         ' direct and diffuse = ',2(f7.5,1x))
 C
-  100 continue              ! End of spectral interval loop
+  100 continue
 C
 C done with simcsw
 C
@@ -3842,13 +3742,13 @@ C------------------------------Parameters-------------------------------
 C
 C Resolution parameters
 C
-      integer plon          ! number of longitudes
-      integer nxpt          ! no.of points outside active domain for interpolant
-      integer plond         ! slt extended domain longitude
-      integer ksnow         ! Number of snow layers in CCSM
-      integer kseaice       ! Number of sea ice layers in CCSM
-      integer klev          ! Number of layers minus one (0 layer at top) for rad calculation
-      integer klevp         ! klev + 1
+      integer plon
+      integer nxpt
+      integer plond
+      integer ksnow
+      integer kseaice
+      integer klev
+      integer klevp
       parameter(plon    = 1,
      $          nxpt    = 1,
      $          plond   = plon + 1 + 2*nxpt,
@@ -3857,15 +3757,15 @@ C
 C
 C------------------------------Input Arguments--------------------------
 C
-      integer indxsi(plond)       ! Indices for computation points (sea ice)
-      integer nptssi              ! Number of sea ice points
-      real    mu0_in(plond)       ! Cosine zenith angle
-      integer srf_in(plond)       ! Type of layer over ice: 0=air,1=snow,2=water
-      real tau_in(plond,0:klev)   ! Layer extinction optical depth
-      real w_in(plond,0:klev)     ! Layer single scattering albedo
-      real g_in(plond,0:klev)     ! Layer asymmetry parameter
-      real albodr(plond)          ! Ocean albedo to direct rad
-      real albodf(plond)          ! Ocean albedo to diffuse rad
+      integer indxsi(plond)
+      integer nptssi
+      real    mu0_in(plond)
+      integer srf_in(plond)
+      real tau_in(plond,0:klev)
+      real w_in(plond,0:klev)
+      real g_in(plond,0:klev)
+      real albodr(plond)
+      real albodf(plond)
 C
 C------------------------------Output Arguments-------------------------
 C
@@ -3875,21 +3775,21 @@ C  trntdr(k=4) refers to the total transmission to direct radiation to the
 C  top interface of the 4th layer. klevp refers to the lowest sea ice layer 
 C  interface with the ocean.
 C
-      real trndir(plond,0:klevp)  ! Solar beam down transm from top
-      real trntdr(plond,0:klevp)  ! Total transmission to direct beam for layers above
-      real trndif(plond,0:klevp)  ! Diffuse transmission to diffuse beam for layers above
-      real rupdir(plond,0:klevp)  ! Ref to dir rad for layers below
-      real rupdif(plond,0:klevp)  ! Ref to dif rad for layers below
-      real rdndif(plond,0:klevp)  ! Ref to dif rad for layers above
+      real trndir(plond,0:klevp)
+      real trntdr(plond,0:klevp)
+      real trndif(plond,0:klevp)
+      real rupdir(plond,0:klevp)
+      real rupdif(plond,0:klevp)
+      real rdndif(plond,0:klevp)
 C
 C------------------------------Externals--------------------------------
 C
-      external  resetr      ! Resets array elements to zero
-      external  whenfgt     ! Collect indices greater than condition
+      external  resetr
+      external  whenfgt
 C
 C---------------------------Local variables-----------------------------
 C
-      integer    kfrsnl     ! vertical index of layer whose top is Fresnel layer
+      integer    kfrsnl
 C
 C Following variables are defined for each layer; 0 refers to layer above 
 C sea ice. In general we must distinguish directions above and below in 
@@ -3897,98 +3797,98 @@ C the diffuse reflectivity and transmissivity, as layers are not assumed
 C to be homogeneous (apart from the single layer delta-Edd solutions); 
 C the direct is always from above.
 C
-      real rdir(plond,0:klev)     ! Layer reflectivity to direct rad
-      real rdif_a(plond,0:klev)   ! Layer reflectivity to diffuse rad from above
-      real rdif_b(plond,0:klev)   ! Layer reflectivity to diffuse rad from below
-      real tdir(plond,0:klev)     ! Layer transmission to direct rad
-      real tdif_a(plond,0:klev)   ! Layer transmission to diffuse rad from above
-      real tdif_b(plond,0:klev)   ! Layer transmission to diffuse rad from below
-      real trnlay(plond,0:klev)   ! Solar beam transm for layer
+      real rdir(plond,0:klev)
+      real rdif_a(plond,0:klev)
+      real rdif_b(plond,0:klev)
+      real tdir(plond,0:klev)
+      real tdif_a(plond,0:klev)
+      real tdif_b(plond,0:klev)
+      real trnlay(plond,0:klev)
 C
 C Minimum total transmission below which no layer computation are done:
 C
-      real trmin            ! Minimum total transmission allowed
+      real trmin
       parameter (trmin = 1.e-3)
 C
-      integer i             ! Longitude index
-      integer k             ! Level index
-      integer ii            ! Longitude index
-      integer nval          ! Number of long values satisfying criteria
-      integer index(plond)  ! Array of longitude indices
-      real tautot           ! Layer optical depth
-      real wtot             ! Layer single scatter albedo
-      real gtot             ! Layer asymmetry parameter
-      real ftot             ! Layer forward scatter fraction
-      real ts               ! Layer scaled extinction optical depth
-      real ws               ! Layer scaled single scattering albedo
-      real gs               ! Layer scaled asymmetry parameter
-      real rintfc           ! Reflection (multiple) at an interface
-      real refkp1           ! Interface multiple scattering for k+1
-      real refkm1           ! Interface multiple scattering for k-1
-      real tdrrdir          ! Direct tran times layer direct ref 
-      real tdndif           ! Total down diffuse = tot tran - direct tran
-      real R1               ! Perpendicular polarization reflection amplitude
-      real R2               ! Parallel polarization reflection amplitude
-      real T1               ! Perpendicular polarization transmission amplitude
-      real T2               ! Parallel polarization transmission amplitude
-      real Rf_dir_a         ! Fresnel reflection to direct radiation
-      real Tf_dir_a         ! Fresnel transmission to direct radiation
-      real Rf_dif_a         ! Fresnel reflection to diff radiation from above
-      real Rf_dif_b         ! Fresnel reflection to diff radiation from below
-      real Tf_dif_a         ! Fresnel transmission to diff radiation from above
-      real Tf_dif_b         ! Fresnel transmission to diff radiation from below
-      real refindx          ! Refractive index of ice (used for water also)
+      integer i
+      integer k
+      integer ii
+      integer nval
+      integer index(plond)
+      real tautot
+      real wtot
+      real gtot
+      real ftot
+      real ts
+      real ws
+      real gs
+      real rintfc
+      real refkp1
+      real refkm1
+      real tdrrdir
+      real tdndif
+      real R1
+      real R2
+      real T1
+      real T2
+      real Rf_dir_a
+      real Tf_dir_a
+      real Rf_dif_a
+      real Rf_dif_b
+      real Tf_dif_a
+      real Tf_dif_b
+      real refindx
       parameter (refindx  = 1.31)
 C
 C----------------Statement functions and other local variables----------
 C
 C Statement functions and other local variables
 C
-      real alpha            ! Term in direct reflect and transmissivity
-      real gamma            ! Term in direct reflect and transmissivity
-      real el               ! Term in alpha,gamma,n,u
-      real taus             ! Scaled extinction optical depth
-      real omgs             ! Scaled single particle scattering albedo
-      real asys             ! Scaled asymmetry parameter
-      real u                ! Term in diffuse reflect and transmissivity
-      real n                ! Term in diffuse reflect and transmissivity
-      real lm               ! Temporary for el
-      real mu0              ! cosine solar zenith angle incident
-      real mu0n             ! cosine solar zenith angle in medium
-      real mu               ! cosine solar zenith for either snow or water
-      real ne               ! Temporary for n
-      real w                ! Dummy argument for statement function
-      real uu               ! Dummy argument for statement function
-      real g                ! Dummy argument for statement function
-      real e                ! Dummy argument for statement function
-      real f                ! Dummy argument for statement function
-      real t                ! Dummy argument for statement function
-      real et               ! Dummy argument for statement function
+      real alpha
+      real gamma
+      real el
+      real taus
+      real omgs
+      real asys
+      real u
+      real n
+      real lm
+      real mu0
+      real mu0n
+      real mu
+      real ne
+      real w
+      real uu
+      real g
+      real e
+      real f
+      real t
+      real et
 C
 C Intermediate terms for delta-eddington solution
 C
-      real alp              ! Temporary for alpha
-      real gam              ! Temporary for gamma
-      real ue               ! Temporary for u
-      real arg              ! Exponential argument
-      real extins           ! Extinction
-      real amg              ! Alp - gam
-      real apg              ! Alp + gam
+      real alp
+      real gam
+      real ue
+      real arg
+      real extins
+      real amg
+      real apg
 C
 C Gaussian integration parameters
 C
-      integer ng            ! gaussian integration index
-      integer ngmax         ! number of gaussian angles
+      integer ng
+      integer ngmax
       parameter ( ngmax = 8 )
-      real gauspt(ngmax)    ! gaussian angles (points)
-      real gauswt(ngmax)    ! gaussian weights
-      real wt               ! gaussian weight
-      real swt              ! sum of weights
-      real trn              ! layer transmission
-      real rdr              ! rdir for gaussian integration
-      real tdr              ! tdir for gaussian integration
-      real smr              ! accumulator for rdif gaussian integration
-      real smt              ! accumulator for tdif gaussian integration
+      real gauspt(ngmax)
+      real gauswt(ngmax)
+      real wt
+      real swt
+      real trn
+      real rdr
+      real tdr
+      real smr
+      real smt
 C
       data gauspt / .9894009,  .9445750,  .8656312,  .7554044,
      $              .6178762,  .4580168,  .2816036,  .0950125 /
@@ -4330,17 +4230,17 @@ C
 C Basic grid point resolution parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
 C
       parameter(plon   = 1,
      $          plev   = 18,
@@ -4362,39 +4262,39 @@ C
 C Model grid point resolution parameters.
 C
       integer
-     $     plnlv,    ! Length of multilevel field slice
-     $     plndlv,   ! Length of multilevel 3-d field slice
-     $     pbflnb,   ! Length of buffer 1
-     $     pbflna,   ! Length of buffer 2
-     $     pbflnm1,  ! Length of buffer m1
-     $     pflenb,   ! Length of buffer 1, padded for unblocked I/O
-     $     pflena,   ! Length of buffer 2, padded for unblocked I/O
-     $     plenalcl, ! Length of buffer 2, needed in SPEGRD
-     $     ptifld,   ! Number of fields on time-invariant boundary dataset
-     $     ptvsfld,  ! Number of fields on time-variant boundary dataset
-     $     ptvofld,  ! Number of fields on ozone dataset
-     $     plenhi,   ! Length of integer header record
-     $     plenhc,   ! Length of character header record
-     $     plenhr,   ! Length of real header record
-     $     plexbuf,  ! Length of communication buffer for flux coupling
-     $     ptapes,   ! Maximum number of history tapes allowed
-     $     pflds     ! Number of fields in master field list
+     $     plnlv,
+     $     plndlv,
+     $     pbflnb,
+     $     pbflna,
+     $     pbflnm1,
+     $     pflenb,
+     $     pflena,
+     $     plenalcl,
+     $     ptifld,
+     $     ptvsfld,
+     $     ptvofld,
+     $     plenhi,
+     $     plenhc,
+     $     plenhr,
+     $     plexbuf,
+     $     ptapes,
+     $     pflds
       integer
-     $     ptileni,  ! Length of time-invariant integer header
-     $     ptilenc,  ! Length of time-invariant character header
-     $     ptvoleni, ! Length of ozone integer header
-     $     ptvolenc, ! Length of ozone character header
-     $     ptvsleni, ! Length of time-variant integer header
-     $     ptvslenc  ! Length of time-variant character header
+     $     ptileni,
+     $     ptilenc,
+     $     ptvoleni,
+     $     ptvolenc,
+     $     ptvsleni,
+     $     ptvslenc
       integer
-     $     plenhis,  ! Length of integer header scalars
-     $     plenhcs,  ! Length of character header scalars
-     $     ptilenis, ! Length of time-invariant integer scalars
-     $     ptilencs, ! Length of time-invariant character scalars
-     $     ptolenis, ! Length of ozone integer header scalars
-     $     ptolencs, ! Length of ozone character header scalars
-     $     ptslenis, ! Length of time-variant integer header scalars
-     $     ptslencs  ! Length of time-variant character header scalars
+     $     plenhis,
+     $     plenhcs,
+     $     ptilenis,
+     $     ptilencs,
+     $     ptolenis,
+     $     ptolencs,
+     $     ptslenis,
+     $     ptslencs
 C
       parameter(plnlv=plon*plev,plndlv=plond*plev)
 C
@@ -4453,7 +4353,7 @@ c
 C
 C Integer and logical variables related to history tapes
 C
-      integer pichsum  ! Max. value of 4*ichar(character)
+      integer pichsum
       parameter (pichsum=508)
 C
       common /comhst/
@@ -4468,34 +4368,34 @@ C
      $   islocc(0:pichsum,ptapes)         ,hstwr(ptapes)      ,
      $   rstwr             ,nacsav(pflds,plat)
 C
-      integer nhtfrq,  ! Array of write frequencies
-     $        mfilt    ! Number of write-ups per volume
-      logical nlfilt   ! Flag for extra file on 1st vol (ktape=1)
-      logical hstwr    ! Flag for history writes
-      logical rstwr    ! Flag for restart writes
-      integer ndens,   ! Array of input packing densities
-     $        nflds,   ! Array of total fields on tape
-     $        nfils,   ! Array of current files on the volume
-     $        hunit,   ! History tape disk units
-     $        nrlen,   ! Record length
-     $        nplen,   ! Packed record length,
-     $        sunit,   ! History tape SSD unit
-     $        stfnum,  ! Starting number for history tape naming
-     $        mtapes,  ! Actual number of tapes requested
-     $        nexcl,   ! Actual number of excluded fields
-     $        nincl,   ! Actual number of included primary tape fields
-     $        hbufpt,  ! Ptrs to start of fields for each tape in hbuf
-     $        nacs,    ! Number of accumulations for field
-     $        nacsav,  ! Saved accumulations for restart
-     $        iflds,   ! Integer portion of master field list
-     $        nupnt,   ! Array of unpacked field pointers
-     $        npnt,    ! Array of packed field pointers
-     $        ndcurf,  ! First "current" day for each tape
-     $        ncdatf,  ! First "current" date for each tape
-     $        nscurf,  ! First "current" second of day for each tape
-     $        ncsecf,  ! First "current" second of date for each tape
-     $        nfldsc,  ! Number of fields starting with given ichar(1-4)
-     $        islocc   ! Index of starting location for each ichar sum
+      integer nhtfrq,
+     $        mfilt
+      logical nlfilt
+      logical hstwr
+      logical rstwr
+      integer ndens,
+     $        nflds,
+     $        nfils,
+     $        hunit,
+     $        nrlen,
+     $        nplen,
+     $        sunit,
+     $        stfnum,
+     $        mtapes,
+     $        nexcl,
+     $        nincl,
+     $        hbufpt,
+     $        nacs,
+     $        nacsav,
+     $        iflds,
+     $        nupnt,
+     $        npnt,
+     $        ndcurf,
+     $        ncdatf,
+     $        nscurf,
+     $        ncsecf,
+     $        nfldsc,
+     $        islocc
 C
 C  Character variables related to history tapes
 C
@@ -4505,17 +4405,17 @@ C
      $   ctitle             ,fieldn(2,pflds)     ,exclude(pflds)      ,
      $   primary(pflds)     ,aux(pflds,ptapes-1)
 C
-      character*80 nfpath,    ! Array of first pathnames, for header
-     $             ppath,     ! Array of previous pathnames, for header
-     $             cpath      ! Array of current pathnames
-      character    nhfil*6,   ! Array of current file names
-     $             ninavg*1,  ! Tape fields instantaneous or averaged
-     $             caseid*8   ! Case identifier
-      character*80 ctitle     ! Case title
-      character*8  fieldn,    ! Character portion of master field list
-     $             exclude,   ! List of fields to rm from primary tape
-     $             primary,   ! List of fields to add to primary tape
-     $             aux        ! Lists of fields for auxiliary tapes
+      character*80 nfpath,
+     $             ppath,
+     $             cpath
+      character    nhfil*6,
+     $             ninavg*1,
+     $             caseid*8
+      character*80 ctitle
+      character*8  fieldn,
+     $             exclude,
+     $             primary,
+     $             aux
 C
 C-----------------------------------------------------------------------
 c
@@ -4526,11 +4426,11 @@ C
 C Logical unit numbers and related variables
 C
       integer
-     $     pnrg1,             ! maximum number of primary 
+     $     pnrg1,
 C                             !  regeneration files
-     $     pnrg2,             ! maximum number of secondary 
+     $     pnrg2,
 C                             !  regeneration files
-     $     pnrg3              ! maximum number of secondary 
+     $     pnrg3
 
       parameter (pnrg1 = 5)
       parameter (pnrg2 = 5)
@@ -4548,46 +4448,46 @@ C
       common/comlunc/rg1ext(pnrg1)   ,rg2ext(pnrg2)    ,
      $               rg3ext(pnrg3,ptapes)
 C
-      integer nsds,     ! restart dataset unit
-     $        nrg,      ! master regeneration dataset unit
-     $        nrg1,     ! primary regeneration dataset units
-     $        nrg2,     ! secondary regeneration dataset units
-     $        nrg3,     ! hbuf regeneration dataset units
-     $        nra1,     ! a work file
-     $        nrb1,     ! b work file
-     $        ninit,    ! initial dataset unit
-     $        nbndti,   ! time-invariant boundary dataset
-     $        nozone,   ! ozone dataset
-     $        nsst,     ! sst dataset
-     $        nabem,    ! absorptivity/emissivity work file
-     $        nsplit    ! communication between LINEMS1 and LINEMS2
+      integer nsds,
+     $        nrg,
+     $        nrg1,
+     $        nrg2,
+     $        nrg3,
+     $        nra1,
+     $        nrb1,
+     $        ninit,
+     $        nbndti,
+     $        nozone,
+     $        nsst,
+     $        nabem,
+     $        nsplit
 C
       logical
-     $     lutag        ! list of flags marking logical units in use
+     $     lutag
       integer
-     $     rg1lat,      ! latitude list for primary regen datasets
-     $     rg1siz,      ! file sizes for preallocation
-     $     rg1buf,      ! buffer length for assign
-     $     nnrg1,       ! number of primary regen files written
-     $     rg2lat,      ! lat list for secondary regen datasets
-     $     rg2siz,      ! file size for preallocation
-     $     rg2buf,      ! buffer length for assign
-     $     nnrg2,       ! number of secondary regen files written
-     $     rg3lat,      ! latitude list for hbuf regen datasets
-     $     rg3siz,      ! file sizes for preallocation
-     $     rg3buf,      ! buffer length for assign
-     $     nnrg3,       ! number of hbuf regen files written
-     $     mxszrg,      ! max size of a regen file (megabytes)
-     $     nrefrq,      ! frequency of regeneration file writes
-     $     mresfq,      ! frequency of mnthly avg regen file writes
-     $     rg3num       ! number of temporary secondary regen files
+     $     rg1lat,
+     $     rg1siz,
+     $     rg1buf,
+     $     nnrg1,
+     $     rg2lat,
+     $     rg2siz,
+     $     rg2buf,
+     $     nnrg2,
+     $     rg3lat,
+     $     rg3siz,
+     $     rg3buf,
+     $     nnrg3,
+     $     mxszrg,
+     $     nrefrq,
+     $     mresfq,
+     $     rg3num
       logical
-     $     rgnht        ! set true if regeneration file for a h-tape exists
+     $     rgnht
       character*2
-     $     rg1ext,      ! file extension for primary regen files
-     $     rg2ext       ! file extension for secondary regen files
+     $     rg1ext,
+     $     rg2ext
       character*5
-     $     rg3ext       ! file extension for secondary regen files
+     $     rg3ext
 C
 C-----------------------------------------------------------------------
 c
@@ -4601,19 +4501,19 @@ C
      $                onet    ,fakn    ,ricr    ,sffrac  ,vk      ,
      $                ccon    ,binm    ,binh
 C
-      real betam,  ! constant in wind gradient expression
-     $     betas,  ! constant in surface layer gradient expression
-     $     betah,  ! constant in temperature gradient expression 
-     $     fak,    ! constant in surface temperature excess         
-     $     g,      ! gravitational acceleration
-     $     onet,   ! 1/3 power in wind gradient expression
-     $     fakn,   ! constant in turbulent prandtl number
-     $     ricr,   ! critical richardson number
-     $     sffrac, ! surface layer fraction of boundary layer
-     $     vk,     ! von karman's constant
-     $     ccon,   ! fak * sffrac * vk
-     $     binm,   ! betam * sffrac
-     $     binh    ! betah * sffrac
+      real betam,
+     $     betas,
+     $     betah,
+     $     fak,
+     $     g,
+     $     onet,
+     $     fakn,
+     $     ricr,
+     $     sffrac,
+     $     vk,
+     $     ccon,
+     $     binm,
+     $     binh
 C
 C-----------------------------------------------------------------------
 c
@@ -4632,10 +4532,10 @@ C
      $              c22,c23,c24,c25,c26,c27,c28,c29,c30,c31,
      $              fwcoef,fwc1,fwc2,fc1,cfa1
 C
-      real realk,     ! H2O narrow band parameter
-     $     st,        ! H2O narrow band parameter
-     $     a1,a2,     ! Temperature correction terms for H2O path
-     $     b1,b2      ! Temperature correction terms for H2O path
+      real realk,
+     $     st,
+     $     a1,a2,
+     $     b1,b2
 C
 C Constant coefficients for water vapor absorptivity and emissivity
 C
@@ -4759,17 +4659,17 @@ C
 C Basic grid point resolution parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
 C
       parameter(plon   = 1,
      $          plev   = 18,
@@ -4787,28 +4687,28 @@ C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      integer ioro(plond)       ! nint(oro(i))
-      real t(plond,plev)        ! Temperature
-      real ps(plond),           ! surface pressure
-     $     pmid(plond,plev)     ! midpoint pressures
+      integer ioro(plond)
+      real t(plond,plev)
+      real ps(plond),
+     $     pmid(plond,plev)
 C
 C Output arguments
 C
-      real rel(plond,plev),     ! liquid effective drop size (microns)
-     $     rei(plond,plev),     ! ice effective drop size (microns)
-     $     fice(plond,plev)     ! fractional ice content within cloud
-      real pirnge,              ! nrmlzd pres range for ice particle changes
-     $     picemn,              ! normalized pressure below which rei=reimax
-     $     rirnge,              ! range of ice radii (reimax - 10 microns)
-     $     reimax,              ! maximum ice effective radius
-     $     pnrml,               ! normalized pressure
-     $     weight               ! coef. for determining rei as fn of P/PS
+      real rel(plond,plev),
+     $     rei(plond,plev),
+     $     fice(plond,plev)
+      real pirnge,
+     $     picemn,
+     $     rirnge,
+     $     reimax,
+     $     pnrml,
+     $     weight
 C
 C---------------------------Local workspace-----------------------------
 C
-      integer i,k               ! longitude, level indices
-      real rliq                 ! temporary liquid drop size
-      real pi                   ! pi
+      integer i,k
+      real rliq
+      real pi
 C
 C-----------------------------------------------------------------------
 C
@@ -4901,17 +4801,17 @@ C
 C Basic grid point resolution parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
 C
       parameter(plon   = 1,
      $          plev   = 18,
@@ -4925,24 +4825,24 @@ C
      $          platd  = plat + 2*nxpt + 2*jintmx,
      $          plevd  = plev*(3 + pcnst))
 C
-      real kabs                   ! longwave absorption coeff (m**2/g)
+      real kabs
 C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      real clwp(plond,plev),      ! cloud liquid water path (g/m**2)
-     $     rei(plond,plev),       ! ice effective drop size (microns)
-     $     fice(plond,plev)       ! fractional ice content within cloud
+      real clwp(plond,plev),
+     $     rei(plond,plev),
+     $     fice(plond,plev)
 C
 C Output arguments
 C
-      real emis(plond,plev)       ! cloud emissivity (fraction)
+      real emis(plond,plev)
 C
 C---------------------------Local workspace-----------------------------
 C
-      integer i,k                 ! longitude, level indices
-      real kabsl,                 ! longwave absorption coeff (m**2/g)
-     $     kabsi                  ! ice absorption coefficient
+      integer i,k
+      real kabsl,
+     $     kabsi
       parameter (kabsl = 0.090361)
 C
 C-----------------------------------------------------------------------
@@ -4976,17 +4876,17 @@ C
 C Basic grid point resolution parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
 C
       parameter(plon   = 1,
      $          plev   = 18,
@@ -5008,9 +4908,9 @@ C
 C Define radiation vertical grid and buffer length for abs/ems out-of-core file
 C
       integer
-     $     plevr,   ! number of vertical levels
-     $     plevrp,  ! plevr + 1
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plevr,
+     $     plevrp,
+     $     plngbuf
 C
       parameter(plevr = 18,
      $          plevrp = plevr + 1,
@@ -5021,13 +4921,13 @@ C-----------------------------------------------------------------------
 C
 C Input arguments (radiation grid)
 C
-      real qrs(plond,plevr),     ! Shortwave heating rate
-     $     qrl(plond,plevr)      ! Longwave heating rate
+      real qrs(plond,plevr),
+     $     qrl(plond,plevr)
 C
 C Output arguments (model grid)
 C
-      real qrsm(plond,plev),     ! Shortwave heating rate
-     $     qrlm(plond,plev)      ! Longwave heating rate
+      real qrsm(plond,plev),
+     $     qrlm(plond,plev)
 C
 C Code to interpolate goes here.  Do nothing could be coded as a memory
 C transfer, but left out for efficiency considerations.
@@ -5098,19 +4998,19 @@ C
 C Radiation resolution and I/O parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
       integer
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plngbuf
 C
       parameter(plon    = 1,
      $          plev    = 18,
@@ -5143,10 +5043,10 @@ C
      $              c22,c23,c24,c25,c26,c27,c28,c29,c30,c31,
      $              fwcoef,fwc1,fwc2,fc1,cfa1
 C
-      real realk,     ! H2O narrow band parameter
-     $     st,        ! H2O narrow band parameter
-     $     a1,a2,     ! Temperature correction terms for H2O path
-     $     b1,b2      ! Temperature correction terms for H2O path
+      real realk,
+     $     st,
+     $     a1,a2,
+     $     b1,b2
 C
 C Constant coefficients for water vapor absorptivity and emissivity
 C
@@ -5178,212 +5078,212 @@ C
      $              stebol  ,rgsslp  ,co2vmr  ,dpfo3   ,dpfco2  ,
      $              dayspy  ,pie
 C
-      real gravit,    ! Acceleration of gravity
-     $     rga,       ! 1./gravit
-     $     cpair,     ! Specific heat of dry air
-     $     epsilo,    ! Ratio of mol. wght of H2O to dry air
-     $     sslp,      ! Standard sea-level pressure
-     $     stebol,    ! Stefan-Boltzmann's constant
-     $     rgsslp,    ! 0.5/(gravit*sslp)
-     $     co2vmr,    ! CO2 volume mixing ratio
-     $     dpfo3,     ! Voigt correction factor for O3
-     $     dpfco2,    ! Voigt correction factor for CO2
-     $     dayspy,    ! Number of days per 1 year
-     $     pie        ! 3.14.....
+      real gravit,
+     $     rga,
+     $     cpair,
+     $     epsilo,
+     $     sslp,
+     $     stebol,
+     $     rgsslp,
+     $     co2vmr,
+     $     dpfo3,
+     $     dpfco2,
+     $     dayspy,
+     $     pie
 C
 C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      real pbr(plond,plev),           ! Prssr at mid-levels (dynes/cm2)
-     $     pnm(plond,plevp),          ! Prssr at interfaces (dynes/cm2)
-     $     co2em(plond,plevp),        ! Co2 emissivity function
-     $     co2eml(plond,plev),        ! Co2 emissivity function
-     $     tplnka(plond,plevp),       ! Planck fnctn level temperature
-     $     s2c(plond,plevp),          ! H2o continuum path length
-     $     s2t(plond,plevp),          ! H2o tmp and prs wghted path
-     $     w(plond,plevp),            ! H2o prs wghted path
-     $     h2otr(plond,plevp),        ! H2o trnsmssn fnct for o3 overlap
-     $     plco2(plond,plevp),        ! Co2 prs wghted path length
-     $     plh2o(plond,plevp),        ! H2o prs wfhted path length
-     $     co2t(plond,plevp),         ! Tmp and prs wghted path length
-     $     tint(plond,plevp),         ! Interface temperatures
-     $     tlayr(plond,plevp),        ! K-1 level temperatures
-     $     plol(plond,plevp),         ! Ozone prs wghted path length
-     $     plos(plond,plevp)          ! Ozone path length
-      real pmln(plond,plev),          ! Ln(pmidm1)
-     $     piln(plond,plevp)          ! Ln(pintm1)
+      real pbr(plond,plev),
+     $     pnm(plond,plevp),
+     $     co2em(plond,plevp),
+     $     co2eml(plond,plev),
+     $     tplnka(plond,plevp),
+     $     s2c(plond,plevp),
+     $     s2t(plond,plevp),
+     $     w(plond,plevp),
+     $     h2otr(plond,plevp),
+     $     plco2(plond,plevp),
+     $     plh2o(plond,plevp),
+     $     co2t(plond,plevp),
+     $     tint(plond,plevp),
+     $     tlayr(plond,plevp),
+     $     plol(plond,plevp),
+     $     plos(plond,plevp)
+      real pmln(plond,plev),
+     $     piln(plond,plevp)
 c
 c   Trace gas variables
 c
-      real ucfc11(plond,plevp), ! CFC11 path length
-     $     ucfc12(plond,plevp), ! CFC12 path length
-     $     un2o0(plond,plevp),  ! N2O path length
-     $     un2o1(plond,plevp),  ! N2O path length (hot band)
-     $     uch4(plond,plevp),   ! CH4 path length
-     $     uco211(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco212(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco213(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco221(plond,plevp), ! CO2 10.4 micron band path length
-     $     uco222(plond,plevp), ! CO2 10.4 micron band path length
-     $     uco223(plond,plevp), ! CO2 10.4 micron band path length
-     $     uptype(plond,plevp), ! continuum path length
-     $     bn2o0(plond,plevp),  ! pressure factor for n2o
-     $     bn2o1(plond,plevp),  ! pressure factor for n2o
-     $     bch4(plond,plevp)    ! pressure factor for ch4
-      real abplnk1(14,plond,plevp), ! non-nearest layer Plack factor
-     $     abplnk2(14,plond,plevp)  ! nearest layer factor
-      real abstrc(plond)            ! total trace gas absorptivity
-      real bplnk(14,plond,4) ! Planck functions for sub-divided layers
+      real ucfc11(plond,plevp),
+     $     ucfc12(plond,plevp),
+     $     un2o0(plond,plevp),
+     $     un2o1(plond,plevp),
+     $     uch4(plond,plevp),
+     $     uco211(plond,plevp),
+     $     uco212(plond,plevp),
+     $     uco213(plond,plevp),
+     $     uco221(plond,plevp),
+     $     uco222(plond,plevp),
+     $     uco223(plond,plevp),
+     $     uptype(plond,plevp),
+     $     bn2o0(plond,plevp),
+     $     bn2o1(plond,plevp),
+     $     bch4(plond,plevp)
+      real abplnk1(14,plond,plevp),
+     $     abplnk2(14,plond,plevp)
+      real abstrc(plond)
+      real bplnk(14,plond,4)
 C
 C Output arguments
 C
-      real abstot(plond,plevp,plevp), ! Total absorptivity
-     $     absnxt(plond,plev,4)       ! Total nearest layer absorptivity
+      real abstot(plond,plevp,plevp),
+     $     absnxt(plond,plev,4)
 C
 C---------------------------Local variables-----------------------------
 C
-      integer i,            ! Longitude index
-     $        k,            ! Level index
-     $        k1,           ! Level index
-     $        k2,           ! Level index
-     $        kn,           ! Nearest level index
-     $        iband         ! Band  index
+      integer i,
+     $        k,
+     $        k1,
+     $        k2,
+     $        kn,
+     $        iband
 C
-      real pnew(plond),     ! Effective pressure for H2O vapor linewidth
-     $     trline(plond,2), ! Transmission due to H2O lines in window
-     $     u(plond),        ! Pressure weighted H2O path length
-     $     tbar(plond,4),   ! Mean layer temperature
-     $     emm(plond,4),    ! Mean co2 emissivity
-     $     o3emm(plond,4),  ! Mean o3 emissivity
-     $     o3bndi,          ! Ozone band parameter
-     $     temh2o(plond,4), ! Mean layer temperature equivalent to tbar
-     $     k21,             ! Exponential coefficient used to calculate
+      real pnew(plond),
+     $     trline(plond,2),
+     $     u(plond),
+     $     tbar(plond,4),
+     $     emm(plond,4),
+     $     o3emm(plond,4),
+     $     o3bndi,
+     $     temh2o(plond,4),
+     $     k21,
 C                           !  rotation band transmissvty in the 650-800
 C                           !  cm-1 region (tr1)
-     $     k22,             ! Exponential coefficient used to calculate
+     $     k22,
 C                           !  rotation band transmissvty in the 500-650
 C                           !  cm-1 region (tr2)
-     $     uc1(plond)       ! H2o continuum pathlength in 500-800 cm-1
-      real to3h2o(plond),   ! H2o trnsmsn for overlap with o3
-     $     pi,              ! For co2 absorptivity computation
-     $     sqti(plond),     ! Used to store sqrt of mean temperature
-     $     et,              ! Co2 hot band factor
-     $     et2,             ! Co2 hot band factor squared
-     $     et4,             ! Co2 hot band factor to fourth power
-     $     omet,            ! Co2 stimulated emission term
-     $     f1co2,           ! Co2 central band factor
-     $     f2co2(plond),    ! Co2 weak band factor
-     $     f3co2(plond),    ! Co2 weak band factor
-     $     t1co2(plond),    ! Overlap factr weak bands on strong band
-     $     sqwp,            ! Sqrt of co2 pathlength
-     $     f1sqwp(plond)    ! Main co2 band factor
-      real oneme,           ! Co2 stimulated emission term
-     $     alphat,          ! Part of the co2 stimulated emission term
-     $     wco2,            ! Constants used to define co2 pathlength
-     $     posqt,           ! Effective pressure for co2 line width
-     $     u7,              ! Co2 hot band path length
-     $     u8,              ! Co2 hot band path length
-     $     u9,              ! Co2 hot band path length
-     $     u13,             ! Co2 hot band path length
-     $     rbeta7,          ! Inverse of co2 hot band line width par
-     $     rbeta8,          ! Inverse of co2 hot band line width par
-     $     rbeta9,          ! Inverse of co2 hot band line width par
-     $     rbeta13          ! Inverse of co2 hot band line width par
-      real tpatha(plond),     ! For absorptivity computation
-     $     a,                 ! Eq(2) in table A3a of R&D
-     $     abso(plond,6),     ! Absorptivity for various gases/bands
-     $     dtp(plond),        ! Path temp minus 300 K used in h2o
+     $     uc1(plond)
+      real to3h2o(plond),
+     $     pi,
+     $     sqti(plond),
+     $     et,
+     $     et2,
+     $     et4,
+     $     omet,
+     $     f1co2,
+     $     f2co2(plond),
+     $     f3co2(plond),
+     $     t1co2(plond),
+     $     sqwp,
+     $     f1sqwp(plond)
+      real oneme,
+     $     alphat,
+     $     wco2,
+     $     posqt,
+     $     u7,
+     $     u8,
+     $     u9,
+     $     u13,
+     $     rbeta7,
+     $     rbeta8,
+     $     rbeta9,
+     $     rbeta13
+      real tpatha(plond),
+     $     a,
+     $     abso(plond,6),
+     $     dtp(plond),
 C                             !  rotation band absorptivity
-     $     dtx(plond),        ! Planck temperature minus 250 K
-     $     dty(plond),        ! Path temperature minus 250 K
-     $     dtz(plond),        ! Planck temperature minus 300 K
-     $     term1(plond,4),    ! Equation(5) in table A3a of R&D(1986)
-     $     term2(plond,4)     ! Delta a(Te) in table A3a of R&D(1986)
-      real term3(plond,4),    ! DB/dT function for rotation and
+     $     dtx(plond),
+     $     dty(plond),
+     $     dtz(plond),
+     $     term1(plond,4),
+     $     term2(plond,4)
+      real term3(plond,4),
 C                             !  vibration-rotation band absorptivity
-     $     term4(plond,4),    ! Equation(6) in table A3a of R&D(1986)
-     $     term5(plond,4),    ! Delta a(Tp) in table A3a of R&D(1986)
-     $     term6(plond,plevp),! DB/dT function for window region
-     $     term7(plond,2),    ! Kl_inf(i) in eq(8) of table A3a of R&D
-     $     term8(plond,2),    ! Delta kl_inf(i) in eq(8)
-     $     term9(plond,plevp),! DB/dT function for 500-800 cm-1 region
-     $     tr1,               ! Eqn(6) in table A2 of R&D for 650-800
-     $     tr10(plond),       ! Eqn (6) times eq(4) in table A2
+     $     term4(plond,4),
+     $     term5(plond,4),
+     $     term6(plond,plevp),
+     $     term7(plond,2),
+     $     term8(plond,2),
+     $     term9(plond,plevp),
+     $     tr1,
+     $     tr10(plond),
 C                             !  of R&D for 500-650 cm-1 region
-     $     tr2                ! Eqn(6) in table A2 of R&D for 500-650
-      real tr5,               ! Eqn(4) in table A2 of R&D for 650-800
-     $     tr6,               ! Eqn(4) in table A2 of R&D for 500-650
-     $     tr9(plond),        ! Equation (6) times eq(4) in table A2
+     $     tr2
+      real tr5,
+     $     tr6,
+     $     tr9(plond),
 C                             !  of R&D for 650-800 cm-1 region
-     $     uc(plond)          ! Y + 0.002U in eq(8) of table A2 of R&D
-      real sqrtu(plond),      ! Sqrt of pressure weighted h20 pathlength
-     $     fwk(plond),        ! Equation(33) in R&D far wing correction
-     $     fwku(plond),       ! GU term in eqs(1) and (6) in table A2
-     $     r2st(2),           ! 1/(2*beta) in eq(10) in table A2
-     $     dtyp15(plond),     ! DeltaTp in eqs(11) & (12) in table A3a
-     $     dtyp15sq(plond),   ! (DeltaTp)^2 in eqs(11) & (12) table A3a
-     $     to3co2(plond),     ! P weighted temp in ozone band model
-     $     dpnm(plond),       ! Pressure difference between two levels
-     $     pnmsq(plond,plevp),! Pressure squared
-     $     dw(plond),         ! Amount of h2o between two levels
-     $     uinpl(plond,4),    ! Nearest layer subdivision factor
-     $     winpl(plond,4),    ! Nearest layer subdivision factor
-     $     zinpl(plond,4),    ! Nearest layer subdivision factor
-     $     pinpl(plond,4),    ! Nearest layer subdivision factor
-     $     dplh2o(plond)      ! Difference in press weighted h2o amount
-      real r80257,            ! Conversion factor for h2o pathlength
-     $     r293,              ! 1/293
-     $     r250,              ! 1/250
-     $     r3205,             ! Line width factor for o3 (see R&Di)
-     $     r300,              ! 1/300
-     $     rsslp,             ! Reciprocal of sea level pressure
-     $     r2sslp             ! 1/2 of rsslp
-      real  ds2c,     ! Y in eq(7) in table A2 of R&D
-     $      a11,      ! A1 in table A3b for rotation band absorptivity
-     $      a31,      ! A3 in table A3b for rotation band absorptivity
-     $      a21,      ! First part in numerator of A2 in table A3b
-     $      a22,      ! Second part in numerator of A2 in table A3b
-     $      a23,      ! Denominator of A2 in table A3b (rotation band)
-     $      t1t4,     ! Eq(3) in table A3a of R&D
-     $      t2t5,     ! Eq(4) in table A3a of R&D
-     $      rsum,     ! Eq(1) in table A2 of R&D
-     $      a41,      ! Numerator in A2 in Vib-rot abstivity(table A3b)
-     $      a51,      ! Denominator in A2 in Vib-rot (table A3b)
-     $      a61       ! A3 factor for Vib-rot band in table A3b
-      real  phi,      ! Eq(11) in table A3a of R&D
-     $      psi,      ! Eq(12) in table A3a of R&D
-     $      cf812,    ! Eq(11) in table A2 of R&D
-     $      ubar,     ! H2o scaled path see comment for eq(10) table A2
-     $      pbar,     ! H2o scaled pres see comment for eq(10) table A2
-     $      g4        ! Arguement in exp() in eq(10) table A2
+     $     uc(plond)
+      real sqrtu(plond),
+     $     fwk(plond),
+     $     fwku(plond),
+     $     r2st(2),
+     $     dtyp15(plond),
+     $     dtyp15sq(plond),
+     $     to3co2(plond),
+     $     dpnm(plond),
+     $     pnmsq(plond,plevp),
+     $     dw(plond),
+     $     uinpl(plond,4),
+     $     winpl(plond,4),
+     $     zinpl(plond,4),
+     $     pinpl(plond,4),
+     $     dplh2o(plond)
+      real r80257,
+     $     r293,
+     $     r250,
+     $     r3205,
+     $     r300,
+     $     rsslp,
+     $     r2sslp
+      real  ds2c,
+     $      a11,
+     $      a31,
+     $      a21,
+     $      a22,
+     $      a23,
+     $      t1t4,
+     $      t2t5,
+     $      rsum,
+     $      a41,
+     $      a51,
+     $      a61
+      real  phi,
+     $      psi,
+     $      cf812,
+     $      ubar,
+     $      pbar,
+     $      g4
 C
-      real  dplos,    ! Ozone pathlength eq(A2) in R&Di
-     $      dplol,    ! Presure weighted ozone pathlength
-     $      tlocal,   ! Local interface temperature
-     $      beta,     ! Ozone mean line parameter eq(A3) in R&Di
+      real  dplos,
+     $      dplol,
+     $      tlocal,
+     $      beta,
 C                       (includes Voigt line correction factor)
-     $      rphat,    ! Effective pressure for ozone beta
-     $      tcrfac,   ! Ozone temperature factor table 1 R&Di
-     $      tmp1,     ! Ozone band factor see eq(A1) in R&Di
-     $      u1,       ! Effective ozone pathlength eq(A2) in R&Di
-     $      realnu,   ! 1/beta factor in ozone band model eq(A1)
-     $      tmp2,     ! Ozone band factor see eq(A1) in R&Di
-     $      u2,       ! Effective ozone pathlength eq(A2) in R&Di
-     $      rsqti     ! Reciprocal of sqrt of path temperature
+     $      rphat,
+     $      tcrfac,
+     $      tmp1,
+     $      u1,
+     $      realnu,
+     $      tmp2,
+     $      u2,
+     $      rsqti
 C
-      real  tpath,    ! Path temperature used in co2 band model
-     $      tmp3,     ! Weak band factor see K&B
-     $      rdpnmsq,  ! Reciprocal of difference in press^2
-     $      rdpnm,    ! Reciprocal of difference in press
-     $      p1,       ! Mean pressure factor
-     $      p2,       ! Mean pressure factor
-     $      dtym10,   ! T - 260 used in eq(9) and (10) table A3a
-     $      dplco2,   ! Co2 pathlength
-     $      corfac,   ! Correction factors in table A3b
-     $      g2,       ! Part of arguement in eq(10) in table A2
-     $      te,       ! A_0 T factor in ozone model table 1 of R&Di
-     $      denom     ! Denominator in eq(8) of table A3a of R&D
+      real  tpath,
+     $      tmp3,
+     $      rdpnmsq,
+     $      rdpnm,
+     $      p1,
+     $      p2,
+     $      dtym10,
+     $      dplco2,
+     $      corfac,
+     $      g2,
+     $      te,
+     $      denom
 c
 c
       real th2o(plond),
@@ -5394,23 +5294,23 @@ C
 C
 C Transmission terms for various spectral intervals:
 C
-      real trab1(plond),  ! H2o     0 -  800 cm-1
-     $     trab2(plond),  ! H2o   500 -  800 cm-1
-     $     trab3(plond),  ! Co2   band system
-     $     trab4(plond),  ! H2o   800 - 1000 cm-1
-     $     trab5(plond),  ! 9.6 micrometer band
-     $     trab6(plond),  ! H2o  1000 - 1200 cm-1
-     $     trab7(plond)   ! H2o  1200 - 2200 cm-1
+      real trab1(plond),
+     $     trab2(plond),
+     $     trab3(plond),
+     $     trab4(plond),
+     $     trab5(plond),
+     $     trab6(plond),
+     $     trab7(plond)
 C
-      real bndfct, ! Band absorptance parameter for co2
-     $     absbnd  ! Proportional to co2 band absorptance
+      real bndfct,
+     $     absbnd
 C
-      real dbvtit(plond,plevp),      ! Intrfc drvtv plnck fnctn for o3
-     $     dbvtly(plond,plev)        ! Level drvtv plnck fnctn for o3
+      real dbvtit(plond,plevp),
+     $     dbvtly(plond,plev)
 C
 C--------------------------Statement function---------------------------
 C
-      real dbvt,t     ! Planck fnctn tmp derivative for o3
+      real dbvt,t
 C
       dbvt(t)=(-2.8911366682e-4+(2.3771251896e-6+1.1305188929e-10*t)*t)/
      $  (1.0+(-6.1364820707e-3+1.5550319767e-5*t)*t)
@@ -5689,7 +5589,7 @@ C
      $                           + abstrc(i)
             end do
   100    continue
-  200 continue        ! End of non-nearest layer level loops
+  200 continue
 C
 C Non-adjacent layer absorptivity:
 C
@@ -5971,7 +5871,7 @@ C
      $                           + abstrc(i)
             end do
   400    continue
-  500 continue                  !  end of nearest layer level loop
+  500 continue
 C
       return
       end
@@ -6014,19 +5914,19 @@ C
 C Radiation resolution and I/O parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
       integer
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plngbuf
 C
       parameter(plon    = 1,
      $          plev    = 18,
@@ -6046,10 +5946,10 @@ C-----------------------------------------------------------------------
 C
 C Minimum total transmission below which no layer computation are done:
 C
-      real  trmin,          ! Minimum total transmission allowed
-     $      wray,           ! Rayleigh single scatter albedo
-     $      gray,           ! Rayleigh asymetry parameter
-     $      fray            ! Rayleigh forward scattered fraction
+      real  trmin,
+     $      wray,
+     $      gray,
+     $      fray
       parameter (trmin = 1.e-3,
      $           wray = 0.999999,
      $           gray = 0.0,
@@ -6059,69 +5959,69 @@ C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      real coszrs(plond),         ! Cosine zenith angle
-     $     trayoslp,              ! Tray/sslp
-     $     pflx(plond,0:plevp),   ! Interface pressure
-     $     abh2o,                 ! Absorption coefficiant for h2o
-     $     abo3 ,                 ! Absorption coefficiant for o3
-     $     abco2,                 ! Absorption coefficiant for co2
-     $     abo2 ,                 ! Absorption coefficiant for o2
-     $     uth2o(plond),          ! Total column absorber amount of h2o
-     $     uto3(plond),           ! Total column absorber amount of  o3
-     $     utco2(plond),          ! Total column absorber amount of co2
-     $     uto2(plond)            ! Total column absorber amount of  o2
-      real tauaer(plond),         ! Total column aerosol extinction
-     $     waer(plond),           ! Aerosol single scattering albedo
-     $     gaer(plond),           ! Aerosol asymmetry parameter
-     $     faer(plond)            ! Aerosol forward scattering fraction
-      integer nloop,              ! Number of loops (1 or 2)
-     $        is(2),              ! Starting index for 1 or 2 loops
-     $        ie(2)               ! Ending index for 1 or 2 loops
+      real coszrs(plond),
+     $     trayoslp,
+     $     pflx(plond,0:plevp),
+     $     abh2o,
+     $     abo3 ,
+     $     abco2,
+     $     abo2 ,
+     $     uth2o(plond),
+     $     uto3(plond),
+     $     utco2(plond),
+     $     uto2(plond)
+      real tauaer(plond),
+     $     waer(plond),
+     $     gaer(plond),
+     $     faer(plond)
+      integer nloop,
+     $        is(2),
+     $        ie(2)
 C
 C Input/Output arguments
 C
 C Following variables are defined for each layer; note, we use layer 0 
 C to refer to the entire atmospheric column:
 C
-      real rdir(plond,0:plev),    ! Layer reflectivity to direct rad
-     $     rdif(plond,0:plev),    ! Layer refflectivity to diffuse rad
-     $     tdir(plond,0:plev),    ! Layer transmission to direct rad
-     $     tdif(plond,0:plev),    ! Layer transmission to diffuse rad
-     $     explay(plond,0:plev)   ! Solar beam exp transmn for layer
+      real rdir(plond,0:plev),
+     $     rdif(plond,0:plev),
+     $     tdir(plond,0:plev),
+     $     tdif(plond,0:plev),
+     $     explay(plond,0:plev)
 C
 C Note that the following variables are defined on interfaces, with
 C the index k referring to the top interface of the kth layer:
 C exptdn,rdndif,tottrn; for example, tottrn(k=5) refers to the total
 C transmission to the top interface of the 5th layer.
 C
-      real exptdn(plond,0:plevp), ! Solar beam exp down transmn from top
-     $     rdndif(plond,0:plevp), ! Added dif ref for layers above
-     $     tottrn(plond,0:plevp)  ! Total transmission for layers above
+      real exptdn(plond,0:plevp),
+     $     rdndif(plond,0:plevp),
+     $     tottrn(plond,0:plevp)
 C
-      external  resetr,     ! Resets array elements to zero
-     $          whenfgt     ! Collect indices for greater than condition
+      external  resetr,
+     $          whenfgt
 C
 C---------------------------Local variables-----------------------------
 C
-      integer i,            ! Longitude index
-     $        k,            ! Level index
-     $        nn,           ! Index of longitude loops (max=nloop)
-     $        ii,           ! Longitude index
-     $        nval,         ! Number of long values satisfying criteria
-     $        index(plond)  ! Array of longitude indices
+      integer i,
+     $        k,
+     $        nn,
+     $        ii,
+     $        nval,
+     $        index(plond)
 C
-      real taugab(plond),   ! Total column gas absorption optical depth
-     $     tauray(plond),   ! Column rayleigh optical depth
-     $     tautot       ,   ! Total column optical depth
-     $       wtot       ,   ! Total column single scatter albedo
-     $       gtot       ,   ! Total column asymmetry parameter
-     $       ftot           ! Total column forward scatter fraction
-      real   ts,            ! Column scaled extinction optical depth
-     $       ws,            ! Column scaled single scattering albedo
-     $       gs             ! Column scaled asymmetry parameter
-      real rdenom,          ! Mulitiple scattering term
-     $     rdirexp,         ! Layer direct ref times exp transmission
-     $     tdnmexp          ! Total transmission minus exp transmission
+      real taugab(plond),
+     $     tauray(plond),
+     $     tautot       ,
+     $       wtot       ,
+     $       gtot       ,
+     $       ftot
+      real   ts,
+     $       ws,
+     $       gs
+      real rdenom,
+     $     rdirexp,
+     $     tdnmexp
 C
 C---------------------------Statement functions-------------------------
 C
@@ -6360,19 +6260,19 @@ C
 C Radiation resolution and I/O parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
       integer
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plngbuf
 C
       parameter(plon    = 1,
      $          plev    = 18,
@@ -6396,39 +6296,39 @@ C
 C Model grid point resolution parameters.
 C
       integer
-     $     plnlv,    ! Length of multilevel field slice
-     $     plndlv,   ! Length of multilevel 3-d field slice
-     $     pbflnb,   ! Length of buffer 1
-     $     pbflna,   ! Length of buffer 2
-     $     pbflnm1,  ! Length of buffer m1
-     $     pflenb,   ! Length of buffer 1, padded for unblocked I/O
-     $     pflena,   ! Length of buffer 2, padded for unblocked I/O
-     $     plenalcl, ! Length of buffer 2, needed in SPEGRD
-     $     ptifld,   ! Number of fields on time-invariant boundary dataset
-     $     ptvsfld,  ! Number of fields on time-variant boundary dataset
-     $     ptvofld,  ! Number of fields on ozone dataset
-     $     plenhi,   ! Length of integer header record
-     $     plenhc,   ! Length of character header record
-     $     plenhr,   ! Length of real header record
-     $     plexbuf,  ! Length of communication buffer for flux coupling
-     $     ptapes,   ! Maximum number of history tapes allowed
-     $     pflds     ! Number of fields in master field list
+     $     plnlv,
+     $     plndlv,
+     $     pbflnb,
+     $     pbflna,
+     $     pbflnm1,
+     $     pflenb,
+     $     pflena,
+     $     plenalcl,
+     $     ptifld,
+     $     ptvsfld,
+     $     ptvofld,
+     $     plenhi,
+     $     plenhc,
+     $     plenhr,
+     $     plexbuf,
+     $     ptapes,
+     $     pflds
       integer
-     $     ptileni,  ! Length of time-invariant integer header
-     $     ptilenc,  ! Length of time-invariant character header
-     $     ptvoleni, ! Length of ozone integer header
-     $     ptvolenc, ! Length of ozone character header
-     $     ptvsleni, ! Length of time-variant integer header
-     $     ptvslenc  ! Length of time-variant character header
+     $     ptileni,
+     $     ptilenc,
+     $     ptvoleni,
+     $     ptvolenc,
+     $     ptvsleni,
+     $     ptvslenc
       integer
-     $     plenhis,  ! Length of integer header scalars
-     $     plenhcs,  ! Length of character header scalars
-     $     ptilenis, ! Length of time-invariant integer scalars
-     $     ptilencs, ! Length of time-invariant character scalars
-     $     ptolenis, ! Length of ozone integer header scalars
-     $     ptolencs, ! Length of ozone character header scalars
-     $     ptslenis, ! Length of time-variant integer header scalars
-     $     ptslencs  ! Length of time-variant character header scalars
+     $     plenhis,
+     $     plenhcs,
+     $     ptilenis,
+     $     ptilencs,
+     $     ptolenis,
+     $     ptolencs,
+     $     ptslenis,
+     $     ptslencs
 C
       parameter(plnlv=plon*plev,plndlv=plond*plev)
 C
@@ -6484,11 +6384,11 @@ C
 C Logical unit numbers and related variables
 C
       integer
-     $     pnrg1,             ! maximum number of primary 
+     $     pnrg1,
 C                             !  regeneration files
-     $     pnrg2,             ! maximum number of secondary 
+     $     pnrg2,
 C                             !  regeneration files
-     $     pnrg3              ! maximum number of secondary 
+     $     pnrg3
 
       parameter (pnrg1 = 5)
       parameter (pnrg2 = 5)
@@ -6506,46 +6406,46 @@ C
       common/comlunc/rg1ext(pnrg1)   ,rg2ext(pnrg2)    ,
      $               rg3ext(pnrg3,ptapes)
 C
-      integer nsds,     ! restart dataset unit
-     $        nrg,      ! master regeneration dataset unit
-     $        nrg1,     ! primary regeneration dataset units
-     $        nrg2,     ! secondary regeneration dataset units
-     $        nrg3,     ! hbuf regeneration dataset units
-     $        nra1,     ! a work file
-     $        nrb1,     ! b work file
-     $        ninit,    ! initial dataset unit
-     $        nbndti,   ! time-invariant boundary dataset
-     $        nozone,   ! ozone dataset
-     $        nsst,     ! sst dataset
-     $        nabem,    ! absorptivity/emissivity work file
-     $        nsplit    ! communication between LINEMS1 and LINEMS2
+      integer nsds,
+     $        nrg,
+     $        nrg1,
+     $        nrg2,
+     $        nrg3,
+     $        nra1,
+     $        nrb1,
+     $        ninit,
+     $        nbndti,
+     $        nozone,
+     $        nsst,
+     $        nabem,
+     $        nsplit
 C
       logical
-     $     lutag        ! list of flags marking logical units in use
+     $     lutag
       integer
-     $     rg1lat,      ! latitude list for primary regen datasets
-     $     rg1siz,      ! file sizes for preallocation
-     $     rg1buf,      ! buffer length for assign
-     $     nnrg1,       ! number of primary regen files written
-     $     rg2lat,      ! lat list for secondary regen datasets
-     $     rg2siz,      ! file size for preallocation
-     $     rg2buf,      ! buffer length for assign
-     $     nnrg2,       ! number of secondary regen files written
-     $     rg3lat,      ! latitude list for hbuf regen datasets
-     $     rg3siz,      ! file sizes for preallocation
-     $     rg3buf,      ! buffer length for assign
-     $     nnrg3,       ! number of hbuf regen files written
-     $     mxszrg,      ! max size of a regen file (megabytes)
-     $     nrefrq,      ! frequency of regeneration file writes
-     $     mresfq,      ! frequency of mnthly avg regen file writes
-     $     rg3num       ! number of temporary secondary regen files
+     $     rg1lat,
+     $     rg1siz,
+     $     rg1buf,
+     $     nnrg1,
+     $     rg2lat,
+     $     rg2siz,
+     $     rg2buf,
+     $     nnrg2,
+     $     rg3lat,
+     $     rg3siz,
+     $     rg3buf,
+     $     nnrg3,
+     $     mxszrg,
+     $     nrefrq,
+     $     mresfq,
+     $     rg3num
       logical
-     $     rgnht        ! set true if regeneration file for a h-tape exists
+     $     rgnht
       character*2
-     $     rg1ext,      ! file extension for primary regen files
-     $     rg2ext       ! file extension for secondary regen files
+     $     rg1ext,
+     $     rg2ext
       character*5
-     $     rg3ext       ! file extension for secondary regen files
+     $     rg3ext
 C
 C-----------------------------------------------------------------------
 c
@@ -6561,32 +6461,32 @@ C
      $              mcdate  ,mcsec   ,nndbas  ,nnsbas  ,nnbdat  ,
      $              nnbsec  ,doabsems,dosw    ,dolw
 C
-      real calday,   ! Current calendar day = julian day + fraction
-     $     dtime,    ! Time step in seconds (delta t)
-     $     twodt     ! 2 * delta t 
+      real calday,
+     $     dtime,
+     $     twodt
       integer
-     $     nrstrt,   ! Starting time step of restart run (constant) 
-     $     nstep,    ! Current time step
-     $     nstepr,   ! Current time step of restart run(updated w/nstep)
-     $     nestep,   ! Time step on which to stop run
-     $     nelapse,  ! Requested elapsed time for model run
-     $     nstop,    ! nestep + 1
-     $     mdbase,   ! Base day of run
-     $     msbase,   ! Base seconds of base day
-     $     mdcur,    ! Current day of run
-     $     mscur,    ! Current seconds of current day
-     $     mbdate,   ! Base date of run (yymmdd format)
-     $     mbsec,    ! Base seconds of base date
-     $     mcdate,   ! Current date of run (yymmdd format)
-     $     mcsec,    ! Current seconds of current date
-     $     nndbas,   ! User input base day
-     $     nnsbas,   ! User input base seconds of input base day
-     $     nnbdat,   ! User input base date (yymmdd format)
-     $     nnbsec    ! User input base seconds of input base date
+     $     nrstrt,
+     $     nstep,
+     $     nstepr,
+     $     nestep,
+     $     nelapse,
+     $     nstop,
+     $     mdbase,
+     $     msbase,
+     $     mdcur,
+     $     mscur,
+     $     mbdate,
+     $     mbsec,
+     $     mcdate,
+     $     mcsec,
+     $     nndbas,
+     $     nnsbas,
+     $     nnbdat,
+     $     nnbsec
       logical
-     $     doabsems, ! True => abs/emiss calculation this timestep
-     $     dosw,     ! True => shortwave calculation this timestep
-     $     dolw      ! True => longwave calculation this timestep
+     $     doabsems,
+     $     dosw,
+     $     dolw
 C
 C-----------------------------------------------------------------------
 c
@@ -6600,18 +6500,18 @@ C
      $              stebol  ,rgsslp  ,co2vmr  ,dpfo3   ,dpfco2  ,
      $              dayspy  ,pie
 C
-      real gravit,    ! Acceleration of gravity
-     $     rga,       ! 1./gravit
-     $     cpair,     ! Specific heat of dry air
-     $     epsilo,    ! Ratio of mol. wght of H2O to dry air
-     $     sslp,      ! Standard sea-level pressure
-     $     stebol,    ! Stefan-Boltzmann's constant
-     $     rgsslp,    ! 0.5/(gravit*sslp)
-     $     co2vmr,    ! CO2 volume mixing ratio
-     $     dpfo3,     ! Voigt correction factor for O3
-     $     dpfco2,    ! Voigt correction factor for CO2
-     $     dayspy,    ! Number of days per 1 year
-     $     pie        ! 3.14.....
+      real gravit,
+     $     rga,
+     $     cpair,
+     $     epsilo,
+     $     sslp,
+     $     stebol,
+     $     rgsslp,
+     $     co2vmr,
+     $     dpfo3,
+     $     dpfco2,
+     $     dayspy,
+     $     pie
 C
 C-----------------------------------------------------------------------
 c
@@ -6626,158 +6526,158 @@ C
      $              ldebug  ,aeres   ,ozncyc  ,sstcyc  ,dodiavg ,
      $              aeregen ,cpuchek
       integer
-     $     itsst,   ! Sea surf. temp. update freq. (iters)
-     $     nsrest,  ! Restart flag
-     $     iradsw,  ! Iteration frequency for shortwave radiation computation
-     $     iradlw,  ! Iteration frequency for longwave radiation computation
-     $     iradae   ! Iteration freq. for absorptivity/emissivity comp
+     $     itsst,
+     $     nsrest,
+     $     iradsw,
+     $     iradlw,
+     $     iradae
       logical
-     $     anncyc,  ! Do annual cycle (otherwise perpetual)
-     $     nlend,   ! Flag for end of run
-     $     nlres,   ! If true, continuation run
-     $     nlhst,   ! If true, regeneration run
-     $     lbrnch,  ! If true, branch run
-     $     ldebug,  ! If in debug mode, link output files to /usr/tmp
+     $     anncyc,
+     $     nlend,
+     $     nlres,
+     $     nlhst,
+     $     lbrnch,
+     $     ldebug,
 C                   !    before mswrite, and remove all but last file
-     $     aeres,   ! If true, a/e data will be stored on restart file
-     $     ozncyc,  ! If true, cycle ozone dataset
-     $     sstcyc,  ! If true, cycle sst dataset
-     $     dodiavg, ! true => diurnal averaging
-     $     aeregen, ! true => absor/emis part of regeneration data
-     $     cpuchek  ! If true, check remaining cpu time at each writeup
+     $     aeres,
+     $     ozncyc,
+     $     sstcyc,
+     $     dodiavg,
+     $     aeregen,
+     $     cpuchek
 C
 C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      integer lat                  ! Model latitude index
-      real ts(plond)               ! Ground (skin) temperature
+      integer lat
+      real ts(plond)
 C
 C Input arguments which are only passed to other routines
 C
-      real tnm(plond,plev),        ! Level temperature
-     $     qnm(plond,plev),        ! Level moisture field
-     $     o3vmr(plond,plev),      ! ozone volume mixing ratio
-     $     pmid(plond,plev),       ! Level pressure
-     $     pint(plond,plevp),      ! Model interface pressure
-     $     pmln(plond,plev),       ! Ln(pmid)
-     $     piln(plond,plevp),      ! Ln(pint)
-     $     plco2(plond,plevp),     ! Path length co2
-     $     plh2o(plond,plevp)      ! Path length h2o
-      real n2o(plond,plev),        ! nitrous oxide mass mixing ratio
-     $     ch4(plond,plev),        ! methane mass mixing ratio
-     $     cfc11(plond,plev),      ! cfc11 mass mixing ratio
-     $     cfc12(plond,plev)       ! cfc12 mass mixing ratio
+      real tnm(plond,plev),
+     $     qnm(plond,plev),
+     $     o3vmr(plond,plev),
+     $     pmid(plond,plev),
+     $     pint(plond,plevp),
+     $     pmln(plond,plev),
+     $     piln(plond,plevp),
+     $     plco2(plond,plevp),
+     $     plh2o(plond,plevp)
+      real n2o(plond,plev),
+     $     ch4(plond,plev),
+     $     cfc11(plond,plev),
+     $     cfc12(plond,plev)
 C
 C Input/Output arguments
 C
-      real cld(plond,plevp),       ! Cloud cover
-     $     tclrsf(plond,plevp)     ! Clear sky fraction
+      real cld(plond,plevp),
+     $     tclrsf(plond,plevp)
 C
 C Output arguments
 C
-      real qrl(plond,plev),        ! Longwave heating rate
-     $     flns(plond),            ! Surface cooling flux
-     $     flnt(plond),            ! Net outgoing flux
-     $     flnsc(plond),           ! Clear sky surface cooing
-     $     flntc(plond),           ! Net clear sky outgoing flux
-     $     flwds(plond),           ! Down longwave flux at surface
-     $     lwup(plond)             ! Surface longwave up flux from coupler
+      real qrl(plond,plev),
+     $     flns(plond),
+     $     flnt(plond),
+     $     flnsc(plond),
+     $     flntc(plond),
+     $     flwds(plond),
+     $     lwup(plond)
 C
 C---------------------------Local variables-----------------------------
 C
-      integer     i,    ! Longitude index
-     $            k,    ! Level index
-     $           k1,    ! Level index
-     $           k2,    ! Level index
-     $           k3,    ! Level index
-     $           km,    ! Level index
-     $          km1,    ! Level index
-     $          km2,    ! Level index
-     $          km3,    ! Level index
-     $          km4     ! Level index
+      integer     i,
+     $            k,
+     $           k1,
+     $           k2,
+     $           k3,
+     $           km,
+     $          km1,
+     $          km2,
+     $          km3,
+     $          km4
 C
       real tmp(plond),
-     $     tmp1,                ! Temporary 1
-     $     absbt(plond)         ! Downward emission at model top
-      real plol(plond,plevp),   ! O3 pressure wghted path length
-     $     plos(plond,plevp)    ! O3 path length
+     $     tmp1,
+     $     absbt(plond)
+      real plol(plond,plevp),
+     $     plos(plond,plevp)
 C
-      real co2em(plond,plevp),  ! Layer co2 normalized planck funct. derivative
-     $     co2eml(plond,plev),  ! Interface co2 normalized planck funct. deriv.
-     $     delt(plond),         ! Diff t**4 mid layer to top interface
-     $     delt1(plond),        ! Diff t**4 lower intrfc to mid layer
-     $     bk1(plond),          ! Absrptvty for vertical quadrature
-     $     bk2(plond),          ! Absrptvty for vertical quadrature
-     $     ful(plond,plevp),    ! Total upwards longwave flux
-     $     fsul(plond,plevp),   ! Clear sky upwards longwave flux
-     $     fdl(plond,plevp),    ! Total downwards longwave flux
-     $     fsdl(plond,plevp),   ! Clear sky downwards longwv flux
-     $     fclb4(plond,plev),   ! Sig t**4 for cld bottom interfc
-     $     fclt4(plond,plev),   ! Sig t**4 for cloud top interfc
-     $     s(plond,plevp,plevp) ! Flx integral sum
-      real tplnka(plond,plevp), ! Planck fnctn temperature
-     $     s2c(plond,plevp),    ! H2o cont amount
-     $     s2t(plond,plevp),    ! H2o cont temperature
-     $     w(plond,plevp),      ! H2o path
-     $     tplnke(plond)        ! Planck fnctn temperature
-      real h2otr(plond,plevp),  ! H2o trnmsn for o3 overlap
-     $     co2t(plond,plevp),   ! Prs wghted temperature path
-     $     tint(plond,plevp),   ! Interface temperature
-     $     tint4(plond,plevp),  ! Interface temperature**4
-     $     tlayr(plond,plevp),  ! Level temperature
-     $     tlayr4(plond,plevp)  ! Level temperature**4
-      real rtclrsf(plond,plevp),! 1./tclrsf(i,k)
-     $     gocp                 ! gravit/cpair
-      integer klov(plond),      ! Cloud lowest level index
-     $        khiv(plond),      ! Cloud highest level index
-     $        khivm(plond)      ! khiv(i) - 1
+      real co2em(plond,plevp),
+     $     co2eml(plond,plev),
+     $     delt(plond),
+     $     delt1(plond),
+     $     bk1(plond),
+     $     bk2(plond),
+     $     ful(plond,plevp),
+     $     fsul(plond,plevp),
+     $     fdl(plond,plevp),
+     $     fsdl(plond,plevp),
+     $     fclb4(plond,plev),
+     $     fclt4(plond,plev),
+     $     s(plond,plevp,plevp)
+      real tplnka(plond,plevp),
+     $     s2c(plond,plevp),
+     $     s2t(plond,plevp),
+     $     w(plond,plevp),
+     $     tplnke(plond)
+      real h2otr(plond,plevp),
+     $     co2t(plond,plevp),
+     $     tint(plond,plevp),
+     $     tint4(plond,plevp),
+     $     tlayr(plond,plevp),
+     $     tlayr4(plond,plevp)
+      real rtclrsf(plond,plevp),
+     $     gocp
+      integer klov(plond),
+     $        khiv(plond),
+     $        khivm(plond)
       integer indx(plond),
      $        npts,
      $        ii,
      $        khighest
       logical done(plond),
      $        start(plond)
-      real absems(plngbuf)      ! Absorbs's and emiss's in buffer
+      real absems(plngbuf)
       pointer (pabsnxt,absnxt(plond,plev,4)),
      $        (pabstot,abstot(plond,plevp,plevp)),
      $        (pemstot,emstot(plond,plevp))
-      real absnxt,               ! Nearest layer absorptivities
-     $     abstot,               ! Non-adjacent layer absorptivites
-     $     emstot                ! Total emissivity
+      real absnxt,
+     $     abstot,
+     $     emstot
 c
 c Trace gas variables
 c
-      real ucfc11(plond,plevp), ! CFC11 path length
-     $     ucfc12(plond,plevp), ! CFC12 path length
-     $     un2o0(plond,plevp),  ! N2O path length
-     $     un2o1(plond,plevp),  ! N2O path length (hot band)
-     $     uch4(plond,plevp),   ! CH4 path length
-     $     uco211(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco212(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco213(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco221(plond,plevp), ! CO2 10.4 micron band path length
-     $     uco222(plond,plevp), ! CO2 10.4 micron band path length
-     $     uco223(plond,plevp), ! CO2 10.4 micron band path length
-     $     bn2o0(plond,plevp),  ! pressure factor for n2o
-     $     bn2o1(plond,plevp),  ! pressure factor for n2o
-     $     bch4(plond,plevp),   ! pressure factor for ch4
-     $     uptype(plond,plevp)  ! p-type continuum path length
-      real abplnk1(14,plond,plevp), ! non-nearest layer Plack factor
-     $     abplnk2(14,plond,plevp)  ! nearest layer factor
+      real ucfc11(plond,plevp),
+     $     ucfc12(plond,plevp),
+     $     un2o0(plond,plevp),
+     $     un2o1(plond,plevp),
+     $     uch4(plond,plevp),
+     $     uco211(plond,plevp),
+     $     uco212(plond,plevp),
+     $     uco213(plond,plevp),
+     $     uco221(plond,plevp),
+     $     uco222(plond,plevp),
+     $     uco223(plond,plevp),
+     $     bn2o0(plond,plevp),
+     $     bn2o1(plond,plevp),
+     $     bch4(plond,plevp),
+     $     uptype(plond,plevp)
+      real abplnk1(14,plond,plevp),
+     $     abplnk2(14,plond,plevp)
 C
 C
 C------------------------------Externals--------------------------------
 C
       integer intmax
       external intmax
-      external radtpl,           ! Compute path lengths
-     $         radems,           ! H2o,co2,o3 emissivity
-     $         radabs,           ! H2o,co2,o3 absorptivity
+      external radtpl,
+     $         radems,
+     $         radabs,
      $         whenne,
      $         whenflt
-      external writeric,         ! Write for abs/ems
-     $         readric           ! Read  for abs/ems
+      external writeric,
+     $         readric
 C-----------------------------------------------------------------------
 C
 C Set pointer variables
@@ -7059,8 +6959,8 @@ C
      $                 cld(i,km2)*(tclrsf(i,km1)*rtclrsf(i,k1))
                end if
             end do
-         end do            ! km=1,k
-      end do               ! k=1,khighest-1
+         end do
+      end do
 C
       do k=1,plevp
          k2 = plevp2 - k
@@ -7090,8 +6990,8 @@ CDIR$ IVDEP
      $              (fclt4(i,km1) + s(i,k2,k3) - s(i,k2,km3))
                end if
             end do
-         end do         ! km=1,khighest
-      end do            ! k=1,plevp
+         end do
+      end do
 C
 C Computation of the downward fluxes
 C
@@ -7119,7 +7019,7 @@ C
      $                 (fclb4(i,km1) - s(i,k2,km4) + s(i,k2,k3))
                end if
             end do
-         end do            ! km=k+1,khighest
+         end do
 CDIR$ IVDEP
          do ii=1,npts
             i=indx(ii)
@@ -7128,7 +7028,7 @@ CDIR$ IVDEP
      $              (tclrsf(i,k1)*rtclrsf(i,plevp-khiv(i)))
             end if
          end do
-      end do               ! k=1,khighest-1
+      end do
 C
 C End cloud modification loops
 C
@@ -7231,19 +7131,19 @@ C
 C Radiation resolution and I/O parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
       integer
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plngbuf
 C
       parameter(plon    = 1,
      $          plev    = 18,
@@ -7260,7 +7160,7 @@ C
      $                          plond*plevp)/512 + 1))
 C
 C-----------------------------------------------------------------------
-      real scon                ! Solar constant
+      real scon
       parameter (scon = 1.367e6)
 C------------------------------Commons----------------------------------
 c
@@ -7274,85 +7174,85 @@ C
      $              stebol  ,rgsslp  ,co2vmr  ,dpfo3   ,dpfco2  ,
      $              dayspy  ,pie
 C
-      real gravit,    ! Acceleration of gravity
-     $     rga,       ! 1./gravit
-     $     cpair,     ! Specific heat of dry air
-     $     epsilo,    ! Ratio of mol. wght of H2O to dry air
-     $     sslp,      ! Standard sea-level pressure
-     $     stebol,    ! Stefan-Boltzmann's constant
-     $     rgsslp,    ! 0.5/(gravit*sslp)
-     $     co2vmr,    ! CO2 volume mixing ratio
-     $     dpfo3,     ! Voigt correction factor for O3
-     $     dpfco2,    ! Voigt correction factor for CO2
-     $     dayspy,    ! Number of days per 1 year
-     $     pie        ! 3.14.....
+      real gravit,
+     $     rga,
+     $     cpair,
+     $     epsilo,
+     $     sslp,
+     $     stebol,
+     $     rgsslp,
+     $     co2vmr,
+     $     dpfo3,
+     $     dpfco2,
+     $     dayspy,
+     $     pie
 C
-      real rel(plond,plev),    ! liquid effective drop size (microns)
-     $     rei(plond,plev),    ! ice effective drop size (microns)
-     $     fice(plond,plev)    ! fractional ice content within cloud
+      real rel(plond,plev),
+     $     rei(plond,plev),
+     $     fice(plond,plev)
 C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      real pint(plond,plevp),  ! Interface pressure
-     $     h2ommr(plond,plev), ! Specific humidity (h2o mass mix ratio)
-     $     cld(plond,plevp),   ! Fractional cloud cover
-     $     clwp(plond,plev),   ! Layer liquid water path
-     $     o3mmr(plond,plev),  ! Ozone mass mixing ratio
-     $     eccf,               ! Eccentricity factor(1./earth-sun dist. squared)
-     $     coszrs(plond)       ! Cosine solar zenith angle
-      real albs(plond),        ! 0.2-0.7 micro-meter srfc alb to direct rad
-     $     albl(plond),        ! 0.7-5.0 micro-meter srfc alb to direct rad
-     $     albsd(plond),       ! 0.2-0.7 micro-meter srfc alb to diffuse rad
-     $     albld(plond)        ! 0.7-5.0 micro-meter srfc alb to diffuse rad
-      real aermmr(plond,plev), ! level aerosol mass mixing ratio
-     $     rh(plond,plev)      ! level relative humidity (fraction)
+      real pint(plond,plevp),
+     $     h2ommr(plond,plev),
+     $     cld(plond,plevp),
+     $     clwp(plond,plev),
+     $     o3mmr(plond,plev),
+     $     eccf,
+     $     coszrs(plond)
+      real albs(plond),
+     $     albl(plond),
+     $     albsd(plond),
+     $     albld(plond)
+      real aermmr(plond,plev),
+     $     rh(plond,plev)
 C
 C
 C Output arguments
 C
-      real solin(plond),       ! Incident solar flux
-     $     qrs(plond,plev),    ! Solar heating rate
-     $     fsns(plond),        ! Surface absorbed solar flux
-     $     fsnt(plond),        ! Total column absorbed solar flux
-     $     fsnsc(plond),       ! Clear sky surface absorbed solar flux
-     $     fsntc(plond),       ! Clear sky total column absorbed solar flx
-     $     sols(plond),        ! direct solar rad incident on surface (< 0.7)
-     $     soll(plond),        ! direct solar rad incident on surface (>= 0.7)
-     $     solsd(plond),       ! diffuse solar rad incident on surface (< 0.7)
-     $     solld(plond)        ! diffuse solar rad incident on surface (>= 0.7)
+      real solin(plond),
+     $     qrs(plond,plev),
+     $     fsns(plond),
+     $     fsnt(plond),
+     $     fsnsc(plond),
+     $     fsntc(plond),
+     $     sols(plond),
+     $     soll(plond),
+     $     solsd(plond),
+     $     solld(plond)
 
 C
 C------------------------------Externals--------------------------------
 C
-      integer   isrchfgt,      ! Search for first array element > 0
-     $          isrchfle       ! Search for first array element < 0
-      external    radded,      ! Computes delta-eddington solution
-     $            radclr,      ! Computes clear sky delta-edd solution
-     $          isrchfgt,      ! Search for first array element > 0
-     $          isrchfle       ! Search for first array element < 0
+      integer   isrchfgt,
+     $          isrchfle
+      external    radded,
+     $            radclr,
+     $          isrchfgt,
+     $          isrchfle
 C
 C---------------------------Local variables-----------------------------
 C
-      integer       ns,        ! Spectral loop index
-     $               i,        ! Longitude loop index
-     $               k,        ! Level loop index
-     $               n,        ! Loop index for daylight
-     $           nloop,        ! Number of daylight loops
-     $           is(2),        ! Daytime start indices
-     $           ie(2),        ! Daytime end indices
-     $          indxsl         ! Index for cloud particle properties
+      integer       ns,
+     $               i,
+     $               k,
+     $               n,
+     $           nloop,
+     $           is(2),
+     $           ie(2),
+     $          indxsl
 C
 C A. Slingo's data for cloud particle radiative properties (from 'A GCM
 C Parameterization for the Shortwave Properties of Water Clouds' JAS
 C vol. 46 may 1989 pp 1419-1427)
 C
-      real abarl(4), ! A coefficient for extinction optical depth
-     $     bbarl(4), ! B coefficiant for extinction optical depth
-     $     cbarl(4), ! C coefficiant for single particle scat albedo
-     $     dbarl(4), ! D coefficiant for single particle scat albedo
-     $     ebarl(4), ! E coefficiant for asymmetry parameter
-     $     fbarl(4)  ! F coefficiant for asymmetry parameter
+      real abarl(4),
+     $     bbarl(4),
+     $     cbarl(4),
+     $     dbarl(4),
+     $     ebarl(4),
+     $     fbarl(4)
       save abarl, bbarl, cbarl, dbarl, ebarl, fbarl
 C
       data abarl/ 2.817e-02, 2.682e-02,2.264e-02,1.281e-02/
@@ -7362,12 +7262,12 @@ C
       data ebarl/ 0.829    , 0.794    ,0.754    ,0.826    /
       data fbarl/ 2.482e-03, 4.226e-03,6.560e-03,4.353e-03/
 C
-      real abarli,   ! A coefficiant for current spectral interval
-     $     bbarli,   ! B coefficiant for current spectral interval
-     $     cbarli,   ! C coefficiant for current spectral interval
-     $     dbarli,   ! D coefficiant for current spectral interval
-     $     ebarli,   ! E coefficiant for current spectral interval
-     $     fbarli    ! F coefficiant for current spectral interval
+      real abarli,
+     $     bbarli,
+     $     cbarli,
+     $     dbarli,
+     $     ebarli,
+     $     fbarli
 C
 C Caution... A. Slingo recommends no less than 4.0 micro-meters nor
 C greater than 20 micro-meters
@@ -7375,12 +7275,12 @@ C
 C
 c    ice water coefficients (Ebert and Curry,1992, JGR, 97, 3831-3836)
 c
-      real abari(4), ! a coefficient for extinction optical depth
-     $     bbari(4), ! b coefficiant for extinction optical depth
-     $     cbari(4), ! c coefficiant for single particle scat albedo
-     $     dbari(4), ! d coefficiant for single particle scat albedo
-     $     ebari(4), ! e coefficiant for asymmetry parameter
-     $     fbari(4)  ! f coefficiant for asymmetry parameter
+      real abari(4),
+     $     bbari(4),
+     $     cbari(4),
+     $     dbari(4),
+     $     ebari(4),
+     $     fbari(4)
       save abari, bbari, cbari, dbari, ebari, fbari
 c
       data abari/ 3.448e-03, 3.448e-03,3.448e-03,3.448e-03/
@@ -7390,51 +7290,51 @@ c
       data ebari/ 0.7661   , 0.7730   ,0.794    ,0.9595   /
       data fbari/ 5.851e-04, 5.665e-04,7.267e-04,1.076e-04/
 C
-      real abarii,   ! A coefficiant for current spectral interval
-     $     bbarii,   ! B coefficiant for current spectral interval
-     $     cbarii,   ! C coefficiant for current spectral interval
-     $     dbarii,   ! D coefficiant for current spectral interval
-     $     ebarii,   ! E coefficiant for current spectral interval
-     $     fbarii    ! F coefficiant for current spectral interval
+      real abarii,
+     $     bbarii,
+     $     cbarii,
+     $     dbarii,
+     $     ebarii,
+     $     fbarii
 C
 C      real cldefr ! Universal cloud effective radius in micro-meters
 C      data cldefr / 10.0 /
 C
-      real delta           ! Pressure (atmospheres) for stratospheric h2o limit
+      real delta
       data delta  /  1.70e-3 /
 C
-      real o2mmr           ! O2 mass mixing ratio:
+      real o2mmr
       save delta, o2mmr
       data o2mmr / .23143 /
 C
 C CO2 info:
 C
-      real mmwair,         ! Mean molecular weight of air
-     $     mmwco2,         ! Mean molecular weight of co2
-     $     co2mmr          ! Co2 mass mixing ratio
+      real mmwair,
+     $     mmwco2,
+     $     co2mmr
       save mmwair, mmwco2
       data mmwair / 28.9644 /
       data mmwco2 / 44.0000 /
 C
-      real albdir(plond),  ! Current spc intrvl srf alb to direct rad
-     $     albdif(plond)   ! Current spc intrvl srf alb to diffuse rad
+      real albdir(plond),
+     $     albdif(plond)
 C
-      integer nspint  ! Num of spectral intervals across solar spectrum
+      integer nspint
       parameter ( nspint = 18 )
 C
 C Next series depends on spectral interval
 C
-      real frcsol(nspint),  ! Fraction of solar flux in each spectral interval
-     $     wavmin(nspint),  ! Min wavelength (micro-meters) of interval
-     $     wavmax(nspint),  ! Max wavelength (micro-meters) of interval
-     $     raytau(nspint),  ! Rayleigh scattering optical depth
-     $     abh2o(nspint),   ! Absorption coefficiant for h2o (cm2/g)
-     $     abo3 (nspint),   ! Absorption coefficiant for o3  (cm2/g)
-     $     abco2(nspint),   ! Absorption coefficiant for co2 (cm2/g)
-     $     abo2 (nspint),   ! Absorption coefficiant for o2  (cm2/g)
-     $     ph2o(nspint),    ! Weight of h2o in spectral interval
-     $     pco2(nspint),    ! Weight of co2 in spectral interval
-     $     po2 (nspint)     ! Weight of o2  in spectral interval
+      real frcsol(nspint),
+     $     wavmin(nspint),
+     $     wavmax(nspint),
+     $     raytau(nspint),
+     $     abh2o(nspint),
+     $     abo3 (nspint),
+     $     abco2(nspint),
+     $     abo2 (nspint),
+     $     ph2o(nspint),
+     $     pco2(nspint),
+     $     po2 (nspint)
       save frcsol ,wavmin ,wavmax ,raytau ,abh2o ,abo3 ,
      $     abco2  ,abo2   ,ph2o   ,pco2  ,po2
 C
@@ -7498,40 +7398,40 @@ C
 C Diagnostic and accumulation arrays; note that sfltot, fswup, and
 C fswdn are not used in the computation,but are retained for future use.
 C
-      real solflx(plond),         ! Solar flux in current interval
-     $     sfltot(plond),         ! Spectrally summed total solar flux
-     $     totfld(plond,0:plev),  ! Spectrally summed flux divergence
-     $     fswup(plond,0:plevp),  ! Spectrally summed up flux
-     $     fswdn(plond,0:plevp)   ! Spectrally summed down flux
+      real solflx(plond),
+     $     sfltot(plond),
+     $     totfld(plond,0:plev),
+     $     fswup(plond,0:plevp),
+     $     fswdn(plond,0:plevp)
 C
 C Cloud radiative property arrays
 C
-      real tauxcl(plond,0:plev),  ! water cloud extinction optical depth
-     $     tauxci(plond,0:plev),  ! ice cloud extinction optical depth
-     $         wcl(plond,0:plev), ! liquid cloud single scattering albedo
-     $         gcl(plond,0:plev), ! liquid cloud asymmetry parameter
-     $         fcl(plond,0:plev), ! liquid cloud forward scattered fraction
-     $         wci(plond,0:plev), ! ice cloud single scattering albedo
-     $         gci(plond,0:plev), ! ice cloud asymmetry parameter
-     $         fci(plond,0:plev)  ! ice cloud forward scattered fraction
+      real tauxcl(plond,0:plev),
+     $     tauxci(plond,0:plev),
+     $         wcl(plond,0:plev),
+     $         gcl(plond,0:plev),
+     $         fcl(plond,0:plev),
+     $         wci(plond,0:plev),
+     $         gci(plond,0:plev),
+     $         fci(plond,0:plev)
 C
 C Aerosol radiative property arrays
 C
-      real tauxar(plond,0:plev),     ! aerosol extinction optical depth
-     $         wa(plond,0:plev),     ! aerosol single scattering albedo
-     $         ga(plond,0:plev),     ! aerosol assymetry parameter
-     $         fa(plond,0:plev)      ! aerosol forward scattered fraction
+      real tauxar(plond,0:plev),
+     $         wa(plond,0:plev),
+     $         ga(plond,0:plev),
+     $         fa(plond,0:plev)
 C
-      real tauaer(plond),            ! total column aerosol extinction
-     $     waer(plond),              ! aerosol single scattering albedo
-     $     gaer(plond),              ! aerosol asymmetry parameter
-     $     faer(plond)               ! aerosol forward scattering fraction
+      real tauaer(plond),
+     $     waer(plond),
+     $     gaer(plond),
+     $     faer(plond)
 C
 C Sulphate aerosol properties from August 1992
 C
-      real ksa(nspint),   ! aerosol spectral mass absorption coeff (m2/g)
-     $     wsa(nspint),   ! aerosol spectral single scattering albedo
-     $     gsa(nspint)    ! aerosol spectral asymmetry parameter
+      real ksa(nspint),
+     $     wsa(nspint),
+     $     gsa(nspint)
 C
       data ksa /11.1163, 10.5472, 10.2468, 10.0392,  9.8292,
      $           9.6199,  9.0407,  5.3012,  1.9169,  0.3780,
@@ -7550,12 +7450,12 @@ C
 C
 C Other variables and arrays needed for aerosol:
 C
-      real rhfac,              ! multiplication factor for kaer
-     $     rhpc,               ! level relative humidity in %
-     $     a0,                 ! constant in rh mult factor
-     $     a1,                 ! constant in rh mult factor
-     $     a2,                 ! constant in rh mult factor
-     $     a3                  ! constant in rh mult factor
+      real rhfac,
+     $     rhpc,
+     $     a0,
+     $     a1,
+     $     a2,
+     $     a3
 c
       data a0 / -9.2906106183    /
       data a1 /  0.52570211505   /
@@ -7564,68 +7464,68 @@ c
 C
 C Various arrays and other constants:
 C
-      real pflx(plond,0:plevp),   ! Interface press, including extra layer
-     $     zenfac(plond),         ! Square root of cos solar zenith angle
-     $     sqrco2,                ! Square root of the co2 mass mixg ratio
-     $     tmp1,                  ! Temporary constant array
-     $     tmp2,                  ! Temporary constant array
-     $     pdel,                  ! Pressure difference across layer
-     $     path,                  ! Mass path of layer
-     $     ptop,                  ! Lower interface pressure of extra layer
-     $     ptho2,                 ! Used to compute mass path of o2
-     $     ptho3,                 ! Used to compute mass path of o3
-     $     pthco2,                ! Used to compute mass path of co2
-     $     pthh2o,                ! Used to compute mass path of h2o
-     $     h2ostr,                ! Inverse square root h2o mass mixing ratio
-     $     wavmid,                ! Spectral interval middle wavelength
-     $     trayoslp               ! Rayleigh optical depth/standard pressure
-      real tmp1l,                 ! Temporary constant array
-     $     tmp2l,                 ! Temporary constant array
-     $     tmp3l,                 ! Temporary constant array
-     $     tmp1i,                 ! Temporary constant array
-     $     tmp2i,                 ! Temporary constant array
-     $     tmp3i                  ! Temporary constant array
-      real rdenom,                ! Multiple scattering term
-     $     psf,                   ! Frac of solar flux in spect interval
-     $     gocp                   ! Gravity/cp
+      real pflx(plond,0:plevp),
+     $     zenfac(plond),
+     $     sqrco2,
+     $     tmp1,
+     $     tmp2,
+     $     pdel,
+     $     path,
+     $     ptop,
+     $     ptho2,
+     $     ptho3,
+     $     pthco2,
+     $     pthh2o,
+     $     h2ostr,
+     $     wavmid,
+     $     trayoslp
+      real tmp1l,
+     $     tmp2l,
+     $     tmp3l,
+     $     tmp1i,
+     $     tmp2i,
+     $     tmp3i
+      real rdenom,
+     $     psf,
+     $     gocp
 C
 C Layer absorber amounts; note that 0 refers to the extra layer added
 C above the top model layer
 C
-      real uh2o(plond,0:plev),    ! Layer absorber amount of h2o
-     $      uo3(plond,0:plev),    ! Layer absorber amount of  o3
-     $     uco2(plond,0:plev),    ! Layer absorber amount of co2
-     $      uo2(plond,0:plev),    ! Layer absorber amount of  o2
-     $      uaer(plond,0:plev)    ! Layer aerosol amount 
+      real uh2o(plond,0:plev),
+     $      uo3(plond,0:plev),
+     $     uco2(plond,0:plev),
+     $      uo2(plond,0:plev),
+     $      uaer(plond,0:plev)
 C
 C Total column absorber amounts:
 C
-      real uth2o(plond),          ! Total column  absorber amount of  h2o
-     $     uto3(plond),           ! Total column  absorber amount of  o3
-     $     utco2(plond),          ! Total column  absorber amount of  co2
-     $     uto2(plond),           ! Total column  absorber amount of  o2
-     $     utaer(plond)           ! Total column  aerosol
+      real uth2o(plond),
+     $     uto3(plond),
+     $     utco2(plond),
+     $     uto2(plond),
+     $     utaer(plond)
 C
 C These arrays are defined for plev model layers; 0 refers to the extra
 C layer on top:
 C
-      real rdir(plond,0:plev),    ! Layer reflectivity to direct rad
-     $     rdif(plond,0:plev),    ! Layer reflectivity to diffuse rad
-     $     tdir(plond,0:plev),    ! Layer transmission to direct rad
-     $     tdif(plond,0:plev),    ! Layer transmission to diffuse rad
-     $     explay(plond,0:plev),  ! Solar beam exp transmission for layer
-     $     flxdiv(plond,0:plev)   ! Flux divergence for layer
+      real rdir(plond,0:plev),
+     $     rdif(plond,0:plev),
+     $     tdir(plond,0:plev),
+     $     tdif(plond,0:plev),
+     $     explay(plond,0:plev),
+     $     flxdiv(plond,0:plev)
 C
 C These arrays are defined at model interfaces; 0 is the top of the
 C extra layer above the model top; plevp is the earth surface:
 C
-      real rupdir(plond,0:plevp), ! Ref to dir rad for layers below
-     $     rupdif(plond,0:plevp), ! Ref to dif rad for layers below
-     $     rdndif(plond,0:plevp), ! Ref to dif rad for layers above
-     $     exptdn(plond,0:plevp), ! Solar beam exp down transm from top
-     $     tottrn(plond,0:plevp), ! Total transmission for layers above
-     $     fluxup(plond,0:plevp), ! Up   flux at model interface
-     $     fluxdn(plond,0:plevp)  ! Down flux at model interface
+      real rupdir(plond,0:plevp),
+     $     rupdif(plond,0:plevp),
+     $     rdndif(plond,0:plevp),
+     $     exptdn(plond,0:plevp),
+     $     tottrn(plond,0:plevp),
+     $     fluxup(plond,0:plevp),
+     $     fluxdn(plond,0:plevp)
 C
 C-----------------------------------------------------------------------
 C
@@ -8101,7 +8001,7 @@ C
 C
 C End of clear sky calculation
 C
-  100 continue              ! End of spectral interval loop
+  100 continue
 C
 C Compute solar heating rate (k/s)
 C
@@ -8158,19 +8058,19 @@ C
 C Radiation resolution and I/O parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
       integer
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plngbuf
 C
       parameter(plon    = 1,
      $          plev    = 18,
@@ -8190,10 +8090,10 @@ C-----------------------------------------------------------------------
 C
 C Minimum total transmission below which no layer computation are done:
 C
-      real  trmin,          ! Minimum total transmission allowed
-     $      wray,           ! Rayleigh single scatter albedo
-     $      gray,           ! Rayleigh asymetry parameter
-     $      fray            ! Rayleigh forward scattered fraction
+      real  trmin,
+     $      wray,
+     $      gray,
+     $      fray
       parameter (trmin = 1.e-3,
      $           wray = 0.999999,
      $           gray = 0.0,
@@ -8202,43 +8102,43 @@ C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      real coszrs(plond),         ! Cosine zenith angle
-     $     trayoslp,              ! Tray/sslp
-     $     pflx(plond,0:plevp),   ! Interface pressure
-     $     abh2o,                 ! Absorption coefficiant for h2o
-     $     abo3 ,                 ! Absorption coefficiant for o3
-     $     abco2,                 ! Absorption coefficiant for co2
-     $     abo2 ,                 ! Absorption coefficiant for o2
-     $     uh2o(plond,0:plev),    ! Layer absorber amount of h2o
-     $     uo3(plond,0:plev),     ! Layer absorber amount of  o3
-     $     uco2(plond,0:plev),    ! Layer absorber amount of co2
-     $     uo2(plond,0:plev)      ! Layer absorber amount of  o2
-      real tauxcl(plond,0:plev),  ! Cloud extinction optical depth
-     $     wcl(plond,0:plev),      ! Cloud single scattering albedo
-     $     gcl(plond,0:plev),      ! Cloud assymetry parameter
-     $     fcl(plond,0:plev),       ! Cloud forward scattered fraction
-     $     tauxci(plond,0:plev),  ! Cloud extinction optical depth
-     $     wci(plond,0:plev),      ! Cloud single scattering albedo
-     $     gci(plond,0:plev),      ! Cloud assymetry parameter
+      real coszrs(plond),
+     $     trayoslp,
+     $     pflx(plond,0:plevp),
+     $     abh2o,
+     $     abo3 ,
+     $     abco2,
+     $     abo2 ,
+     $     uh2o(plond,0:plev),
+     $     uo3(plond,0:plev),
+     $     uco2(plond,0:plev),
+     $     uo2(plond,0:plev)
+      real tauxcl(plond,0:plev),
+     $     wcl(plond,0:plev),
+     $     gcl(plond,0:plev),
+     $     fcl(plond,0:plev),
+     $     tauxci(plond,0:plev),
+     $     wci(plond,0:plev),
+     $     gci(plond,0:plev),
      $     fci(plond,0:plev)
-      real tauxar(plond,0:plev), ! Aerosol extinction optical depth
-     $     wa(plond,0:plev),     ! Aerosol single scattering albedo
-     $     ga(plond,0:plev),     ! Aerosol assymetry parameter
-     $     fa(plond,0:plev)      ! Aerosol forward scattered fraction
-      integer nloop,              ! Number of loops (1 or 2)
-     $        is(2),              ! Starting index for 1 or 2 loops
-     $        ie(2)               ! Ending index for 1 or 2 loops
+      real tauxar(plond,0:plev),
+     $     wa(plond,0:plev),
+     $     ga(plond,0:plev),
+     $     fa(plond,0:plev)
+      integer nloop,
+     $        is(2),
+     $        ie(2)
 C
 C Input/Output arguments
 C
 C Following variables are defined for each layer; 0 refers to extra
 C layer above top of model:
 C
-      real rdir(plond,0:plev),    ! Layer reflectivity to direct rad
-     $     rdif(plond,0:plev),    ! Layer refflectivity to diffuse rad
-     $     tdir(plond,0:plev),    ! Layer transmission to direct rad
-     $     tdif(plond,0:plev),    ! Layer transmission to diffuse rad
-     $     explay(plond,0:plev)   ! Solar beam exp transm for layer
+      real rdir(plond,0:plev),
+     $     rdif(plond,0:plev),
+     $     tdir(plond,0:plev),
+     $     tdif(plond,0:plev),
+     $     explay(plond,0:plev)
 C
 C (Note that the following variables are defined on interfaces, with the
 C  index k referring to the top interface of the kth layer:
@@ -8246,73 +8146,73 @@ C  exptdn,rdndif,tottrn; for example, tottrn(k=5) refers to the total
 C  transmission to the top interface of the 5th layer; plevp refers to
 C  the earth surface)
 C
-      real rdndif(plond,0:plevp), ! Added dif ref for layers above
-     $     exptdn(plond,0:plevp), ! Solar beam exp down transm from top
-     $     tottrn(plond,0:plevp)  ! Total transmission for layers above
+      real rdndif(plond,0:plevp),
+     $     exptdn(plond,0:plevp),
+     $     tottrn(plond,0:plevp)
 C
 C------------------------------Externals--------------------------------
 C
-      external  resetr,           ! Resets array elements to zero
-     $          whenfgt           ! Collect indices greater than conditn
+      external  resetr,
+     $          whenfgt
 C
 C---------------------------Local variables-----------------------------
 C
-      integer i,            ! Longitude index
-     $        k,            ! Level index
-     $        nn,           ! Index of longitude loops (max=nloop)
-     $        ii,           ! Longitude index
-     $        nval,         ! Number of long values satisfying criteria
-     $        index(plond)  ! Array of longitude indices
+      integer i,
+     $        k,
+     $        nn,
+     $        ii,
+     $        nval,
+     $        index(plond)
 C
-      real taugab(plond),   ! Layer total gas absorption optical depth
-     $     tauray(plond),   ! Layer rayleigh optical depth
-     $     taucsc,          ! Layer cloud scattering optical depth
-     $     tautot,          ! Total layer optical depth
-     $     wtot,            ! Total layer single scatter albedo
-     $     gtot,            ! Total layer asymmetry parameter
-     $     ftot             ! Total layer forward scatter fraction
+      real taugab(plond),
+     $     tauray(plond),
+     $     taucsc,
+     $     tautot,
+     $     wtot,
+     $     gtot,
+     $     ftot
 C
-      real wtau,            !  rayleigh layer scattering optical depth
-     $     wt,              !  layer total single scattering albedo
-     $     ts,              !  layer scaled extinction optical depth
-     $     ws,              !  layer scaled single scattering albedo
-     $     gs               !  layer scaled asymmetry parameter
+      real wtau,
+     $     wt,
+     $     ts,
+     $     ws,
+     $     gs
 C
-      real rdenom,          !  mulitiple scattering term
-     $     rdirexp,         !  layer direct ref times exp transmission
-     $     tdnmexp          !  total transmission minus exp transmission
+      real rdenom,
+     $     rdirexp,
+     $     tdnmexp
 C
 C---------------------------Statement functions-------------------------
 C
 C Statement functions and other local variables
 C
-      real alpha,           ! Term in direct reflect and transmissivity
-     $     gamma,           ! Term in direct reflect and transmissivity
-     $     el,              ! Term in alpha,gamma,n,u
-     $     taus,            ! Scaled extinction optical depth
-     $     omgs,            ! Scaled single particle scattering albedo
-     $     asys,            ! Scaled asymmetry parameter
-     $     u,               ! Term in diffuse reflect and transmissivity
-     $     n,               ! Term in diffuse reflect and transmissivity
-     $     lm,              ! Temporary for el
-     $     ne               ! Temporary for n
-      real w,               ! Dummy argument for statement function
-     $     uu,              ! Dummy argument for statement function
-     $     g,               ! Dummy argument for statement function
-     $     e,               ! Dummy argument for statement function
-     $     f,               ! Dummy argument for statement function
-     $     t,               ! Dummy argument for statement function
-     $     et               ! Dummy argument for statement function
+      real alpha,
+     $     gamma,
+     $     el,
+     $     taus,
+     $     omgs,
+     $     asys,
+     $     u,
+     $     n,
+     $     lm,
+     $     ne
+      real w,
+     $     uu,
+     $     g,
+     $     e,
+     $     f,
+     $     t,
+     $     et
 C
 C Intermediate terms for delta-eddington solution
 C
-      real alp,             ! Temporary for alpha
-     $     gam,             ! Temporary for gamma
-     $     ue,              ! Temporary for u
-     $     arg,             ! Exponential argument
-     $     extins,          ! Extinction
-     $     amg,             ! Alp - gam
-     $     apg              ! Alp + gam
+      real alp,
+     $     gam,
+     $     ue,
+     $     arg,
+     $     extins,
+     $     amg,
+     $     apg
 C
       alpha(w,uu,g,e) = .75*w*uu*((1. + g*(1-w))/(1. - e*e*uu*uu))
       gamma(w,uu,g,e) = .50*w*((3.*g*(1.-w)*uu*uu + 1.)/(1.-e*e*uu*uu))
@@ -8584,19 +8484,19 @@ C
 C Radiation resolution and I/O parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
       integer
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plngbuf
 C
       parameter(plon    = 1,
      $          plev    = 18,
@@ -8629,10 +8529,10 @@ C
      $              c22,c23,c24,c25,c26,c27,c28,c29,c30,c31,
      $              fwcoef,fwc1,fwc2,fc1,cfa1
 C
-      real realk,     ! H2O narrow band parameter
-     $     st,        ! H2O narrow band parameter
-     $     a1,a2,     ! Temperature correction terms for H2O path
-     $     b1,b2      ! Temperature correction terms for H2O path
+      real realk,
+     $     st,
+     $     a1,a2,
+     $     b1,b2
 C
 C Constant coefficients for water vapor absorptivity and emissivity
 C
@@ -8664,211 +8564,211 @@ C
      $              stebol  ,rgsslp  ,co2vmr  ,dpfo3   ,dpfco2  ,
      $              dayspy  ,pie
 C
-      real gravit,    ! Acceleration of gravity
-     $     rga,       ! 1./gravit
-     $     cpair,     ! Specific heat of dry air
-     $     epsilo,    ! Ratio of mol. wght of H2O to dry air
-     $     sslp,      ! Standard sea-level pressure
-     $     stebol,    ! Stefan-Boltzmann's constant
-     $     rgsslp,    ! 0.5/(gravit*sslp)
-     $     co2vmr,    ! CO2 volume mixing ratio
-     $     dpfo3,     ! Voigt correction factor for O3
-     $     dpfco2,    ! Voigt correction factor for CO2
-     $     dayspy,    ! Number of days per 1 year
-     $     pie        ! 3.14.....
+      real gravit,
+     $     rga,
+     $     cpair,
+     $     epsilo,
+     $     sslp,
+     $     stebol,
+     $     rgsslp,
+     $     co2vmr,
+     $     dpfo3,
+     $     dpfco2,
+     $     dayspy,
+     $     pie
 C
 C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      real s2c(plond,plevp),    ! H2o continuum path length
-     $     s2t(plond,plevp),    ! Tmp and prs wghted h2o path length
-     $     w(plond,plevp),      ! H2o path length
-     $     tplnke(plond),       ! Layer planck temperature
-     $     plh2o(plond,plevp),  ! H2o prs wghted path length
-     $     pnm(plond,plevp),    ! Model interface pressure
-     $     plco2(plond,plevp),  ! Prs wghted path of co2
-     $     tint(plond,plevp),   ! Model interface temperatures
-     $     tint4(plond,plevp),  ! Tint to the 4th power
-     $     tlayr(plond,plevp),  ! K-1 model layer temperature
-     $     tlayr4(plond,plevp), ! Tlayr to the 4th power
-     $     plol(plond,plevp),   ! Pressure wghtd ozone path
-     $     plos(plond,plevp)    ! Ozone path
+      real s2c(plond,plevp),
+     $     s2t(plond,plevp),
+     $     w(plond,plevp),
+     $     tplnke(plond),
+     $     plh2o(plond,plevp),
+     $     pnm(plond,plevp),
+     $     plco2(plond,plevp),
+     $     tint(plond,plevp),
+     $     tint4(plond,plevp),
+     $     tlayr(plond,plevp),
+     $     tlayr4(plond,plevp),
+     $     plol(plond,plevp),
+     $     plos(plond,plevp)
 c
 c   Trace gas variables
 c
-      real ucfc11(plond,plevp), ! CFC11 path length
-     $     ucfc12(plond,plevp), ! CFC12 path length
-     $     un2o0(plond,plevp),  ! N2O path length
-     $     un2o1(plond,plevp),  ! N2O path length (hot band)
-     $     uch4(plond,plevp),   ! CH4 path length
-     $     uco211(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco212(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco213(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco221(plond,plevp), ! CO2 10.4 micron band path length
-     $     uco222(plond,plevp), ! CO2 10.4 micron band path length
-     $     uco223(plond,plevp), ! CO2 10.4 micron band path length
-     $     bn2o0(plond,plevp),  ! pressure factor for n2o
-     $     bn2o1(plond,plevp),  ! pressure factor for n2o
-     $     bch4(plond,plevp),   ! pressure factor for ch4
-     $     uptype(plond,plevp)  ! p-type continuum path length
+      real ucfc11(plond,plevp),
+     $     ucfc12(plond,plevp),
+     $     un2o0(plond,plevp),
+     $     un2o1(plond,plevp),
+     $     uch4(plond,plevp),
+     $     uco211(plond,plevp),
+     $     uco212(plond,plevp),
+     $     uco213(plond,plevp),
+     $     uco221(plond,plevp),
+     $     uco222(plond,plevp),
+     $     uco223(plond,plevp),
+     $     bn2o0(plond,plevp),
+     $     bn2o1(plond,plevp),
+     $     bch4(plond,plevp),
+     $     uptype(plond,plevp)
 C
 C Output arguments
 C
-      real emstot(plond,plevp),  ! Total emissivity
-     $     co2em(plond,plevp),   ! Layer co2 normalzd plnck funct drvtv
-     $     co2eml(plond,plev),   ! Intrfc co2 normalzd plnck func drvtv
-     $     co2t(plond,plevp),    ! Tmp and prs weighted path length
-     $     h2otr(plond,plevp)    ! H2o transmission over o3 band
-      real emplnk(14,plond),        ! emissivity Planck factor
-     $     abplnk1(14,plond,plevp), ! non-nearest layer Plack factor
-     $     abplnk2(14,plond,plevp)  ! nearest layer factor
-      real emstrc(plond,plevp)  ! total trace gas emissivity
+      real emstot(plond,plevp),
+     $     co2em(plond,plevp),
+     $     co2eml(plond,plev),
+     $     co2t(plond,plevp),
+     $     h2otr(plond,plevp)
+      real emplnk(14,plond),
+     $     abplnk1(14,plond,plevp),
+     $     abplnk2(14,plond,plevp)
+      real emstrc(plond,plevp)
 
 C
 C---------------------------Local variables-----------------------------
 C
       integer
-     $     i,                  ! Longitude index
-     $     k,                  ! Level index]
-     $     k1,                 ! Level index
-     $     iband               ! H2o band index
+     $     i,
+     $     k,
+     $     k1,
+     $     iband
 C
 C Local variables for H2O:
 C
-      real h2oems(plond,plevp),! H2o emissivity
-     $     tpathe(plond),      ! Used to compute h2o emissivity
-     $     a(plond),           ! Eq(2) in table A3a of R&D
-     $     corfac(plond),      ! Correction factors in table A3b
-     $     dtp(plond),         ! Path temperature minus 300 K used in 
+      real h2oems(plond,plevp),
+     $     tpathe(plond),
+     $     a(plond),
+     $     corfac(plond),
+     $     dtp(plond),
 C                                h2o rotation band absorptivity
-     $     dtx(plond),         ! Planck temperature minus 250 K
-     $     dty(plond),         ! Path temperature minus 250 K
-     $     dtz(plond),         ! Planck temperature minus 300 K
-     $     emis(plond,4),      ! Total emissivity (h2o+co2+o3)
-     $     rsum(plond),        ! Eq(1) in table A2 of R&D
-     $     term1(plond,4),     ! Equation(5) in table A3a of R&D(1986)
-     $     term2(plond,4)      ! Delta a(Te) in table A3a of R&D(1986)
-      real term3(plond,4),     ! B(T) function for rotation and
+     $     dtx(plond),
+     $     dty(plond),
+     $     dtz(plond),
+     $     emis(plond,4),
+     $     rsum(plond),
+     $     term1(plond,4),
+     $     term2(plond,4)
+      real term3(plond,4),
 C                                vibration-rotation band emissivity
-     $     term4(plond,4),     ! Equation(6) in table A3a of R&D(1986)
-     $     term5(plond,4),     ! Delta a(Tp) in table A3a of R&D(1986)
-     $     term6(plond,2),     ! B(T) function for window region
-     $     term7(plond,2),     ! Kl_inf(i) in eq(8) of table A3a of R&D
-     $     term8(plond,2),     ! Delta kl_inf(i) in eq(8)
-     $     term9(plond,2),     ! B(T) function for 500-800 cm-1 region
-     $     tr1(plond),         ! Equation(6) in table A2 for 650-800
-     $     tr2(plond),         ! Equation(6) in table A2 for 500-650
-     $     tr3(plond)          ! Equation(4) in table A2 for 650-800
-      real tr4(plond),         ! Equation(4),table A2 of R&D for 500-650
-     $     tr7(plond),         ! Equation (6) times eq(4) in table A2
+     $     term4(plond,4),
+     $     term5(plond,4),
+     $     term6(plond,2),
+     $     term7(plond,2),
+     $     term8(plond,2),
+     $     term9(plond,2),
+     $     tr1(plond),
+     $     tr2(plond),
+     $     tr3(plond)
+      real tr4(plond),
+     $     tr7(plond),
 C                              !   of R&D for 650-800 cm-1 region
-     $     tr8(plond),         ! Equation (6) times eq(4) in table A2
+     $     tr8(plond),
 C                              !   of R&D for 500-650 cm-1 region
-     $     uc(plond),          ! Y + 0.002U in eq(8) of table A2 of R&D
-     $     pnew(plond),        ! Effective pressure for h2o linewidth
-     $     trline(plond,2),    ! Transmission due to H2O lines in window
-     $     k21(plond),         ! Exponential coefficient used to calc
+     $     uc(plond),
+     $     pnew(plond),
+     $     trline(plond,2),
+     $     k21(plond),
 C                              !  rot band transmissivity in the 650-800
 C                              !  cm-1 region (tr1)
-     $     k22(plond),         ! Exponential coefficient used to calc
+     $     k22(plond),
 C                              !  rot band transmissivity in the 500-650
 C                              !  cm-1 region (tr2)
-     $     u(plond),           ! Pressure weighted H2O path length
-     $     uc1(plond),         ! H2o continuum pathlength 500-800 cm-1
-     $     r80257              ! Conversion factor for h2o pathlength
-      real a11,                ! A1 in table A3b for rotation band emiss
-     $     a31,                ! A3 in table A3b for rotation band emiss
-     $     a21,                ! First part in numerator of A2 table A3b
-     $     a22,                ! Second part in numertor of A2 table A3b
-     $     a23,                ! Denominator of A2 table A3b (rot band)
-     $     t1t4,               ! Eq(3) in table A3a of R&D
-     $     t2t5,               ! Eq(4) in table A3a of R&D
-     $     fwk,                ! Equation(33) in R&D far wing correction
-     $     a41,                ! Numerator in A2 in Vib-rot (table A3b)
-     $     a51,                ! Denominator in A2 in Vib-rot(table A3b)
-     $     a61,                ! A3 factor for Vib-rot band in table A3b
-     $     phi,                ! Eq(11) in table A3a of R&D
-     $     psi,                ! Eq(12) in table A3a of R&D
-     $     ubar,               ! H2o scaled path comment eq(10) table A2
-     $     g1,                 ! Part of eq(10) table A2
-     $     pbar,               ! H2o scaled pres comment eq(10) table A2
-     $     g3,                 ! Part of eq(10) table A2
-     $     g2,                 ! Part of arguement in eq(10) in table A2
-     $     g4,                 ! Arguement in exp() in eq(10) table A2
-     $     cf812               ! Eq(11) in table A2 of R&D
-      real troco2(plond,plevp) ! H2o overlap factor for co2 absorption
+     $     u(plond),
+     $     uc1(plond),
+     $     r80257
+      real a11,
+     $     a31,
+     $     a21,
+     $     a22,
+     $     a23,
+     $     t1t4,
+     $     t2t5,
+     $     fwk,
+     $     a41,
+     $     a51,
+     $     a61,
+     $     phi,
+     $     psi,
+     $     ubar,
+     $     g1,
+     $     pbar,
+     $     g3,
+     $     g2,
+     $     g4,
+     $     cf812
+      real troco2(plond,plevp)
 C
 C Local variables for CO2:
 C
-      real co2ems(plond,plevp), ! Co2 emissivity
-     $     co2plk(plond),       ! Used to compute co2 emissivity
-     $     sum(plond),          ! Used to calculate path temperature
-     $     t1i,                 ! Co2 hot band temperature factor
-     $     sqti,                ! Sqrt of temperature
-     $     pi,                  ! Pressure used in co2 mean line width
-     $     et,                  ! Co2 hot band factor
-     $     et2,                 ! Co2 hot band factor
-     $     et4,                 ! Co2 hot band factor
-     $     omet,                ! Co2 stimulated emission term
-     $     ex                   ! Part of co2 planck function
-      real f1co2,               ! Co2 weak band factor
-     $     f2co2,               ! Co2 weak band factor
-     $     f3co2,               ! Co2 weak band factor
-     $     t1co2,               ! Overlap factor weak bands strong band
-     $     sqwp,                ! Sqrt of co2 pathlength
-     $     f1sqwp,              ! Main co2 band factor
-     $     oneme,               ! Co2 stimulated emission term
-     $     alphat,              ! Part of the co2 stimulated emiss term
-     $     wco2,                ! Consts used to define co2 pathlength
-     $     posqt,               ! Effective pressure for co2 line width
-     $     rbeta7,              ! Inverse of co2 hot band line width par
-     $     rbeta8,              ! Inverse of co2 hot band line width par
-     $     rbeta9,              ! Inverse of co2 hot band line width par
-     $     rbeta13              ! Inverse of co2 hot band line width par
-      real tpath,               ! Path temp used in co2 band model
-     $     tmp1,                ! Co2 band factor
-     $     tmp2,                ! Co2 band factor
-     $     tmp3,                ! Co2 band factor
-     $     tlayr5,              ! Temperature factor in co2 Planck func
-     $     rsqti,               ! Reciprocal of sqrt of temperature
-     $     exm1sq               ! Part of co2 Planck function
-      real u7,    ! Absorber amount for various co2 band systems
-     $     u8,    ! Absorber amount for various co2 band systems
-     $     u9,    ! Absorber amount for various co2 band systems
-     $     u13    ! Absorber amount for various co2 band systems
-      real r250,  ! Inverse 250K
-     $     r300,  ! Inverse 300K
-     $     rsslp  ! Inverse standard sea-level pressure
+      real co2ems(plond,plevp),
+     $     co2plk(plond),
+     $     sum(plond),
+     $     t1i,
+     $     sqti,
+     $     pi,
+     $     et,
+     $     et2,
+     $     et4,
+     $     omet,
+     $     ex
+      real f1co2,
+     $     f2co2,
+     $     f3co2,
+     $     t1co2,
+     $     sqwp,
+     $     f1sqwp,
+     $     oneme,
+     $     alphat,
+     $     wco2,
+     $     posqt,
+     $     rbeta7,
+     $     rbeta8,
+     $     rbeta9,
+     $     rbeta13
+      real tpath,
+     $     tmp1,
+     $     tmp2,
+     $     tmp3,
+     $     tlayr5,
+     $     rsqti,
+     $     exm1sq
+      real u7,
+     $     u8,
+     $     u9,
+     $     u13
+      real r250,
+     $     r300,
+     $     rsslp
 C
 C Local variables for O3:
 C
-      real o3ems(plond,plevp),  ! Ozone emissivity
-     $     dbvtt(plond),        ! Tmp drvtv of planck fctn for tplnke
-     $     te,                  ! Temperature factor
-     $     u1,                  ! Path length factor
-     $     u2,                  ! Path length factor
-     $     phat,                ! Effecitive path length pressure
-     $     tlocal,              ! Local planck function temperature
-     $     tcrfac,              ! Scaled temperature factor
-     $     beta,                ! Absorption funct factor voigt effect
-     $     realnu,              ! Absorption function factor
-     $     o3bndi               ! Band absorption factor
+      real o3ems(plond,plevp),
+     $     dbvtt(plond),
+     $     te,
+     $     u1,
+     $     u2,
+     $     phat,
+     $     tlocal,
+     $     tcrfac,
+     $     beta,
+     $     realnu,
+     $     o3bndi
 C
 C Transmission terms for various spectral intervals:
 C
-      real trem1(plond),        ! H2o     0 -  800 cm-1
-     $     trem2(plond),        ! H2o   500 -  800 cm-1
-     $     trem3(plond),        ! Co2   500 -  800 cm-1
-     $     trem4(plond),        ! H2o   800 - 1000 cm-1
-     $     trem5(plond),        ! O3     9.6 micro-meter band
-     $     trem6(plond),        ! H2o  1000 - 1200 cm-1
-     $     trem7(plond)         ! H2o  1200 - 2200 cm-1
-      real bndfct,              ! Band absorptance parameter for co2
-     $     absbnd               ! Proportional to co2 band absorptance
-      real tco2(plond),         ! co2 overlap factor
-     $     th2o(plond),         ! h2o overlap factor
-     $     to3(plond)           ! o3 overlap factor
+      real trem1(plond),
+     $     trem2(plond),
+     $     trem3(plond),
+     $     trem4(plond),
+     $     trem5(plond),
+     $     trem6(plond),
+     $     trem7(plond)
+      real bndfct,
+     $     absbnd
+      real tco2(plond),
+     $     th2o(plond),
+     $     to3(plond)
 C
 C---------------------------Statement functions-------------------------
 C
@@ -9144,7 +9044,7 @@ C
             emstot(i,k1) = h2oems(i,k1) + co2ems(i,k1) + o3ems(i,k1)
      $                     + emstrc(i,k1)
          end do
-  200 continue          ! End of interface loop
+  200 continue
 C
       return
       end
@@ -9175,19 +9075,19 @@ C
 C Radiation resolution and I/O parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
       integer
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plngbuf
 C
       parameter(plon    = 1,
      $          plev    = 18,
@@ -9211,23 +9111,23 @@ c
 C
 C ozone mixing ratios, pressures and times
 C
-      integer pnoz,     ! Maximum number of levels in ozone input data
-     $        pozlon    ! Number of ozone longitudes
+      integer pnoz,
+     $        pozlon
       parameter (pnoz=100)
       parameter (pozlon=1)
       common /comozp/nyroz   ,ldoyoz  ,ndoyoz  ,cplos   ,cplol   ,
      $               ozmix(plat,pnoz),ozmixm(pozlon,pnoz,plat,2),
      $               pin(pnoz),koz
 C
-      integer nyroz  ! Year of ozone data just after current date
-      real ldoyoz,   ! Day of yr of ozone data prior to current date
-     $     ndoyoz,   ! Day of yr of ozone data after current date
-     $     cplos,    ! Constant for ozone path length calculation
-     $     cplol,    ! Constant for pressure-weighted o3 path length calc.
-     $     ozmix,    ! Time-interpolated mixing ratios
-     $     ozmixm,   ! Two consecutive time slices of ozone mixing ratios
-     $     pin       ! Pressures at model interfaces
-      integer koz    ! Actual number of levels in ozone input data
+      integer nyroz
+      real ldoyoz,
+     $     ndoyoz,
+     $     cplos,
+     $     cplol,
+     $     ozmix,
+     $     ozmixm,
+     $     pin
+      integer koz
 C
 C-----------------------------------------------------------------------
 c
@@ -9246,10 +9146,10 @@ C
      $              c22,c23,c24,c25,c26,c27,c28,c29,c30,c31,
      $              fwcoef,fwc1,fwc2,fc1,cfa1
 C
-      real realk,     ! H2O narrow band parameter
-     $     st,        ! H2O narrow band parameter
-     $     a1,a2,     ! Temperature correction terms for H2O path
-     $     b1,b2      ! Temperature correction terms for H2O path
+      real realk,
+     $     st,
+     $     a1,a2,
+     $     b1,b2
 C
 C Constant coefficients for water vapor absorptivity and emissivity
 C
@@ -9281,35 +9181,35 @@ C
      $              stebol  ,rgsslp  ,co2vmr  ,dpfo3   ,dpfco2  ,
      $              dayspy  ,pie
 C
-      real gravit,    ! Acceleration of gravity
-     $     rga,       ! 1./gravit
-     $     cpair,     ! Specific heat of dry air
-     $     epsilo,    ! Ratio of mol. wght of H2O to dry air
-     $     sslp,      ! Standard sea-level pressure
-     $     stebol,    ! Stefan-Boltzmann's constant
-     $     rgsslp,    ! 0.5/(gravit*sslp)
-     $     co2vmr,    ! CO2 volume mixing ratio
-     $     dpfo3,     ! Voigt correction factor for O3
-     $     dpfco2,    ! Voigt correction factor for CO2
-     $     dayspy,    ! Number of days per 1 year
-     $     pie        ! 3.14.....
+      real gravit,
+     $     rga,
+     $     cpair,
+     $     epsilo,
+     $     sslp,
+     $     stebol,
+     $     rgsslp,
+     $     co2vmr,
+     $     dpfo3,
+     $     dpfco2,
+     $     dayspy,
+     $     pie
 C
 C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      real gravx,     ! Acceleration of gravity (MKS)
-     $     cpairx,    ! Specific heat of dry air (MKS)
-     $     epsilox,   ! Ratio of mol. wght of H2O to dry air
-     $     stebolx    ! Stefan-Boltzmann's constant (MKS)
+      real gravx,
+     $     cpairx,
+     $     epsilox,
+     $     stebolx
 C
 C---------------------------Local variables-----------------------------
 C
-      integer iband   ! H2O band index
-      real v0,        ! Volume of a gas at stp (m**3/kmol)
-     $     p0,        ! Standard pressure (pascals)
-     $     amd,       ! Effective molecular weight of dry air (kg/kmol)
-     $     goz        ! Acceleration of gravity (m/s**2)
+      integer iband
+      real v0,
+     $     p0,
+     $     amd,
+     $     goz
 C
 C-----------------------------------------------------------------------
 C
@@ -9372,17 +9272,17 @@ C            Ramanathan, V. and  P.Downey, 1986: A Nonisothermal
 C            Emissivity and Absorptivity Formulation for Water Vapor
 C            Journal of Geophysical Research, vol. 91., D8, pp 8649-8666
 C
-      fwcoef = .1           ! See eq(33) R&D
-      fwc1   = .30          ! See eq(33) R&D
-      fwc2   = 4.5          ! See eq(33) and eq(34) in R&D
-      fc1    = 2.6          ! See eq(34) R&D
+      fwcoef = .1
+      fwc1   = .30
+      fwc2   = 4.5
+      fc1    = 2.6
 C
 C Initialize ozone data.
 C
-      v0  = 22.4136         ! Volume of a gas at stp (m**3/kmol)
-      p0  = 0.1*sslp        ! Standard pressure (pascals)
-      amd = 28.9644         ! Molecular weight of dry air (kg/kmol)
-      goz = gravx           ! Acceleration of gravity (m/s**2)
+      v0  = 22.4136
+      p0  = 0.1*sslp
+      amd = 28.9644
+      goz = gravx
 C
 C Constants for ozone path integrals (multiplication by 100 for unit
 C conversion to cgs from mks):
@@ -9429,19 +9329,19 @@ C
 C Radiation resolution and I/O parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
       integer
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plngbuf
 C
       parameter(plon    = 1,
      $          plev    = 18,
@@ -9471,32 +9371,32 @@ C
      $              mcdate  ,mcsec   ,nndbas  ,nnsbas  ,nnbdat  ,
      $              nnbsec  ,doabsems,dosw    ,dolw
 C
-      real calday,   ! Current calendar day = julian day + fraction
-     $     dtime,    ! Time step in seconds (delta t)
-     $     twodt     ! 2 * delta t 
+      real calday,
+     $     dtime,
+     $     twodt
       integer
-     $     nrstrt,   ! Starting time step of restart run (constant) 
-     $     nstep,    ! Current time step
-     $     nstepr,   ! Current time step of restart run(updated w/nstep)
-     $     nestep,   ! Time step on which to stop run
-     $     nelapse,  ! Requested elapsed time for model run
-     $     nstop,    ! nestep + 1
-     $     mdbase,   ! Base day of run
-     $     msbase,   ! Base seconds of base day
-     $     mdcur,    ! Current day of run
-     $     mscur,    ! Current seconds of current day
-     $     mbdate,   ! Base date of run (yymmdd format)
-     $     mbsec,    ! Base seconds of base date
-     $     mcdate,   ! Current date of run (yymmdd format)
-     $     mcsec,    ! Current seconds of current date
-     $     nndbas,   ! User input base day
-     $     nnsbas,   ! User input base seconds of input base day
-     $     nnbdat,   ! User input base date (yymmdd format)
-     $     nnbsec    ! User input base seconds of input base date
+     $     nrstrt,
+     $     nstep,
+     $     nstepr,
+     $     nestep,
+     $     nelapse,
+     $     nstop,
+     $     mdbase,
+     $     msbase,
+     $     mdcur,
+     $     mscur,
+     $     mbdate,
+     $     mbsec,
+     $     mcdate,
+     $     mcsec,
+     $     nndbas,
+     $     nnsbas,
+     $     nnbdat,
+     $     nnbsec
       logical
-     $     doabsems, ! True => abs/emiss calculation this timestep
-     $     dosw,     ! True => shortwave calculation this timestep
-     $     dolw      ! True => longwave calculation this timestep
+     $     doabsems,
+     $     dosw,
+     $     dolw
 C
 C-----------------------------------------------------------------------
 c
@@ -9510,51 +9410,51 @@ C
      $              stebol  ,rgsslp  ,co2vmr  ,dpfo3   ,dpfco2  ,
      $              dayspy  ,pie
 C
-      real gravit,    ! Acceleration of gravity
-     $     rga,       ! 1./gravit
-     $     cpair,     ! Specific heat of dry air
-     $     epsilo,    ! Ratio of mol. wght of H2O to dry air
-     $     sslp,      ! Standard sea-level pressure
-     $     stebol,    ! Stefan-Boltzmann's constant
-     $     rgsslp,    ! 0.5/(gravit*sslp)
-     $     co2vmr,    ! CO2 volume mixing ratio
-     $     dpfo3,     ! Voigt correction factor for O3
-     $     dpfco2,    ! Voigt correction factor for CO2
-     $     dayspy,    ! Number of days per 1 year
-     $     pie        ! 3.14.....
+      real gravit,
+     $     rga,
+     $     cpair,
+     $     epsilo,
+     $     sslp,
+     $     stebol,
+     $     rgsslp,
+     $     co2vmr,
+     $     dpfo3,
+     $     dpfco2,
+     $     dayspy,
+     $     pie
 C
 C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      real pmid(plond,plev),   ! Pressure at model mid-levels (pascals)
-     $     pint(plond,plevp),  ! Pressure at model interfaces (pascals)
-     $     h2ommr(plond,plev), ! H2o mass mixing ratio
-     $     cld(plond,plevp),   ! Fractional cloud cover
-     $     o3vmr(plond,plev)   ! ozone volume mixing ratio
+      real pmid(plond,plev),
+     $     pint(plond,plevp),
+     $     h2ommr(plond,plev),
+     $     cld(plond,plevp),
+     $     o3vmr(plond,plev)
 C
 C Output arguments
 C
-      real pmidrd(plond,plev), ! Pressure at mid-levels (dynes/cm*2)
-     $     pintrd(plond,plevp),! Pressure at interfaces (dynes/cm*2)
-     $     plco2(plond,plevp), ! Vert. pth lngth of co2 (prs-weighted)
-     $     plh2o(plond,plevp), ! Vert. pth lngth h2o vap.(prs-weighted)
-     $     tclrsf(plond,plevp) ! Product of clr-sky fractions from top
+      real pmidrd(plond,plev),
+     $     pintrd(plond,plevp),
+     $     plco2(plond,plevp),
+     $     plh2o(plond,plevp),
+     $     tclrsf(plond,plevp)
 C                              ! of atmosphere to level.
-      real eccf,               ! Earth-sun distance factor
-     $     o3mmr(plond,plev)   ! Ozone mass mixing ratio
+      real eccf,
+     $     o3mmr(plond,plev)
 C
 C---------------------------Local variables-----------------------------
 C
-      integer i,    ! Longitude loop index
-     $        k     ! Vertical loop index
-      real theta,   ! Earth orbit seasonal angle in radians
-     $     p0 ,     ! Standard pressure (dynes/cm**2)
-     $     amd,     ! Effective molecular weight of dry air (g/mol)
-     $     amo,     ! Molecular weight of ozone (g/mol)
-     $     amco2,   ! Molecular weight of co2   (g/mol)
-     $     cpwpl,   ! Const in co2 mixing ratio to path length conversn
-     $     vmmr     ! Ozone volume mixing ratio
+      integer i,
+     $        k
+      real theta,
+     $     p0 ,
+     $     amd,
+     $     amo,
+     $     amco2,
+     $     cpwpl,
+     $     vmmr
       save     p0   ,amd   ,amo  ,amco2
 C
       data p0    /  1.01325e6 /
@@ -9656,19 +9556,19 @@ C
 C Radiation resolution and I/O parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
       integer
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plngbuf
 C
       parameter(plon    = 1,
      $          plev    = 18,
@@ -9692,38 +9592,38 @@ c
 C
 C ozone mixing ratios, pressures and times
 C
-      integer pnoz,     ! Maximum number of levels in ozone input data
-     $        pozlon    ! Number of ozone longitudes
+      integer pnoz,
+     $        pozlon
       parameter (pnoz=100)
       parameter (pozlon=1)
       common /comozp/nyroz   ,ldoyoz  ,ndoyoz  ,cplos   ,cplol   ,
      $               ozmix(plat,pnoz),ozmixm(pozlon,pnoz,plat,2),
      $               pin(pnoz),koz
 C
-      integer nyroz  ! Year of ozone data just after current date
-      real ldoyoz,   ! Day of yr of ozone data prior to current date
-     $     ndoyoz,   ! Day of yr of ozone data after current date
-     $     cplos,    ! Constant for ozone path length calculation
-     $     cplol,    ! Constant for pressure-weighted o3 path length calc.
-     $     ozmix,    ! Time-interpolated mixing ratios
-     $     ozmixm,   ! Two consecutive time slices of ozone mixing ratios
-     $     pin       ! Pressures at model interfaces
-      integer koz    ! Actual number of levels in ozone input data
+      integer nyroz
+      real ldoyoz,
+     $     ndoyoz,
+     $     cplos,
+     $     cplol,
+     $     ozmix,
+     $     ozmixm,
+     $     pin
+      integer koz
 C
 C------------------------------Input arguments--------------------------
 C
-      real o3vmr(plond,plev)   ! ozone volume mixing ratio
-      real pint(plond,plevp)   ! Model interface pressures
+      real o3vmr(plond,plev)
+      real pint(plond,plevp)
 C
 C----------------------------Output arguments---------------------------
 C
-      real plol(plond,plevp),  ! Ozone prs weighted path length (cm)
-     $     plos(plond,plevp)   ! Ozone path length (cm)
+      real plol(plond,plevp),
+     $     plos(plond,plevp)
 C
 C---------------------------Local workspace-----------------------------
 C
-      integer   i,             ! longitude index
-     $          k              ! level index
+      integer   i,
+     $          k
 C
 C-----------------------------------------------------------------------
 C
@@ -9776,19 +9676,19 @@ C
 C Radiation resolution and I/O parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
       integer
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plngbuf
 C
       parameter(plon    = 1,
      $          plev    = 18,
@@ -9816,53 +9716,53 @@ C
      $              stebol  ,rgsslp  ,co2vmr  ,dpfo3   ,dpfco2  ,
      $              dayspy  ,pie
 C
-      real gravit,    ! Acceleration of gravity
-     $     rga,       ! 1./gravit
-     $     cpair,     ! Specific heat of dry air
-     $     epsilo,    ! Ratio of mol. wght of H2O to dry air
-     $     sslp,      ! Standard sea-level pressure
-     $     stebol,    ! Stefan-Boltzmann's constant
-     $     rgsslp,    ! 0.5/(gravit*sslp)
-     $     co2vmr,    ! CO2 volume mixing ratio
-     $     dpfo3,     ! Voigt correction factor for O3
-     $     dpfco2,    ! Voigt correction factor for CO2
-     $     dayspy,    ! Number of days per 1 year
-     $     pie        ! 3.14.....
+      real gravit,
+     $     rga,
+     $     cpair,
+     $     epsilo,
+     $     sslp,
+     $     stebol,
+     $     rgsslp,
+     $     co2vmr,
+     $     dpfo3,
+     $     dpfco2,
+     $     dayspy,
+     $     pie
 C
 C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      real tnm(plond,plev),     ! Model level temperatures
-     $     ts(plond),           ! Surface skin temperature
-     $     qnm(plond,plev),     ! Model level specific humidity
-     $     pnm(plond,plevp),    ! Pressure at model interfaces (dynes/cm2)
-     $     plh2o(plond,plevp)   ! Pressure weighted h2o path
+      real tnm(plond,plev),
+     $     ts(plond),
+     $     qnm(plond,plev),
+     $     pnm(plond,plevp),
+     $     plh2o(plond,plevp)
 C
 C Output arguments
 C
-      real tplnka(plond,plevp), ! Level temperature from interface temperatures
-     $     s2c(plond,plevp),    ! H2o continuum path length
-     $     s2t(plond,plevp),    ! H2o tmp and prs wghtd path length
-     $     w(plond,plevp),      ! H2o path length
-     $     tplnke(plond),       ! Equal to tplnka
-     $     tint(plond,plevp),   ! Layer interface temperature
-     $     tint4(plond,plevp),  ! Tint to the 4th power
-     $     tlayr(plond,plevp),  ! K-1 level temperature
-     $     tlayr4(plond,plevp), ! Tlayr to the 4th power
-     $     pmln(plond,plev),    ! Ln(pmidm1)
-     $     piln(plond,plevp)    ! Ln(pintm1)
+      real tplnka(plond,plevp),
+     $     s2c(plond,plevp),
+     $     s2t(plond,plevp),
+     $     w(plond,plevp),
+     $     tplnke(plond),
+     $     tint(plond,plevp),
+     $     tint4(plond,plevp),
+     $     tlayr(plond,plevp),
+     $     tlayr4(plond,plevp),
+     $     pmln(plond,plev),
+     $     piln(plond,plevp)
 C
 C---------------------------Local variables-----------------------------
 C
-      integer   i,              ! Longitude index
-     $          k               ! Level index
-      real r296,                ! Inverse stand temp for h2o continuum
-     $     repsil,              ! Inver ratio mol weight h2o to dry air
-     $         dy,              ! Thickness of layer for tmp interp
-     $       dpnm,              ! Pressure thickness of layer
-     $     dpnmsq,              ! Prs squared difference across layer
-     $       rtnm               ! Inverse level temperature
+      integer   i,
+     $          k
+      real r296,
+     $     repsil,
+     $         dy,
+     $       dpnm,
+     $     dpnmsq,
+     $       rtnm
 C
 C-----------------------------------------------------------------------
 C
@@ -9957,16 +9857,16 @@ C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      integer kdim      ! Dimension of array pa
-      real pvalue       ! Value to store in pa
+      integer kdim
+      real pvalue
 C
 C Output arguments
 C
-      real pa(kdim)     ! Array to reset
+      real pa(kdim)
 C
 C---------------------------Local variable------------------------------
 C
-      integer j         ! Loop index
+      integer j
 C
 C-----------------------------------------------------------------------
 C
@@ -9997,17 +9897,17 @@ C
 C Basic grid point resolution parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
 C
       parameter(plon   = 1,
      $          plev   = 18,
@@ -10029,9 +9929,9 @@ C
 C Define radiation vertical grid and buffer length for abs/ems out-of-core file
 C
       integer
-     $     plevr,   ! number of vertical levels
-     $     plevrp,  ! plevr + 1
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plevr,
+     $     plevrp,
+     $     plngbuf
 C
       parameter(plevr = 18,
      $          plevrp = plevr + 1,
@@ -10100,19 +10000,19 @@ C
 C Radiation resolution and I/O parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
       integer
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plngbuf
 C
       parameter(plon    = 1,
      $          plev    = 18,
@@ -10140,111 +10040,111 @@ C
      $              stebol  ,rgsslp  ,co2vmr  ,dpfo3   ,dpfco2  ,
      $              dayspy  ,pie
 C
-      real gravit,    ! Acceleration of gravity
-     $     rga,       ! 1./gravit
-     $     cpair,     ! Specific heat of dry air
-     $     epsilo,    ! Ratio of mol. wght of H2O to dry air
-     $     sslp,      ! Standard sea-level pressure
-     $     stebol,    ! Stefan-Boltzmann's constant
-     $     rgsslp,    ! 0.5/(gravit*sslp)
-     $     co2vmr,    ! CO2 volume mixing ratio
-     $     dpfo3,     ! Voigt correction factor for O3
-     $     dpfco2,    ! Voigt correction factor for CO2
-     $     dayspy,    ! Number of days per 1 year
-     $     pie        ! 3.14.....
+      real gravit,
+     $     rga,
+     $     cpair,
+     $     epsilo,
+     $     sslp,
+     $     stebol,
+     $     rgsslp,
+     $     co2vmr,
+     $     dpfo3,
+     $     dpfco2,
+     $     dayspy,
+     $     pie
 C
 C------------------------------Arguments--------------------------------
       integer k1,
      $        k2
-      real to3co2(plond),       ! pressure weighted temperature
-     $     pnm(plond,plevp),    ! interface pressures
-     $     ucfc11(plond,plevp), ! CFC11 path length
-     $     ucfc12(plond,plevp), ! CFC12 path length
-     $     un2o0(plond,plevp),  ! N2O path length
-     $     un2o1(plond,plevp),  ! N2O path length (hot band)
-     $     uch4(plond,plevp),   ! CH4 path length
-     $     uco211(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco212(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco213(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco221(plond,plevp), ! CO2 10.4 micron band path length
-     $     uco222(plond,plevp), ! CO2 10.4 micron band path length
-     $     uco223(plond,plevp), ! CO2 10.4 micron band path length
-     $     bn2o0(plond,plevp),  ! pressure factor for n2o
-     $     bn2o1(plond,plevp),  ! pressure factor for n2o
-     $     bch4(plond,plevp)    ! pressure factor for ch4
-      real dw(plond),           ! h2o path length
-     $     pnew(plond),         ! pressure
-     $     s2c(plond,plevp),    ! continuum path length
-     $     uptype(plond,plevp), ! p-type h2o path length
-     $     dplh2o(plond)        ! p squared h2o path length
-      real abplnk1(14,plond,plevp) ! Planck factor
-      real tco2(plond),         ! co2 transmission factor
-     $     th2o(plond),         ! h2o transmission factor
-     $     to3(plond)           ! o3 transmission factor
+      real to3co2(plond),
+     $     pnm(plond,plevp),
+     $     ucfc11(plond,plevp),
+     $     ucfc12(plond,plevp),
+     $     un2o0(plond,plevp),
+     $     un2o1(plond,plevp),
+     $     uch4(plond,plevp),
+     $     uco211(plond,plevp),
+     $     uco212(plond,plevp),
+     $     uco213(plond,plevp),
+     $     uco221(plond,plevp),
+     $     uco222(plond,plevp),
+     $     uco223(plond,plevp),
+     $     bn2o0(plond,plevp),
+     $     bn2o1(plond,plevp),
+     $     bch4(plond,plevp)
+      real dw(plond),
+     $     pnew(plond),
+     $     s2c(plond,plevp),
+     $     uptype(plond,plevp),
+     $     dplh2o(plond)
+      real abplnk1(14,plond,plevp)
+      real tco2(plond),
+     $     th2o(plond),
+     $     to3(plond)
 c
 c  Output Arguments
 c
-      real abstrc(plond)  ! total trace gas absorptivity
+      real abstrc(plond)
 c
 c  Local Variables
 c
-      real sqti(plond),         ! square root of mean temp
-     $     du1,                 ! cfc11 path length
-     $     du2,                 ! cfc12 path length
-     $     acfc1,               ! cfc11 absorptivity 798 cm-1
-     $     acfc2,               ! cfc11 absorptivity 846 cm-1
-     $     acfc3,               ! cfc11 absorptivity 933 cm-1
-     $     acfc4,               ! cfc11 absorptivity 1085 cm-1
-     $     acfc5,               ! cfc12 absorptivity 889 cm-1
-     $     acfc6,               ! cfc12 absorptivity 923 cm-1
-     $     acfc7,               ! cfc12 absorptivity 1102 cm-1
-     $     acfc8,               ! cfc12 absorptivity 1161 cm-1
-     $     du01,                ! n2o path length
-     $     dbeta01,             ! n2o pressure factor
-     $     dbeta11,             !         "
-     $     an2o1,               ! absorptivity of 1285 cm-1 n2o band
-     $     du02,                ! n2o path length
-     $     dbeta02,             ! n2o pressure factor
-     $     an2o2,               ! absorptivity of 589 cm-1 n2o band
-     $     du03                 ! n2o path length
-      real dbeta03,             ! n2o pressure factor
-     $     an2o3,               ! absorptivity of 1168 cm-1 n2o band
-     $     duch4,               ! ch4 path length
-     $     dbetac,              ! ch4 pressure factor
-     $     ach4,                ! absorptivity of 1306 cm-1 ch4 band
-     $     du11,                ! co2 path length
-     $     du12,                !       "
-     $     du13,                !       "
-     $     dbetc1,              ! co2 pressure factor
-     $     dbetc2,              ! co2 pressure factor
-     $     aco21,               ! absorptivity of 1064 cm-1 band
-     $     du21,                ! co2 path length
-     $     du22,                !       "
-     $     du23,                !       "
-     $     aco22                ! absorptivity of 961 cm-1 band
-      real tt(plond),           ! temp. factor for h2o overlap factor
-     $     psi1,                !                 "
-     $     phi1,                !                 "
-     $     p1,                  ! h2o overlap factor
-     $     w1,                  !        "
-     $     ds2c(plond),         ! continuum path length
-     $     duptyp(plond),       ! p-type path length
-     $     tw(plond,6),         ! h2o transmission factor
-     $     g1(6),               !         "
-     $     g2(6),               !         "
-     $     g3(6),               !         "
-     $     g4(6),               !         "
-     $     ab(6),               ! h2o temp. factor
-     $     bb(6),               !         "
-     $     abp(6),              !         "
-     $     bbp(6)               !         "
-      real tcfc3,               ! transmission for cfc11 band
-     $     tcfc4,               ! transmission for cfc11 band
-     $     tcfc6,               ! transmission for cfc12 band
-     $     tcfc7,               ! transmission for cfc12 band
-     $     tcfc8,               ! transmission for cfc12 band
-     $     tlw,                 ! h2o transmission
-     $     tch4                 ! ch4 transmission
+      real sqti(plond),
+     $     du1,
+     $     du2,
+     $     acfc1,
+     $     acfc2,
+     $     acfc3,
+     $     acfc4,
+     $     acfc5,
+     $     acfc6,
+     $     acfc7,
+     $     acfc8,
+     $     du01,
+     $     dbeta01,
+     $     dbeta11,
+     $     an2o1,
+     $     du02,
+     $     dbeta02,
+     $     an2o2,
+     $     du03
+      real dbeta03,
+     $     an2o3,
+     $     duch4,
+     $     dbetac,
+     $     ach4,
+     $     du11,
+     $     du12,
+     $     du13,
+     $     dbetc1,
+     $     dbetc2,
+     $     aco21,
+     $     du21,
+     $     du22,
+     $     du23,
+     $     aco22
+      real tt(plond),
+     $     psi1,
+     $     phi1,
+     $     p1,
+     $     w1,
+     $     ds2c(plond),
+     $     duptyp(plond),
+     $     tw(plond,6),
+     $     g1(6),
+     $     g2(6),
+     $     g3(6),
+     $     g4(6),
+     $     ab(6),
+     $     bb(6),
+     $     abp(6),
+     $     bbp(6)
+      real tcfc3,
+     $     tcfc4,
+     $     tcfc6,
+     $     tcfc7,
+     $     tcfc8,
+     $     tlw,
+     $     tch4
 c
       data g1 /0.0468556,0.0397454,0.0407664,0.0304380,0.0540398,
      $         0.0321962/
@@ -10388,19 +10288,19 @@ C
 C Radiation resolution and I/O parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
       integer
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plngbuf
 C
       parameter(plon    = 1,
      $          plev    = 18,
@@ -10428,113 +10328,113 @@ C
      $              stebol  ,rgsslp  ,co2vmr  ,dpfo3   ,dpfco2  ,
      $              dayspy  ,pie
 C
-      real gravit,    ! Acceleration of gravity
-     $     rga,       ! 1./gravit
-     $     cpair,     ! Specific heat of dry air
-     $     epsilo,    ! Ratio of mol. wght of H2O to dry air
-     $     sslp,      ! Standard sea-level pressure
-     $     stebol,    ! Stefan-Boltzmann's constant
-     $     rgsslp,    ! 0.5/(gravit*sslp)
-     $     co2vmr,    ! CO2 volume mixing ratio
-     $     dpfo3,     ! Voigt correction factor for O3
-     $     dpfco2,    ! Voigt correction factor for CO2
-     $     dayspy,    ! Number of days per 1 year
-     $     pie        ! 3.14.....
+      real gravit,
+     $     rga,
+     $     cpair,
+     $     epsilo,
+     $     sslp,
+     $     stebol,
+     $     rgsslp,
+     $     co2vmr,
+     $     dpfo3,
+     $     dpfco2,
+     $     dayspy,
+     $     pie
 C
 C------------------------------Arguments--------------------------------
       integer k2,
      $        kn
-      real tbar(plond,4),       ! pressure weighted temperature
-     $     ucfc11(plond,plevp), ! CFC11 path length
-     $     ucfc12(plond,plevp), ! CFC12 path length
-     $     un2o0(plond,plevp),  ! N2O path length
-     $     un2o1(plond,plevp),  ! N2O path length (hot band)
-     $     uch4(plond,plevp),   ! CH4 path length
-     $     uco211(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco212(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco213(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco221(plond,plevp), ! CO2 10.4 micron band path length
-     $     uco222(plond,plevp), ! CO2 10.4 micron band path length
-     $     uco223(plond,plevp), ! CO2 10.4 micron band path length
-     $     bn2o0(plond,plevp),  ! pressure factor for n2o
-     $     bn2o1(plond,plevp),  ! pressure factor for n2o
-     $     bch4(plond,plevp),   ! pressure factor for ch4
-     $     bplnk(14,plond,4),   ! weighted Planck function for absorptivity
-     $     winpl(plond,4),      ! fractional path length
-     $     pinpl(plond,4)       ! pressure factor for subdivided layer
-      real tco2(plond),         ! co2 transmission 
-     $     th2o(plond),         ! h2o transmission
-     $     to3(plond)           ! o3 transmission
-      real dw(plond),           ! h2o path length
-     $     pnew(plond),         ! pressure factor
-     $     s2c(plond,plevp),    ! h2o continuum factor
-     $     uptype(plond,plevp), ! p-type path length
-     $     up2(plond)           ! p squared path length
+      real tbar(plond,4),
+     $     ucfc11(plond,plevp),
+     $     ucfc12(plond,plevp),
+     $     un2o0(plond,plevp),
+     $     un2o1(plond,plevp),
+     $     uch4(plond,plevp),
+     $     uco211(plond,plevp),
+     $     uco212(plond,plevp),
+     $     uco213(plond,plevp),
+     $     uco221(plond,plevp),
+     $     uco222(plond,plevp),
+     $     uco223(plond,plevp),
+     $     bn2o0(plond,plevp),
+     $     bn2o1(plond,plevp),
+     $     bch4(plond,plevp),
+     $     bplnk(14,plond,4),
+     $     winpl(plond,4),
+     $     pinpl(plond,4)
+      real tco2(plond),
+     $     th2o(plond),
+     $     to3(plond)
+      real dw(plond),
+     $     pnew(plond),
+     $     s2c(plond,plevp),
+     $     uptype(plond,plevp),
+     $     up2(plond)
 c
 c  Output Arguments
 c
-      real abstrc(plond)        ! total trace gas absorptivity
+      real abstrc(plond)
 c
 c  Local Variables
 c
-      real sqti(plond),         ! square root of mean temp
-     $     rsqti(plond),        ! reciprocal of sqti
-     $     du1,                 ! cfc11 path length
-     $     du2,                 ! cfc12 path length
-     $     acfc1,               ! absorptivity of cfc11 798 cm-1 band
-     $     acfc2,               ! absorptivity of cfc11 846 cm-1 band
-     $     acfc3,               ! absorptivity of cfc11 933 cm-1 band
-     $     acfc4,               ! absorptivity of cfc11 1085 cm-1 band
-     $     acfc5,               ! absorptivity of cfc11 889 cm-1 band
-     $     acfc6,               ! absorptivity of cfc11 923 cm-1 band
-     $     acfc7,               ! absorptivity of cfc11 1102 cm-1 band
-     $     acfc8,               ! absorptivity of cfc11 1161 cm-1 band
-     $     du01,                ! n2o path length
-     $     dbeta01,             ! n2o pressure factors
-     $     dbeta11              !        "
-      real  an2o1,              ! absorptivity of the 1285 cm-1 n2o band
-     $     du02,                ! n2o path length
-     $     dbeta02,             ! n2o pressure factor
-     $     an2o2,               ! absorptivity of the 589 cm-1 n2o band
-     $     du03,                ! n2o path length
-     $     dbeta03,             ! n2o pressure factor
-     $     an2o3,               ! absorptivity of the 1168 cm-1 n2o band
-     $     duch4,               ! ch4 path length
-     $     dbetac,              ! ch4 pressure factor
-     $     ach4,                ! absorptivity of the 1306 cm-1 ch4 band
-     $     du11,                ! co2 path length
-     $     du12,                !       "
-     $     du13,                !       "
-     $     dbetc1,              ! co2 pressure factor
-     $     dbetc2,              ! co2 pressure factor
-     $     aco21,               ! absorptivity of the 1064 cm-1 co2 band
-     $     du21,                ! co2 path length
-     $     du22,                !       "
-     $     du23,                !       "
-     $     aco22                ! absorptivity of the 961 cm-1 co2 band
-      real tt(plond),           ! temp. factor for h2o overlap
-     $     psi1,                !          "
-     $     phi1,                !          "
-     $     p1,                  ! factor for h2o overlap
-     $     w1,                  !          "
-     $     ds2c(plond),         ! continuum path length
-     $     duptyp(plond),       ! p-type path length
-     $     tw(plond,6),         ! h2o transmission overlap
-     $     g1(6),               ! h2o overlap factor
-     $     g2(6),               !         "
-     $     g3(6),               !         "
-     $     g4(6),               !         "
-     $     ab(6),               ! h2o temp. factor
-     $     bb(6),               !         "
-     $     abp(6),              !         "  
-     $     bbp(6)               !         "
-      real tcfc3,               ! transmission of cfc11 band
-     $     tcfc4,               ! transmission of cfc11 band
-     $     tcfc6,               ! transmission of cfc12 band
-     $     tcfc7,               !         "
-     $     tcfc8,               !         "
-     $     tlw,                 ! h2o transmission
-     $     tch4                 ! ch4 transmission
+      real sqti(plond),
+     $     rsqti(plond),
+     $     du1,
+     $     du2,
+     $     acfc1,
+     $     acfc2,
+     $     acfc3,
+     $     acfc4,
+     $     acfc5,
+     $     acfc6,
+     $     acfc7,
+     $     acfc8,
+     $     du01,
+     $     dbeta01,
+     $     dbeta11
+      real  an2o1,
+     $     du02,
+     $     dbeta02,
+     $     an2o2,
+     $     du03,
+     $     dbeta03,
+     $     an2o3,
+     $     duch4,
+     $     dbetac,
+     $     ach4,
+     $     du11,
+     $     du12,
+     $     du13,
+     $     dbetc1,
+     $     dbetc2,
+     $     aco21,
+     $     du21,
+     $     du22,
+     $     du23,
+     $     aco22
+      real tt(plond),
+     $     psi1,
+     $     phi1,
+     $     p1,
+     $     w1,
+     $     ds2c(plond),
+     $     duptyp(plond),
+     $     tw(plond,6),
+     $     g1(6),
+     $     g2(6),
+     $     g3(6),
+     $     g4(6),
+     $     ab(6),
+     $     bb(6),
+     $     abp(6),
+     $     bbp(6)
+      real tcfc3,
+     $     tcfc4,
+     $     tcfc6,
+     $     tcfc7,
+     $     tcfc8,
+     $     tlw,
+     $     tch4
       data g1 /0.0468556,0.0397454,0.0407664,0.0304380,0.0540398,
      $         0.0321962/
       data g2 /14.4832,4.30242,5.23523,3.25342,0.698935,16.5599/
@@ -10673,19 +10573,19 @@ C
 C Radiation resolution and I/O parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
       integer
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plngbuf
 C
       parameter(plon    = 1,
      $          plev    = 18,
@@ -10713,100 +10613,100 @@ C
      $              stebol  ,rgsslp  ,co2vmr  ,dpfo3   ,dpfco2  ,
      $              dayspy  ,pie
 C
-      real gravit,    ! Acceleration of gravity
-     $     rga,       ! 1./gravit
-     $     cpair,     ! Specific heat of dry air
-     $     epsilo,    ! Ratio of mol. wght of H2O to dry air
-     $     sslp,      ! Standard sea-level pressure
-     $     stebol,    ! Stefan-Boltzmann's constant
-     $     rgsslp,    ! 0.5/(gravit*sslp)
-     $     co2vmr,    ! CO2 volume mixing ratio
-     $     dpfo3,     ! Voigt correction factor for O3
-     $     dpfco2,    ! Voigt correction factor for CO2
-     $     dayspy,    ! Number of days per 1 year
-     $     pie        ! 3.14.....
+      real gravit,
+     $     rga,
+     $     cpair,
+     $     epsilo,
+     $     sslp,
+     $     stebol,
+     $     rgsslp,
+     $     co2vmr,
+     $     dpfo3,
+     $     dpfco2,
+     $     dayspy,
+     $     pie
 C
 C------------------------------Arguments--------------------------------
-      real co2t(plond,plevp),   ! pressure weighted temperature
-     $     pnm(plond,plevp),    ! interface pressure
-     $     ucfc11(plond,plevp), ! CFC11 path length
-     $     ucfc12(plond,plevp), ! CFC12 path length
-     $     un2o0(plond,plevp),  ! N2O path length
-     $     un2o1(plond,plevp),  ! N2O path length (hot band)
-     $     uch4(plond,plevp),   ! CH4 path length
-     $     uco211(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco212(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco213(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco221(plond,plevp), ! CO2 10.4 micron band path length
-     $     uco222(plond,plevp), ! CO2 10.4 micron band path length
-     $     uco223(plond,plevp), ! CO2 10.4 micron band path length
-     $     uptype(plond,plevp), ! continuum path length
-     $     bn2o0(plond,plevp),  ! pressure factor for n2o
-     $     bn2o1(plond,plevp),  ! pressure factor for n2o
-     $     bch4(plond,plevp)    ! pressure factor for ch4
-      real emplnk(14,plond)     ! emissivity Planck factor
-      real th2o(plond),         ! water vapor overlap factor
-     $     tco2(plond),         ! co2 overlap factor
-     $     to3(plond)           ! o3 overlap factor
-      real s2c(plond,plevp),    ! h2o continuum path length
-     $     w(plond,plevp),      ! h2o path length
-     $     up2(plond)           ! pressure squared h2o path length
-      integer k                 ! level index
+      real co2t(plond,plevp),
+     $     pnm(plond,plevp),
+     $     ucfc11(plond,plevp),
+     $     ucfc12(plond,plevp),
+     $     un2o0(plond,plevp),
+     $     un2o1(plond,plevp),
+     $     uch4(plond,plevp),
+     $     uco211(plond,plevp),
+     $     uco212(plond,plevp),
+     $     uco213(plond,plevp),
+     $     uco221(plond,plevp),
+     $     uco222(plond,plevp),
+     $     uco223(plond,plevp),
+     $     uptype(plond,plevp),
+     $     bn2o0(plond,plevp),
+     $     bn2o1(plond,plevp),
+     $     bch4(plond,plevp)
+      real emplnk(14,plond)
+      real th2o(plond),
+     $     tco2(plond),
+     $     to3(plond)
+      real s2c(plond,plevp),
+     $     w(plond,plevp),
+     $     up2(plond)
+      integer k
 c
 c  Output Arguments
 c
-      real emstrc(plond,plevp)  ! total trace gas emissivity
+      real emstrc(plond,plevp)
 c
 c  Local Variables
 c
-      real sqti(plond),         ! square root of mean temp
-     $     ecfc1,               ! emissivity of cfc11 798 cm-1 band
-     $     ecfc2,               !     "      "    "   846 cm-1 band
-     $     ecfc3,               !     "      "    "   933 cm-1 band
-     $     ecfc4,               !     "      "    "   1085 cm-1 band
-     $     ecfc5,               !     "      "  cfc12 889 cm-1 band
-     $     ecfc6,               !     "      "    "   923 cm-1 band
-     $     ecfc7,               !     "      "    "   1102 cm-1 band
-     $     ecfc8,               !     "      "    "   1161 cm-1 band
-     $     u01,                 ! n2o path length
-     $     u11,                 ! n2o path length
-     $     beta01,              ! n2o pressure factor
-     $     beta11,              ! n2o pressure factor
-     $     en2o1,               ! emissivity of the 1285 cm-1 N2O band
-     $     u02,                 ! n2o path length
-     $     u12,                 ! n2o path length
-     $     beta02,              ! n2o pressure factor
-     $     en2o2,               ! emissivity of the 589 cm-1 N2O band
-     $     u03                  ! n2o path length
-      real beta03,              ! n2o pressure factor
-     $     en2o3,               ! emissivity of the 1168 cm-1 N2O band
-     $     betac,               ! ch4 pressure factor
-     $     ech4,                ! emissivity of 1306 cm-1 CH4 band
-     $     betac1,              ! co2 pressure factor
-     $     betac2,              ! co2 pressure factor
-     $     eco21,               ! emissivity of 1064 cm-1 CO2 band
-     $     eco22                ! emissivity of 961 cm-1 CO2 band
-      real tt(plond),           ! temp. factor for h2o overlap factor
-     $     psi1,                ! narrow band h2o temp. factor
-     $     phi1,                !             "
-     $     p1,                  ! h2o line overlap factor
-     $     w1,                  !          "
-     $     tw(plond,6),         ! h2o transmission overlap
-     $     g1(6),               ! h2o overlap factor
-     $     g2(6),               !          "
-     $     g3(6),               !          "
-     $     g4(6),               !          "
-     $     ab(6),               !          "
-     $     bb(6),               !          "
-     $     abp(6),              !          "
-     $     bbp(6)               !          "
-      real tcfc3,               ! transmission for cfc11 band
-     $     tcfc4,               !          "
-     $     tcfc6,               ! transmission for cfc12 band
-     $     tcfc7,               !          "
-     $     tcfc8,               !          "
-     $     tlw,                 ! h2o overlap factor
-     $     tch4                 ! ch4 overlap factor
+      real sqti(plond),
+     $     ecfc1,
+     $     ecfc2,
+     $     ecfc3,
+     $     ecfc4,
+     $     ecfc5,
+     $     ecfc6,
+     $     ecfc7,
+     $     ecfc8,
+     $     u01,
+     $     u11,
+     $     beta01,
+     $     beta11,
+     $     en2o1,
+     $     u02,
+     $     u12,
+     $     beta02,
+     $     en2o2,
+     $     u03
+      real beta03,
+     $     en2o3,
+     $     betac,
+     $     ech4,
+     $     betac1,
+     $     betac2,
+     $     eco21,
+     $     eco22
+      real tt(plond),
+     $     psi1,
+     $     phi1,
+     $     p1,
+     $     w1,
+     $     tw(plond,6),
+     $     g1(6),
+     $     g2(6),
+     $     g3(6),
+     $     g4(6),
+     $     ab(6),
+     $     bb(6),
+     $     abp(6),
+     $     bbp(6)
+      real tcfc3,
+     $     tcfc4,
+     $     tcfc6,
+     $     tcfc7,
+     $     tcfc8,
+     $     tlw,
+     $     tch4
       data g1 /0.0468556,0.0397454,0.0407664,0.0304380,0.0540398,
      $         0.0321962/
       data g2 /14.4832,4.30242,5.23523,3.25342,0.698935,16.5599/
@@ -10928,17 +10828,17 @@ C
 C Basic grid point resolution parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
 C
       parameter(plon   = 1,
      $          plev   = 18,
@@ -10953,28 +10853,28 @@ C
      $          plevd  = plev*(3 + pcnst))
 C
 c------------------------------input------------------------------------
-      real pmid(plond,plev),       ! model pressures
-     $     clat,                   ! current latitude in radians
-     $     coslat                  ! cosine of latitude
+      real pmid(plond,plev),
+     $     clat,
+     $     coslat
 c------------------------------output-----------------------------------
-      real n2o(plond,plev),        ! nitrous oxide mass mixing ratio
-     $     ch4(plond,plev),        ! methane mass mixing ratio
-     $     cfc11(plond,plev),      ! cfc11 mass mixing ratio
-     $     cfc12(plond,plev)       ! cfc12 mass mixing ratio
+      real n2o(plond,plev),
+     $     ch4(plond,plev),
+     $     cfc11(plond,plev),
+     $     cfc12(plond,plev)
 c------------------------------local------------------------------------
-      integer i,                   ! longitude loop index
-     $        k                    ! level index
-      real dlat                    ! latitude in degrees
-      real xn2o,                   ! pressure scale height for n2o
-     $     xch4,                   ! pressure scale height for ch4
-     $     xcfc11,                 ! pressure scale height for cfc11
-     $     xcfc12                  ! pressure scale height for cfc12
-      real ch40,                   ! tropospheric mass mixing ratio for ch4
-     $     n2o0,                   ! tropospheric mass mixing ratio for n2o
-     $     cfc110,                 ! tropospheric mass mixing ratio for cfc11
-     $     cfc120                  ! tropospheric mass mixing ratio for cfc12
-      real ptrop,                  ! pressure level of tropopause
-     $     pratio                  ! pressure divided by ptrop
+      integer i,
+     $        k
+      real dlat
+      real xn2o,
+     $     xch4,
+     $     xcfc11,
+     $     xcfc12
+      real ch40,
+     $     n2o0,
+     $     cfc110,
+     $     cfc120
+      real ptrop,
+     $     pratio
 c
 c tropospheric mass mixing ratios
       ch40 = 0.55241 * 1.714e-6
@@ -11039,19 +10939,19 @@ C
 C Radiation resolution and I/O parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
       integer
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plngbuf
 C
       parameter(plon    = 1,
      $          plev    = 18,
@@ -11079,40 +10979,40 @@ C
      $              stebol  ,rgsslp  ,co2vmr  ,dpfo3   ,dpfco2  ,
      $              dayspy  ,pie
 C
-      real gravit,    ! Acceleration of gravity
-     $     rga,       ! 1./gravit
-     $     cpair,     ! Specific heat of dry air
-     $     epsilo,    ! Ratio of mol. wght of H2O to dry air
-     $     sslp,      ! Standard sea-level pressure
-     $     stebol,    ! Stefan-Boltzmann's constant
-     $     rgsslp,    ! 0.5/(gravit*sslp)
-     $     co2vmr,    ! CO2 volume mixing ratio
-     $     dpfo3,     ! Voigt correction factor for O3
-     $     dpfco2,    ! Voigt correction factor for CO2
-     $     dayspy,    ! Number of days per 1 year
-     $     pie        ! 3.14.....
+      real gravit,
+     $     rga,
+     $     cpair,
+     $     epsilo,
+     $     sslp,
+     $     stebol,
+     $     rgsslp,
+     $     co2vmr,
+     $     dpfo3,
+     $     dpfco2,
+     $     dayspy,
+     $     pie
 C
 C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      real tint(plond,plevp),  ! interface temperatures
-     $     tlayr(plond,plevp), ! k-1 level temperatures
-     $     tplnke(plond)       ! Top Layer temperature
+      real tint(plond,plevp),
+     $     tlayr(plond,plevp),
+     $     tplnke(plond)
 c
 c output arguments
 c
-      real emplnk(14,plond),        ! emissivity Planck factor
-     $     abplnk1(14,plond,plevp), ! non-nearest layer Plack factor
-     $     abplnk2(14,plond,plevp)  ! nearest layer factor
+      real emplnk(14,plond),
+     $     abplnk1(14,plond,plevp),
+     $     abplnk2(14,plond,plevp)
 c
 c local workspace
 c
-      integer wvl                   ! wavelength index
+      integer wvl
       integer i,k
-      real f1(14),                  ! Planck function factor
-     $     f2(14),                  !        "
-     $     f3(14)                   !        "
+      real f1(14),
+     $     f2(14),
+     $     f3(14)
 c
       data f1 /5.85713e8,7.94950e8,1.47009e9,1.40031e9,1.34853e8,
      $         1.05158e9,3.35370e8,3.99601e8,5.35994e8,8.42955e8,
@@ -11178,19 +11078,19 @@ C
 C Radiation resolution and I/O parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
       integer
-     $     plngbuf  ! length of absorptivity/emissivity record
+     $     plngbuf
 C
       parameter(plon    = 1,
      $          plev    = 18,
@@ -11218,62 +11118,62 @@ C
      $              stebol  ,rgsslp  ,co2vmr  ,dpfo3   ,dpfco2  ,
      $              dayspy  ,pie
 C
-      real gravit,    ! Acceleration of gravity
-     $     rga,       ! 1./gravit
-     $     cpair,     ! Specific heat of dry air
-     $     epsilo,    ! Ratio of mol. wght of H2O to dry air
-     $     sslp,      ! Standard sea-level pressure
-     $     stebol,    ! Stefan-Boltzmann's constant
-     $     rgsslp,    ! 0.5/(gravit*sslp)
-     $     co2vmr,    ! CO2 volume mixing ratio
-     $     dpfo3,     ! Voigt correction factor for O3
-     $     dpfco2,    ! Voigt correction factor for CO2
-     $     dayspy,    ! Number of days per 1 year
-     $     pie        ! 3.14.....
+      real gravit,
+     $     rga,
+     $     cpair,
+     $     epsilo,
+     $     sslp,
+     $     stebol,
+     $     rgsslp,
+     $     co2vmr,
+     $     dpfo3,
+     $     dpfco2,
+     $     dayspy,
+     $     pie
 C
 C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      real tnm(plond,plev),     ! Model level temperatures
-     $     pnm(plond,plevp),    ! Pressure at model interfaces (dynes/cm2)
-     $     qnm(plond,plev),     ! h2o specific humidity
-     $     cfc11(plond,plev),   ! CFC11 mass mixing ratio
-     $     cfc12(plond,plev),   ! CFC12 mass mixing ratio
-     $     n2o(plond,plev),     ! N2O mass mixing ratio
-     $     ch4(plond,plev)      ! CH4 mass mixing ratio
+      real tnm(plond,plev),
+     $     pnm(plond,plevp),
+     $     qnm(plond,plev),
+     $     cfc11(plond,plev),
+     $     cfc12(plond,plev),
+     $     n2o(plond,plev),
+     $     ch4(plond,plev)
 C
 C Output arguments
 C
-      real ucfc11(plond,plevp), ! CFC11 path length
-     $     ucfc12(plond,plevp), ! CFC12 path length
-     $     un2o0(plond,plevp),  ! N2O path length
-     $     un2o1(plond,plevp),  ! N2O path length (hot band)
-     $     uch4(plond,plevp),   ! CH4 path length
-     $     uco211(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco212(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco213(plond,plevp), ! CO2 9.4 micron band path length
-     $     uco221(plond,plevp), ! CO2 10.4 micron band path length
-     $     uco222(plond,plevp), ! CO2 10.4 micron band path length
-     $     uco223(plond,plevp), ! CO2 10.4 micron band path length
-     $     bn2o0(plond,plevp),  ! pressure factor for n2o
-     $     bn2o1(plond,plevp),  ! pressure factor for n2o
-     $     bch4(plond,plevp),   ! pressure factor for ch4
-     $     uptype(plond,plevp)  ! p-type continuum path length
+      real ucfc11(plond,plevp),
+     $     ucfc12(plond,plevp),
+     $     un2o0(plond,plevp),
+     $     un2o1(plond,plevp),
+     $     uch4(plond,plevp),
+     $     uco211(plond,plevp),
+     $     uco212(plond,plevp),
+     $     uco213(plond,plevp),
+     $     uco221(plond,plevp),
+     $     uco222(plond,plevp),
+     $     uco223(plond,plevp),
+     $     bn2o0(plond,plevp),
+     $     bn2o1(plond,plevp),
+     $     bch4(plond,plevp),
+     $     uptype(plond,plevp)
 C
 C---------------------------Local variables-----------------------------
 C
-      integer   i,              ! Longitude index
-     $          k               ! Level index
-      real co2fac(plond,1),     ! co2 factor
-     $     alpha1(plond),       ! stimulated emission term
-     $     alpha2(plond),       ! stimulated emission term
-     $     rt(plond),           ! reciprocal of local temperature
-     $     rsqrt(plond),        ! reciprocal of sqrt of temp
-     $     pbar(plond),         ! mean pressure
-     $     dpnm(plond),         ! difference in pressure
+      integer   i,
+     $          k
+      real co2fac(plond,1),
+     $     alpha1(plond),
+     $     alpha2(plond),
+     $     rt(plond),
+     $     rsqrt(plond),
+     $     pbar(plond),
+     $     dpnm(plond),
      $     co2mmr
-      real diff                 ! diffusivity factor
+      real diff
       data diff /1.66/
 c-----------------------------------------------------------------------
 c  Calculate path lengths for the trace gases
@@ -11384,17 +11284,17 @@ C
 C Basic grid point resolution parameters
 C
       integer
-     $     plon,    ! number of longitudes
-     $     plev,    ! number of vertical levels
-     $     plat,    ! number of latitudes
-     $     pcnst,   ! number of constituents (including water vapor)
-     $     plevmx,  ! number of subsurface levels
-     $     plevp,   ! plev + 1
-     $     nxpt,    ! no.of points outside active domain for interpolant
-     $     jintmx,  ! number of extra latitudes in polar region
-     $     plond,   ! slt extended domain longitude
-     $     platd,   ! slt extended domain lat.
-     $     plevd    ! fold plev,pcnst indices into one
+     $     plon,
+     $     plev,
+     $     plat,
+     $     pcnst,
+     $     plevmx,
+     $     plevp,
+     $     nxpt,
+     $     jintmx,
+     $     plond,
+     $     platd,
+     $     plevd
 C
       parameter(plon   = 1,
      $          plev   = 18,
@@ -11420,45 +11320,45 @@ C
      $              stebol  ,rgsslp  ,co2vmr  ,dpfo3   ,dpfco2  ,
      $              dayspy  ,pie
 C
-      real gravit,    ! Acceleration of gravity
-     $     rga,       ! 1./gravit
-     $     cpair,     ! Specific heat of dry air
-     $     epsilo,    ! Ratio of mol. wght of H2O to dry air
-     $     sslp,      ! Standard sea-level pressure
-     $     stebol,    ! Stefan-Boltzmann's constant
-     $     rgsslp,    ! 0.5/(gravit*sslp)
-     $     co2vmr,    ! CO2 volume mixing ratio
-     $     dpfo3,     ! Voigt correction factor for O3
-     $     dpfco2,    ! Voigt correction factor for CO2
-     $     dayspy,    ! Number of days per 1 year
-     $     pie        ! 3.14.....
+      real gravit,
+     $     rga,
+     $     cpair,
+     $     epsilo,
+     $     sslp,
+     $     stebol,
+     $     rgsslp,
+     $     co2vmr,
+     $     dpfo3,
+     $     dpfco2,
+     $     dayspy,
+     $     pie
 C
 C------------------------------Arguments--------------------------------
 C
 C Input arguments
 C
-      real calday              ! Calendar day, including fraction
-      logical dodiavg          ! true => do diurnal averaging
-      real clat                ! Current latitude (radians)
+      real calday
+      logical dodiavg
+      real clat
 C
 C Output arguments
 C
-      real coszrs(plond)       ! Cosine solar zenith angle
+      real coszrs(plond)
 C
 C---------------------------Local variables-----------------------------
 C
-      integer i     ! Longitude loop index
-      real phi,     ! Greenwich calendar day + local time + long offset
-     $     theta,   ! Earth orbit seasonal angle in radians
-     $     delta,   ! Solar declination angle  in radians
-     $     sinc,    ! Sine   of latitude
-     $     cosc,    ! Cosine of latitude
-     $     sind,    ! Sine   of declination
-     $     cosd     ! Cosine of declination
-      real frac,    ! Daylight fraction
-     $     arg,     ! ?
-     $     tsun,    ! temporary term in diurnal averaging
-     $     coszrsu  ! uniform cosine zenith solar angle 
+      integer i
+      real phi,
+     $     theta,
+     $     delta,
+     $     sinc,
+     $     cosc,
+     $     sind,
+     $     cosd
+      real frac,
+     $     arg,
+     $     tsun,
+     $     coszrsu
 C
 C-----------------------------------------------------------------------
 C
@@ -11506,7 +11406,7 @@ C
          do i=1,plon
             coszrs(i) = coszrsu
          end do
-      else                       ! No diurnal averaging
+      else
 C
 C Calday is the calender day for Greenwich, including fraction
 C of day; the fraction of the day represents a local time at

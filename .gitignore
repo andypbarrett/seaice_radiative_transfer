@@ -1,2 +1,5 @@
 *.zip
 *.out
+
+ccsm3_sir_de_output.dat
+run_crm

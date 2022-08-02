@@ -109,7 +109,7 @@ c
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 c
-      subroutine crm()
+      program crm
 c     
 c     ccm3 radiation column model
 c     Jeffrey Kiehl, Bruce Briegleb, and Charlie Zender  
@@ -469,25 +469,7 @@ C
      &,             Fdirup_ni(plond,0:klevp),Fdirdn_ni(plond,0:klevp)
      &,             Fdifup_ni(plond,0:klevp),Fdifdn_ni(plond,0:klevp)
      &,             ksrf
-c----------------------------------------------------------------------
-c     Common block for output
-c     added A.P.Barrett 2022-07-26
-c----------------------------------------------------------------------
-      character(len=10) layer_type(klevp+2)
-      real
-     $     Q_SW_vs_out(klevp+2),
-     $     Q_SW_ni_out(klevp+2),
-     $     Q_SW_total_out(klevp+2),
-     $     Q_SW_total
-      
-      common /output/ asdir, asdif, aldir, aldif,
-     $     F_SW_ocn_vs, F_SW_ocn_ni,
-     $     Q_SW_vs_out, Q_SW_ni_out, Q_SW_total_out,
-     $     sols, solsd, vsfdir, soll, solld, nifdir,
-     $     fsds, vsfrac, frs, albsrf,
-     $     F_SW_vs, F_SW_ni, F_SW_srf,
-     $     layer_type
-C     
+C
 c------------------------------Externals--------------------------------
 c
       external albland
@@ -827,18 +809,10 @@ C
      $         'and absorption (Q) ---- ')
         write(6,*) 
      & ' level   depth  Tr_vs     Q_vs   Tr_ni    Q_ni     Q_total' 
-        Q_SW_vs = F_SW_vs*(1.-I_vs)
-        Q_SW_ni = F_SW_ni*(1.-I_ni)
-        Q_SW_total = Q_SW_vs + Q_SW_ni
-        write(6,101) Q_SW_vs,Q_SW_ni,
-     &               Q_SW_total
+        write(6,101) F_SW_vs*(1.-I_vs),F_SW_ni*(1.-I_ni),
+     &               F_SW_vs*(1.-I_vs)+F_SW_ni*(1.-I_ni)
  101    format('  surface ',15x,f6.2,10x,f6.2,5x,f6.2)
-        layer_type(1) = 'surface'
-        Q_SW_vs_out(1) = Q_SW_vs
-        Q_SW_ni_out(1) = Q_SW_ni
-        Q_SW_total_out(1) = Q_SW_total
-
-c     
+c
 c print out column layer absorption and interface transmission
 c
         do k=0,klev
@@ -855,46 +829,35 @@ C
      $       (Fdifdn_ni(1,k)-Fdifup_ni(1,k))*solld(1))
      $      -((Fdirdn_ni(1,k+1)-Fdirup_ni(1,k+1))*soll(1) + 
      $       (Fdifdn_ni(1,k+1)-Fdifup_ni(1,k+1))*solld(1))
-            Q_SW_total = Q_SW_vs + Q_SW_ni
-
-            Q_SW_vs_out(k+2) = Q_SW_vs
-            Q_SW_ni_out(k+2) = Q_SW_ni
-            Q_SW_total_out(k+2) = Q_SW_total
 C
             if( sndpth(1) .gt. .00001 ) then
               if( k .le. ksnow ) then
                 write(6,322) k,Q_SW_vs,Q_SW_ni,
-     $                         Q_SW_total
+     $                         Q_SW_vs+Q_SW_ni
  322            format('  snow ',i2,16x,f6.2,10x,f6.2,5x,f6.2)
-                layer_type(k+2) = 'snow'
               else
                 write(6,325) k,Q_SW_vs,Q_SW_ni,
-     $                         Q_SW_total
-                layer_type(k+2) = 'ice'
+     $                         Q_SW_vs+Q_SW_ni
               endif
             else 
               if( hpnd(1) .gt. .00001 ) then
                 if( k .le. ksnow ) then
                   write(6,323) k,Q_SW_vs,Q_SW_ni,
-     $                         Q_SW_total
+     $                         Q_SW_vs+Q_SW_ni
  323              format('  pond ',i2,16x,f6.2,10x,f6.2,5x,f6.2)
-                  layer_type(k+2) = 'pond'
                 else
                   write(6,325) k,Q_SW_vs,Q_SW_ni,
-     $                         Q_SW_total
-                  layer_type(k+2) = 'ice'
+     $                         Q_SW_vs+Q_SW_ni
                 endif
               else
                 if( k .le. ksnow ) then
                   write(6,324) k,Q_SW_vs,Q_SW_ni,
-     $                         Q_SW_total
+     $                         Q_SW_vs+Q_SW_ni
  324              format('  air  ',i2,16x,f6.2,10x,f6.2,5x,f6.2)
-                  layer_type(k+2) = 'air'
                 else
                   write(6,325) k,Q_SW_vs,Q_SW_ni,
-     $                         Q_SW_total
+     $                         Q_SW_vs+Q_SW_ni
  325              format('  ice  ',i2,16x,f6.2,10x,f6.2,5x,f6.2)
-                  layer_type(k+2) = 'ice'
                 endif
               endif
             endif
@@ -908,10 +871,6 @@ C
      $         (Fdifdn_ni(1,klevp)-Fdifup_ni(1,klevp))*solld(1))
         write(6,223) F_SW_ocn_vs,F_SW_ocn_ni,F_SW_ocn_vs+F_SW_ocn_ni
  223    format(2x,'ocean',18x,f6.2,10x,f6.2,5x,f6.2)
-        layer_type(klevp+2) = 'ocean'
-        Q_SW_vs_out(klevp+2) = F_SW_ocn_vs
-        Q_SW_ni_out(klevp+2) = F_SW_ocn_ni
-        Q_SW_total_out(klevp+2) = F_SW_ocn_vs + F_SW_ocn_ni
 c
  100  continue
 c
@@ -923,7 +882,7 @@ c
       write(6,*) ' ------------------------------ '
       write(6,*) ' .... Column Radiation Calculation Completed ....'
 c     
-      return
+      stop
       end
       subroutine getdat(
      $     clat,
@@ -1197,104 +1156,43 @@ c
 c     
       data amd   /  28.9644   /
       data amo   /  48.0000   /
-
 c
-c----------------------------------------------------------------------
-c     Input variables used to initialize
-      real 
-     $     dayyr_in,            ! day of year
-     $     rlat_in,              ! latitude input
-     $     co2mix_in            ! co2 volume mixing ratio read in
-      
-      integer lev_in(plev)      ! level input
-      
-      real
-     $     cld_in(plev),
-     $     clwp_in(plev),
-     $     hice_in,
-     $     hpnd_in,
-     $     o3mmr_in(plev),
-     $     pmidm1_in(plev),
-     $     ps_in,
-     $     qm1_in(plev),
-     $     rhos_in,
-     $     rs_in,
-     $     R_ice_in,
-     $     R_pnd_in,
-     $     sndpth_in,
-     $     tg_in,
-     $     tm1_in(plev),
-     $     ts_in
-
-      common /input/ dayyr_in, rlat_in, lev_in, pmidm1_in,
-     $     tm1_in, qm1_in, o3mmr_in, cld_in, clwp_in,
-     $     ps_in, co2mix_in, ts_in, tg_in, sndpth_in,
-     $     rhos_in, rs_in, hpnd_in, R_pnd_in,
-     $     hice_in, R_ice_in
-
-C      i = 1
-      
-c----------------------------------------------------------------------
-c     Copy input vars to vars used in crm
-      i = 1
-      dayyr(i) = dayyr_in
-      rlat(i) = rlat_in
-      do 207 k=1,plev
-         pmidm1(i,k) = pmidm1_in(k)
-         tm1(i,k) = tm1_in(k)
-         qm1(i,k) = qm1_in(k)
-         o3mmr(i,k) = o3mmr_in(k)
-         cld(i,k) = cld_in(k)
-         clwp(i,k) = clwp_in(k)
-c         if( cld(i,k) .gt. 0.99999 ) cld(i,k) = .99999
- 207  continue
-      ps(i) = ps_in
-      co2mix = co2mix_in
-      ts(i) = ts_in
-      tg(i) = tg_in
-      sndpth(i) = sndpth_in
-      rhos(i) = rhos_in
-      rs(i) = rs_in
-      hpnd(i) = hpnd_in
-      R_pnd(i) = R_pnd_in
-      hice(i) = hice_in
-      R_ice(i) = R_ice_in
-      
 c-----------------------------------------------------------------------
-c      open(unit=5,file='ccsm3_sir_de_input.dat',status='old')
+      open(unit=5,file='ccsm3_sir_de_input.dat',status='old')
 c     
 c     begin read of data:
 c     
       do 100 i=1,1
-c
-         label = '-------------------'
+c     
+         read(5,101)  label
+ 101     format(a80)
          write(6,*)   label
 c     
-         label = 'CCSM3 Sea Ice Radiation with Delta Eddington Input'
-         write(6,*)   label
-         
-         label = '--------------------'
+         read(5,101)  label
          write(6,*)   label
 c     
-C         read(5,*)    dayyr(i)
+         read(5,101)  label
+         write(6,*)   label
+c     
+         read(5,*)    dayyr(i)
          write(6,*) ' day of year (1..365)  = ',dayyr(i)
 c     
-C         read(5,*)    rlat(i)
+         read(5,*)    rlat(i)
          write(6,*) ' latitude (-90 to +90) = ',rlat(i)
 c     
-         label = '-------------'
+         read(5,101)  label
          write(6,*)   label
 c     
          do 200 k=1,plev
-C            read(5,*) lev(k),pmidm1(i,k),tm1(i,k),qm1(i,k),o3mmr(i,k)
-C     +           ,cld(i,k),clwp(i,k)
+            read(5,*) lev(k),pmidm1(i,k),tm1(i,k),qm1(i,k),o3mmr(i,k)
+     +           ,cld(i,k),clwp(i,k)
             write(6,99) k   ,pmidm1(i,k),tm1(i,k),qm1(i,k),o3mmr(i,k)
      +           ,cld(i,k),clwp(i,k)
  99         format(1x,i3,1x,6(1pe10.3,1x))
             if( cld(i,k) .gt. 0.99999 ) cld(i,k) = .99999
  200     continue
 c
-C         read(5,*)     ps(i)
+         read(5,*)     ps(i)
          write(6,571) ps(i)
  571     format('  surface pressure         = ',f7.2)
 c     
@@ -1321,7 +1219,7 @@ c
 c     
  150     continue
 c     
-C         read(5,*)       co2mix
+         read(5,*)       co2mix
          write(6,572) co2mix
  572     format('  atmospheric co2 vmr      = ',1pe10.3)
 c
@@ -1330,11 +1228,11 @@ c     that setting.
 c
          co2vmr = co2mix
 c
-C         read(5,*)       ts(i)
+         read(5,*)       ts(i)
          write(6,573)    ts(i)
  573     format('  surface air temperature  = ',f7.2)
 c     
-c         read(5,*)       tg(i)
+         read(5,*)       tg(i)
          write(6,574)    tg(i)
  574     format('  surface skin temperature = ',f7.2)
 c     
@@ -1345,31 +1243,31 @@ c 2=sea ice
 c .04m
          rghnss(i,1) = .04
 c
-c         read(5,*)       sndpth(i)
+         read(5,*)       sndpth(i)
          write(6,575)    sndpth(i)
  575     format('  snow physical depth (m)        = ',f9.4)
 c
-c         read(5,*)       rhos(i)
+         read(5,*)       rhos(i)
          write(6,576)    rhos(i)
  576     format('  snow density (kg/m3)           = ',f9.4)
 c
-c         read(5,*)       rs(i)
+         read(5,*)       rs(i)
          write(6,577)    rs(i)
  577     format('  snow grain radius (microns)    = ',f9.4)
 c
-c         read(5,*)       hpnd(i)
+         read(5,*)       hpnd(i)
          write(6,578)    hpnd(i)
  578     format('  pond physical depth (m)        = ',f9.4)
 c
-c         read(5,*)       R_pnd(i)
+         read(5,*)       R_pnd(i)
          write(6,579)    R_pnd(i)
  579     format('  pond tuning parameter          = ',f9.4)
 c     
-c         read(5,*)       hice(i)
+         read(5,*)       hice(i)
          write(6,580)    hice(i)
  580     format('  sea ice thickness (m)          = ',f9.4)
 c
-c         read(5,*)       R_ice(i)
+         read(5,*)       R_ice(i)
          write(6,581)    R_ice(i)
  581     format('  sea ice tuning parameter       = ',f9.4)
 c     
