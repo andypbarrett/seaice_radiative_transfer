@@ -107,6 +107,21 @@ class SeaIceRT():
     """
 
     def __init__(self):
+        self.set_default_parameters()
+
+    def get_parameters(self):
+        for attr, value in self.__dict__.items():
+            print(f"{attr} = {value}")
+
+    def run(self):
+        """Run sea ice radiative transfer model"""
+        set_model_input(self.__dict__)
+        test()
+#        print_output()
+        return
+
+    def set_default_parameters(self):
+        """Sets model parameters to default"""
         self.day_of_year = default_input.day_of_year
         self.latitude = default_input.latitude
         self.level = default_input.level
@@ -127,18 +142,7 @@ class SeaIceRT():
         self.pond_tuning_parameter = default_input.pond_tuning_parameter
         self.sea_ice_thickness = default_input.sea_ice_thickness
         self.sea_ice_tuning_parameter = default_input.sea_ice_tuning_parameter
-
-    def get_parameters(self):
-        for attr, value in self.__dict__.items():
-            print(f"{attr} = {value}")
-
-    def run(self):
-        """Run sea ice radiative transfer model"""
-        set_model_input(self.__dict__)
-        test()
-#        print_output()
-        return
-
+        
     def get_results(self):
         """Returns a dictionary of model results"""
         return get_model_results()
