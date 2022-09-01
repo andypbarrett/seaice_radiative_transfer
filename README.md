@@ -125,4 +125,4 @@ A list of model parameters is given below.
   - :cloud_liquid_water_path: Cloud liquid water path (g/m2)
 
 ## Sensitivity Analysis
-A sensitivity analsysis of selected parameters can be found in [notebooks/sensitivity_analysis.html]
+A sensitivity analsysis of selected parameters can be found [here](notebooks/sensitivity_analysis.html)
