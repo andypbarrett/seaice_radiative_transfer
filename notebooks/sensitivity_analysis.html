@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Andy Barrett">
+<meta name="dcterms.date" content="2022-08-25">
+
+<title>SeaIceRT Sensitivity Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="sensitivity_analysis_files/libs/clipboard/clipboard.min.js"></script>
+<script src="sensitivity_analysis_files/libs/quarto-html/quarto.js"></script>
+<script src="sensitivity_analysis_files/libs/quarto-html/popper.min.js"></script>
+<script src="sensitivity_analysis_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="sensitivity_analysis_files/libs/quarto-html/anchor.min.js"></script>
+<link href="sensitivity_analysis_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="sensitivity_analysis_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="sensitivity_analysis_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="sensitivity_analysis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="sensitivity_analysis_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sensitivity-analsysis" id="toc-sensitivity-analsysis" class="nav-link active" data-scroll-target="#sensitivity-analsysis"> <span class="header-section-number">1</span> Sensitivity Analsysis</a>
+  <ul class="collapse">
+  <li><a href="#pond-depth-sensitivity" id="toc-pond-depth-sensitivity" class="nav-link" data-scroll-target="#pond-depth-sensitivity"> <span class="header-section-number">1.1</span> Pond depth sensitivity</a></li>
+  <li><a href="#snow-depth-sensitivity" id="toc-snow-depth-sensitivity" class="nav-link" data-scroll-target="#snow-depth-sensitivity"> <span class="header-section-number">1.2</span> Snow depth sensitivity</a></li>
+  <li><a href="#sensitivity-snow_grain_radius" id="toc-sensitivity-snow_grain_radius" class="nav-link" data-scroll-target="#sensitivity-snow_grain_radius"> <span class="header-section-number">1.3</span> Sensitivity: snow_grain_radius</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">SeaIceRT Sensitivity Analysis</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Andy Barrett </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 25, 2022</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<section id="sensitivity-analsysis" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Sensitivity Analsysis</h1>
+<p>We axplore the sensitivity of total radiative flux absorbed by the ocean to:</p>
+<ul>
+<li>pond depth<br>
+</li>
+<li>snow depth<br>
+</li>
+<li>snow grain size<br>
+</li>
+<li>pond tuning parameters</li>
+<li>ice tuning parameters</li>
+</ul>
+<p>This web page is rendered from the Jupyter notebook <code>sensitivity_analysis.ipynb</code>.</p>
+<section id="pond-depth-sensitivity" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="pond-depth-sensitivity"><span class="header-section-number">1.1</span> Pond depth sensitivity</h2>
+<p>The sensitivity of flux absorbed by the ocean to pond depth is explored for a pond depths ranging from 5 cm to 30 cm, and ice thickness from 0.5 m to 3 m. [<em>For the moment these are arbitrary pond depths and thickness but represent the observed range… ’ish</em>] A 30 cm pond is deep.</p>
+<div class="cell" data-execution_count="73">
+<div class="cell-output cell-output-display">
+<div id="fig-sensitivity-pond-depth" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="sensitivity_analysis_files/figure-html/fig-sensitivity-pond-depth-output-1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure 1: The sensitivity of total flux absorbed by the ocean underneath ice cover to pond depth for a range of ice thicknesses</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="snow-depth-sensitivity" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="snow-depth-sensitivity"><span class="header-section-number">1.2</span> Snow depth sensitivity</h2>
+<div class="cell" data-execution_count="78">
+<div class="cell-output cell-output-display">
+<div id="fig-sensitivity-snow-depth" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="sensitivity_analysis_files/figure-html/fig-sensitivity-snow-depth-output-1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure 2: The sensitivity of total flux absorbed by the ocean underneath ice cover to snow depth for a range of ice thicknesses</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="sensitivity-snow_grain_radius" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="sensitivity-snow_grain_radius"><span class="header-section-number">1.3</span> Sensitivity: snow_grain_radius</h2>
+<div class="cell" data-execution_count="80">
+<div class="cell-output cell-output-display">
+<div id="fig-sensitivity-snow-grain-radius" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="sensitivity_analysis_files/figure-html/fig-sensitivity-snow-grain-radius-output-1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure 3: The sensitivity of total flux absorbed by the ocean underneath ice cover to snow grain size for a range of snow depths</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Snow grain radius will also impact albedo.<br>
+</li>
+<li>Look for sensible range for grain size</li>
+</ul>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
