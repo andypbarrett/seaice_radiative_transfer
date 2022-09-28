@@ -14,6 +14,23 @@ near-ir (ni) - 0.7 to 5.0 micrometers
 """
 
 import ctypes
+import platform
+from pathlib import Path
+
+
+# Define library depending on OS
+if platform.system() == "Linux":
+    LIBCRM = Path("../1D_dE_CCSM/libcrm.so")
+    if not LIBCRM.exists:
+        raise FileNotFoundError("f{str(LIBCRM)} not found")
+elif platform.system() == "Darwin":
+    #raise OSError("../1D_dE_CCSM/libcrm.dylld not found: run make in ../1D_dE_CCSM")
+    raise OSError("Mac-OSX currently not supported")
+elif platform.system() == "Windows":
+    raise OSError("Windows currently not supported.  Try running in cygwin")
+else:
+    raise OSError(f"Unknown OS: {platform.system()}")
+
 
 # These must be the same as in init.f
 PLON = 1
@@ -114,7 +131,7 @@ class InputCom(ctypes.Structure):
 
 
 # Assign library and common blocks for interface
-crmlib = ctypes.CDLL("../1D_dE_CCSM/libcrm.so")  # need generic definition
+crmlib = ctypes.CDLL(LIBCRM)  # need generic definition
 
 # Common blocks
 input_common = InputCom.in_dll(crmlib, "input_")
