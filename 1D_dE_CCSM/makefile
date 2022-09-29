@@ -13,12 +13,12 @@ endif
 
 FORTRAN = gfortran
 
-run_crm: run_crm.f libcrm.so
+run_crm: run_crm.f $(LIBCRM)
 	@echo $(LIBCRM)
-	$(FORTRAN) -o run_crm run_crm.f ./libcrm.so
+	$(FORTRAN) -o run_crm run_crm.f ./$(LIBCRM)
 
-libcrm.so: ccsm3_sir_de.for
-	$(FORTRAN) -shared -fPIC -fcray-pointer -o libcrm.so ccsm3_sir_de.for
+$(LIBCRM): ccsm3_sir_de.for
+	$(FORTRAN) -shared -fPIC -fcray-pointer -o $(LIBCRM) ccsm3_sir_de.for
 
 #modify.o: modify.f
 #	$(FORTRAN) -c modify.f
