@@ -21,17 +21,15 @@ from pathlib import Path
 # Define library depending on OS
 if platform.system() == "Linux":
     LIBCRM = Path("../1D_dE_CCSM/libcrm.so")
-    if not LIBCRM.exists:
-        raise FileNotFoundError("f{str(LIBCRM)} not found")
 elif platform.system() == "Darwin":
     LIBCRM = Path("../1D_dE_CCSM/libcrm.dylib")
-    #raise OSError("f{str)LIBCRM)} not found: run make in ../1D_dE_CCSM")
-    raise OSError("Mac-OSX currently not supported")
 elif platform.system() == "Windows":
     raise OSError("Windows currently not supported.  Try running in cygwin")
 else:
     raise OSError(f"Unknown OS: {platform.system()}")
 
+if not LIBCRM.exists:
+    raise FileNotFoundError("f{str(LIBCRM)} not found")
 
 # These must be the same as in init.f
 PLON = 1
