@@ -7,7 +7,7 @@
 ARCH := $(shell uname)
 ifeq ($(ARCH), Linux)
 	LIBCRM = libcrm.so
-else ifeq ($(ARCH), Mac)
+else ifeq ($(ARCH), Darwin)
 	LIBCRM = libcrm.dylib
 endif
 
