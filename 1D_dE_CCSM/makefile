@@ -12,13 +12,14 @@ else ifeq ($(ARCH), Darwin)
 endif
 
 FORTRAN = gfortran
+FLAGS = -shared -fPIC -fcray-pointer
 
 run_crm: run_crm.f $(LIBCRM)
 	@echo $(LIBCRM)
 	$(FORTRAN) -o run_crm run_crm.f ./$(LIBCRM)
 
 $(LIBCRM): ccsm3_sir_de.for
-	$(FORTRAN) -shared -fPIC -fcray-pointer -o $(LIBCRM) ccsm3_sir_de.for
+	$(FORTRAN) $(FLAGS) -o $(LIBCRM) ccsm3_sir_de.for
 
 #modify.o: modify.f
 #	$(FORTRAN) -c modify.f
