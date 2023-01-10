@@ -25,11 +25,19 @@ git clone git@github.com:andypbarrett/seaice_radiative_transfer.git
 cd seaice_radiative_transfer
 ```
 
+I strongly suggest creating a new environment for running and creating the model
+
+```
+conda env create -f environment.yml
+```
+
+This will create a new environment called `seaice_radiative_transfer`
+
 Running the model can be done from a python IDE, either `python` or `ipython`.
 
 ```
-(base) nsidc-abarrett-442:seaice_radiative_transfer$ cd seaicert/
-(base) nsidc-abarrett-442:seaicert$ ipython
+(seaice_radiative_transfer) nsidc-abarrett-442:seaice_radiative_transfer$ cd seaicert/
+(seaice_radiative_transfer) nsidc-abarrett-442:seaicert$ ipython
 Python 3.7.6 | packaged by conda-forge | (default, Mar  5 2020, 15:27:18) 
 Type 'copyright', 'credits' or 'license' for more information
 IPython 7.17.0 -- An enhanced Interactive Python. Type '?' for help.
@@ -126,3 +134,13 @@ A list of model parameters is given below.
 
 ## Sensitivity Analysis
 A sensitivity analsysis of selected parameters can be found [here](sensitivity_analysis.html)
+
+## Maintaining and Contributing
+
+If you need to add new packages:
+ - hand-edit the `environment.yml` file.  
+ - `conda env update` to update the current environment with the new entry.  
+ - `conda env export > environment-lock.yml` to save the working version of the environment.  
+ - finally commit these changes.  
+ 
+ 
