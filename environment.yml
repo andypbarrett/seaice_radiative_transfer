@@ -11,7 +11,8 @@ dependencies:
  - libgfortran ~= 3.0
  - jupyterlab
  - numpy ~= 1.24
- - pandas ~=1.52
+ - pandas ~= 1.5.2
+ - matplotlib ~= 3.6
 
  # To add
  # pandas 1.52
