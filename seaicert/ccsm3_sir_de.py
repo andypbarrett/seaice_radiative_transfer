@@ -5,7 +5,7 @@ from itertools import chain
 import numpy as np
 
 from seaicert.interface import input_common, output_common, seaice_common, test
-import seaicert.default_input
+import seaicert.default_input as default_input
 
 
 class SeaIceRT():
