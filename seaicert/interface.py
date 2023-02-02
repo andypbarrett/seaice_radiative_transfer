@@ -20,9 +20,9 @@ from pathlib import Path
 
 # Define library depending on OS
 if platform.system() == "Linux":
-    LIBCRM = Path("../1D_dE_CCSM/libcrm.so")
+    LIBCRM = Path("1D_dE_CCSM/libcrm.so")
 elif platform.system() == "Darwin":
-    LIBCRM = Path("../1D_dE_CCSM/libcrm.dylib")
+    LIBCRM = Path("1D_dE_CCSM/libcrm.dylib")
 elif platform.system() == "Windows":
     raise OSError("Windows currently not supported.  Try running in cygwin")
 else:

@@ -4,8 +4,8 @@ from itertools import chain
 
 import numpy as np
 
-from interface import input_common, output_common, seaice_common, test
-import default_input
+from seaicert.interface import input_common, output_common, seaice_common, test
+import seaicert.default_input as default_input
 
 
 class SeaIceRT():
