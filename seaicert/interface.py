@@ -17,12 +17,13 @@ import ctypes
 import platform
 from pathlib import Path
 
+LIBPATH = Path(__file__).parent / "lib"
 
 # Define library depending on OS
 if platform.system() == "Linux":
-    LIBCRM = Path("1D_dE_CCSM/libcrm.so")
+    LIBCRM =  LIBPATH / "libcrm.so"
 elif platform.system() == "Darwin":
-    LIBCRM = Path("1D_dE_CCSM/libcrm.dylib")
+    LIBCRM = LIBPATH / "libcrm.dylib"
 elif platform.system() == "Windows":
     raise OSError("Windows currently not supported.  Try running in cygwin")
 else:
