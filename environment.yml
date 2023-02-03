@@ -2,13 +2,13 @@ name: seaice_radiative_transfer
 channels:
  - conda-forge
 dependencies:
- - python ~=3.10
+ - python==3.10
 
   ################################################################
   # Imported dependencies and extensions (and related typestubs) #
   ################################################################
 
- - libgfortran ~= 3.0
+ - libgfortran~=3.0
  - jupyterlab
- - numpy ~= 1.24
+ - numpy~=1.24
  - pytest
