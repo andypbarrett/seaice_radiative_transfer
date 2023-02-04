@@ -10,7 +10,7 @@ setup(
     install_requires=[
         'pytest',
         ],
-    license='LICENSE.txt',
+    license='license',
     description='A python wrapper for the CESM2 Delta-Eddington sea ice radiative transfer code',
     long_description=open('README.md').read(),
 )
