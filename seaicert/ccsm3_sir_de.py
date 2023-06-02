@@ -109,7 +109,7 @@ class SeaIceRT():
     def __init__(self):
         self.set_default_parameters()
 
-    def get_parameters(self):
+    def print_parameters(self):
         for attr, value in self.__dict__.items():
             print(f"{attr} = {value}")
 
@@ -177,6 +177,17 @@ def set_model_input(param_dict):
 
     :param_dict: __dict__ object containing instance attributes of SeaIceRT
     """
+    if param_dict["snow_depth"] < 0.:
+        raise ValueError("snow_depth must be greater than or equal to zero!")
+    if param_dict["pond_depth"] < 0.:
+        raise ValueError("pond_depth must be greater than or equal to zero!")
+    if param_dict["sea_ice_thickness"] < 0.:
+        raise ValueError("sea_ice_thickness must be greater than or equal to zero!")
+    if (param_dict["snow_depth"] > 0.) & (param_dict["pond_depth"] > 0.):
+        raise ValueError("snow_depth and pond_depth are both greater than zero!\n"
+                         "Only one of these can be greater than zero.\n"
+                         f"snow_depth: {param_dict['snow_depth']}, pond_depth: {param_dict['pond_depth']}")
+    
     input_common.dayyr_in = param_dict["day_of_year"]
     input_common.rlat_in = param_dict["latitude"]
     input_common.ps_in = param_dict["surface_pressure"]
