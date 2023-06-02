@@ -109,7 +109,7 @@ class SeaIceRT():
     def __init__(self):
         self.set_default_parameters()
 
-    def get_parameters(self):
+    def print_parameters(self):
         for attr, value in self.__dict__.items():
             print(f"{attr} = {value}")
 
