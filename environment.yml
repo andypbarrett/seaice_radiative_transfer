@@ -11,4 +11,5 @@ dependencies:
  - libgfortran~=3.0
  - jupyterlab
  - numpy~=1.24
+ - pandas
  - pytest
