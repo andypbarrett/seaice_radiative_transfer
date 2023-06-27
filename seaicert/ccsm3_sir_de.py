@@ -230,7 +230,7 @@ def get_model_results():
     results["surface_downwelling_diffuse_shortwave_flux"] = output_common.solsd[0]
     results["fraction_of_direct_shortwave_at_surface"] = output_common.vsfdir
     results["surface_downwelling_direct_longwave_flux"] = output_common.soll[0]
-    results["surface_downwelling_diffuse_longwave_flux"] = output_common.soll[0]
+    results["surface_downwelling_diffuse_longwave_flux"] = output_common.solld[0]
     results["fraction_of_direct_longwave_at_surface"] = output_common.nifdir
     results["surface_downwelling_radiative_flux"] = output_common.fsds
     results["fraction_of_downwelling_radiative_flux_as_shortwave"] = output_common.frs
