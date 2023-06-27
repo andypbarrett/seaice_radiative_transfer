@@ -12,7 +12,9 @@ RESULTS_TO_RETURN = [
     'downwelling_shortwave_flux_absorbed_by_ocean',
     'downwelling_longwave_flux_absorbed_by_ocean',
     'surface_downwelling_radiative_flux',
-    
+]
+
+
 def check_isarray(x):
     """Checks that x is numpy.ndarray.  If not returns array."""
     return np.asarray([x]) if np.ndim(x) == 0 else np.asarray(x)
