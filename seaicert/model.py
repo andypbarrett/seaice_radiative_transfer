@@ -135,7 +135,7 @@ def calculate_flux_and_par(
     model.snow_depth = snow_depth
     model.surface_air_temperature = skin_temperature
     model.ground_temperature = skin_temperature
-    model.pond_depth = 0.
+    model.pond_depth = pond_depth
 
     model.run()
 
