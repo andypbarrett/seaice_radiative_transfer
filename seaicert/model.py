@@ -91,13 +91,20 @@ def run_model(latitude: float,
         pond_depth_a,
         pond_fraction_a,
         )
-    result = []
+    surface_albedo = []
+    surface_flux = []
+    ocean_flux = []
+    transmittance = []
     for lat, tim, hice, hsnow, tskin, sic, hpond, fpond in zipped:
-        r = calculate_flux_and_par(lat, tim, hice, hsnow,
-                                   tskin, sic, hpond, fpond)
-        result.append(r)
+        alb, sfc_flux, ocn_flux, trns = calculate_flux_and_par(lat, tim, hice, hsnow,
+                                                               tskin, sic, hpond, fpond)
+        surface_albedo.append(alb)
+        surface_flux.append(sfc_flux)
+        ocean_flux.append(ocn_flux)
+        transmittance.append(trns)
 
-    return result
+    return (np.array(surface_albedo), np.array(surface_flux),
+            np.array(ocean_flux), np.array(transmittance))
 
 
 def calculate_flux_and_par(
@@ -132,6 +139,28 @@ def calculate_flux_and_par(
 
     model.run()
 
-    results = model.get_results()
+    result = model.get_results()
+    output = process_output(result)
 
-    return results
+    return output
+
+
+def extract_results(result):
+    """Returns values defined in RESULTS_TO_RETURN"""
+    return [result.get(name, np.nan) for name in RESULTS_TO_RETURN]
+
+
+def process_output(result):
+    """Extracts results and derive/calculates total absorbed radiative flux and
+       transmittance
+
+    :result: dictionary of output parameters from SeaIceRT
+
+    :returns: surface_albedo, surface_downwelling_radiative_flux, 
+              downwelling_radiative_flux_absorbed_by_ocean,
+              fraction_of_downwelling_radiative_flux_absorbed_by_ocean
+    """
+    albedo, sw_ocean, lw_ocean, srfc_flux = extract_results(result)
+    total_ocean_flux = lw_ocean + sw_ocean
+    transmittance = total_ocean_flux / srfc_flux
+    return albedo, srfc_flux, total_ocean_flux, transmittance
