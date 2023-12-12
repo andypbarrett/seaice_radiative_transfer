@@ -17,6 +17,8 @@ code to be built as a library, which is called from python using the
 
 A full description of the original model can be found [here](https://opensky.ucar.edu/islandora/object/technotes:484)
 
+## Installation
+
 The easiest way to install the wrapper and model is using git.  
 
 ```
@@ -25,13 +27,55 @@ git clone git@github.com:andypbarrett/seaice_radiative_transfer.git
 cd seaice_radiative_transfer
 ```
 
-I strongly suggest creating a new environment for running and creating the model
+I strongly suggest creating a new environment for running and creating the model.  This will ensure that the dependencies are installed. 
 
 ```
 conda env create -f environment.yml
 ```
 
+or
+
+```
+mamba env create -f environment.yml
+```
+
 This will create a new environment called `seaice_radiative_transfer`
+
+Start the environment using
+
+```
+conda activate seaice_radiative_transfer
+```
+
+or
+
+```
+conda activate seaice_radiative_transfer
+```
+
+# Compiling the fortran code
+
+The radiative transfer model is written in fortran.  The source code must be compile to create a dynamic library containing the model.  There is a `makefile` in `1D_dE_CCSM`.
+
+You will need a fortran compiler.  I've used `gfortran` from [https://gcc.gnu.org/wiki/GFortran](https://gcc.gnu.org/wiki/GFortran).  
+
+```
+cd 1D_dE_CCSM
+make
+```
+
+This will create `libcrm.so` or `libcrm.dylib`, if you are on a Mac.
+
+:::{.note}
+The fortran code has been written and compiled on a Ubuntu Linux machine using `gfortran`.  The compiler flags in the makefile work for this architecture.  If you have MacOS and get compile errors, you may need to add `-fallow-argument-mismatch` to the compiler switches.  You might need to play around with other compiler switches.  
+:::
+
+:::{.warning}
+The fortran compile step has not be tried on a Windows machine.
+:::
+
+
+## Running the model
 
 Running the model can be done from a python IDE, either `python` or `ipython`.
 
