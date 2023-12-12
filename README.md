@@ -66,13 +66,11 @@ make
 
 This will create `libcrm.so` or `libcrm.dylib`, if you are on a Mac.
 
-:::{.note}
-The fortran code has been written and compiled on a Ubuntu Linux machine using `gfortran`.  The compiler flags in the makefile work for this architecture.  If you have MacOS and get compile errors, you may need to add `-fallow-argument-mismatch` to the compiler switches.  You might need to play around with other compiler switches.  
-:::
+>[!NOTE]
+>The fortran code has been written and compiled on a Ubuntu Linux machine using `gfortran`.  The compiler flags in the makefile work for this architecture.  If you have MacOS and get compile >errors, you may need to add `-fallow-argument-mismatch` to the compiler switches.  You might need to play around with other compiler switches.  
 
-:::{.warning}
-The fortran compile step has not be tried on a Windows machine.
-:::
+>[!WARNING]
+>The fortran compile step has not be tried on a Windows machine.
 
 
 ## Running the model
